@@ -15,7 +15,9 @@ dependencies = ["PySide6>=6.6"]
 where = ["."]
 
 [project.urls]
-Homepage = "https://github.com/<your-account>/FluentPySide"
+Homepage = "https://github.com/notlousybook/FluentPySide"
+Repository = "https://github.com/notlousybook/FluentPySide"
+PyPI = "https://pypi.org/project/fluentpyside/"
 
 [tool.setuptools.package-data]
 # include the package-local fluent_winui3 folder files so they are part of the wheel/sdist

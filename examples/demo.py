@@ -3,6 +3,11 @@
 from pathlib import Path
 import sys
 
+# Prefer the repository copy of the package when running the demo locally.
+repo_root = Path(__file__).parent.parent.resolve()
+if str(repo_root) not in sys.path:
+    sys.path.insert(0, str(repo_root))
+
 import fluentpyside
 from PySide6.QtWidgets import QApplication
 from PySide6.QtQml import QQmlApplicationEngine

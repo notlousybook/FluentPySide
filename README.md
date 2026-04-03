@@ -1,6 +1,9 @@
 FluentPySide
 ===========
 
+[![PyPI Version](https://img.shields.io/pypi/v/fluentpyside.svg)](https://pypi.org/project/fluentpyside/)
+[![Downloads](https://img.shields.io/pypi/dm/fluentpyside.svg)](https://pypi.org/project/fluentpyside/)
+
 fluentpyside packages the FluentWinUI3 Qt Quick Controls style so PySide6 apps can apply the Fluent theme easily.
 
 Quick Start — three ways
