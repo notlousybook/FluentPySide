@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fluentpyside"
-version = "0.1.1"
-description = "Fluent WinUI3 QML style helper for PySide6 (copies assets from local PySide6 install)"
+version = "0.1.2"
+description = "FluentWinUI3 QML style for PySide6 — one-liner to add the Fluent theme"
 readme = "README.md"
 requires-python = ">=3.8"
 authors = [ { name = "lousybook", email = "lousybook94@gmail.com" } ]
@@ -20,5 +20,5 @@ Repository = "https://github.com/notlousybook/FluentPySide"
 PyPI = "https://pypi.org/project/fluentpyside/"
 
 [tool.setuptools.package-data]
-# include the package-local fluent_winui3 folder files so they are part of the wheel/sdist
 "fluentpyside" = ["fluent_winui3/**/*"]
+"FluentWinUI3" = ["**/*"]
