@@ -4,7 +4,8 @@ FluentPySide
 [![PyPI Version](https://img.shields.io/pypi/v/fluentpyside.svg)](https://pypi.org/project/fluentpyside/)
 [![Downloads](https://img.shields.io/pypi/dm/fluentpyside.svg)](https://pypi.org/project/fluentpyside/)
 
-fluentpyside packages the FluentWinUI3 Qt Quick Controls style so PySide6 apps can apply the Fluent theme easily.
+fluentpyside packages the FluentWinUI3 Qt Quick Controls style so any Qt / PySide6 application can add the FluentWinUI3 theme easily.
+The goal is to make it simple to enable the Fluent theme without bundling the full PySide6 runtime into your application. For minimal, bloat-free builds prefer installing PySide6-Essentials on the target system rather than packaging compiled plugin binaries inside this package.
 
 Quick Start — three ways
 ------------------------
@@ -93,7 +94,7 @@ Publishing & GitHub
 Notes and troubleshooting
 -------------------------
 - Call `fluentpyside.set_style(engine=engine)` or `engine.addImportPath(...)` before loading QML that imports QtQuick.Controls.FluentWinUI3.
-- The package contains a copy of the QML files and (on Windows) the plugin DLL copied from your local PySide6 installation. Packaging platform binaries for cross-platform distribution is not recommended; instead require PySide6-Essentials on the target platform.
+- This wrapper ships the QML import tree so applications can import `QtQuick.Controls.FluentWinUI3` without manually copying files. It may also include upstream compiled plugin binaries if copied from your local install — bundling those binaries makes the wheel platform-specific and increases size. For small, bloat-free builds prefer installing `PySide6-Essentials` (or the platform's PySide6 runtime) on the target system instead of redistributing compiled plugin binaries inside this package.
 
 License
 -------
