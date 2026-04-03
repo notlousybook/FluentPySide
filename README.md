@@ -1,0 +1,98 @@
+FluentPySide
+===========
+
+fluentpyside packages the FluentWinUI3 Qt Quick Controls style so PySide6 apps can apply the Fluent theme easily.
+
+Quick Start — three ways
+------------------------
+
+1) Install the wrapper package and use the helper (recommended)
+
+Prerequisites:
+- Python 3.8+
+- PySide6 (and optionally PySide6-Essentials for upstream plugin binaries)
+
+Install and run:
+
+```sh
+pip install PySide6
+pip install -e .   # from this repository root (development install)
+python examples/demo.py
+```
+
+Minimal example (use fluentpyside.set_style):
+
+```py
+from PySide6.QtWidgets import QApplication
+from PySide6.QtQml import QQmlApplicationEngine
+import fluentpyside
+
+app = QApplication([])
+engine = QQmlApplicationEngine()
+
+# Ensure package-local QML assets exist (copies from installed PySide6 when missing)
+fluentpyside.install_assets()
+
+# Add import path and try to set the QtQuickControls2 style plugin
+fluentpyside.set_style(engine=engine)
+
+# Load QML that imports FluentWinUI3
+engine.load('examples/gallery.qml')
+app.exec()
+```
+
+2) Drag-and-drop the style into a project (no packaging)
+
+- Copy `fluentpyside/QtQuick` into your project root so there is `./QtQuick/Controls/FluentWinUI3/qmldir`.
+- In Python, add your project root as a QML import path before loading QML:
+
+```py
+from PySide6.QtWidgets import QApplication
+from PySide6.QtQml import QQmlApplicationEngine
+
+app = QApplication([])
+engine = QQmlApplicationEngine()
+engine.addImportPath('path/to/project/root')
+engine.load('main.qml')
+app.exec()
+```
+
+3) Run the included gallery demo
+
+```sh
+pip install PySide6
+pip install -e .
+python examples/demo.py
+```
+
+Files included
+--------------
+- fluentpyside/: Python wrapper and packaged QML assets
+- examples/demo.py: demo app that loads examples/gallery.qml
+- examples/gallery.qml: QML demo UI (gallery of controls)
+- tests/smoke_test.py: non-interactive smoke test
+
+Publishing & GitHub
+-------------------
+
+- I will not publish/delete on your behalf without explicit credentials and confirmation.
+- To publish to PyPI locally:
+
+  python -m build
+  python -m twine upload dist/*
+
+- To create or replace a GitHub repo locally with `gh`:
+
+  gh repo create <owner>/FluentPySide --public --source=. --push
+
+  (If you want me to run these steps from this environment, provide the tokens and explicit confirmation.)
+
+Notes and troubleshooting
+-------------------------
+- Call `fluentpyside.set_style(engine=engine)` or `engine.addImportPath(...)` before loading QML that imports QtQuick.Controls.FluentWinUI3.
+- The package contains a copy of the QML files and (on Windows) the plugin DLL copied from your local PySide6 installation. Packaging platform binaries for cross-platform distribution is not recommended; instead require PySide6-Essentials on the target platform.
+
+License
+-------
+- Wrapper: MIT License (file LICENSE)
+- Upstream QML assets: copied from the locally installed PySide6 / PySide6-Essentials package. Follow Qt/PySide licensing when redistributing.
