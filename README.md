@@ -25,20 +25,79 @@ That's it. `apply()` registers the FluentWinUI3 QML import path and attempts to 
 Full example
 ------------
 
+**Python (main.py):**
+
 ```py
-from PySide6.QtWidgets import QApplication
+from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
 import fluentpyside
 
-app = QApplication([])
+app = QGuiApplication([])
 engine = QQmlApplicationEngine()
 
 # One-liner to register the import path and set the style
 fluentpyside.apply()
 
-# Now load any QML that uses QtQuick.Controls.FluentWinUI3
+# Load your QML
 engine.load("main.qml")
 app.exec()
+```
+
+**QML (main.qml):**
+
+```qml
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+
+ApplicationWindow {
+    visible: true
+    width: 400
+    height: 300
+    title: "FluentWinUI3 Demo"
+
+    ColumnLayout {
+        anchors.fill: parent
+        anchors.margins: 16
+        spacing: 12
+
+        Label {
+            text: "FluentWinUI3 Theme"
+            font.pixelSize: 20
+            font.bold: true
+        }
+
+        TextField {
+            placeholderText: "Type something..."
+            Layout.fillWidth: true
+        }
+
+        Button {
+            text: "Click me"
+            onClicked: console.log("Button clicked!")
+        }
+
+        CheckBox {
+            text: "Enable feature"
+        }
+
+        Switch {
+            text: "Dark mode toggle"
+        }
+
+        ProgressBar {
+            value: 0.6
+            Layout.fillWidth: true
+        }
+
+        ComboBox {
+            model: ["Option 1", "Option 2", "Option 3"]
+            Layout.fillWidth: true
+        }
+
+        Item { Layout.fillHeight: true }
+    }
+}
 ```
 
 Requirements
