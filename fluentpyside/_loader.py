@@ -17,7 +17,7 @@ try:
 except Exception:
     QQuickStyle = None
 
-from ._installer import default_style_path, install_assets, find_installed_style
+from ._installer import default_style_path, find_installed_style
 
 
 def set_style(
@@ -37,16 +37,17 @@ def set_style(
         style_path = default_style_path()
 
     if not style_path.exists():
-        # try to copy from installed PySide6
-        try:
-            install_assets(style_path)
-        except FileNotFoundError:
-            # last-resort: try to find installed style and use it directly
-            found = find_installed_style()
-            if found:
-                style_path = found
-            else:
-                raise
+        # Prefer the package-local copy. If it's missing, fall back to an
+        # installed PySide6 location if available. We do NOT attempt to copy
+        # files from a local PySide6 installation here because the package is
+        # expected to contain the full FluentWinUI3 import tree for drop-in use.
+        found = find_installed_style()
+        if found:
+            style_path = found
+        else:
+            raise FileNotFoundError(
+                f"FluentWinUI3 style not found at {style_path} and no installed PySide6 style located."
+            )
 
     # Add to environment QML2_IMPORT_PATH so QML imports can find it
     current = os.environ.get("QML2_IMPORT_PATH", "")
