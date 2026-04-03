@@ -29,3 +29,5 @@ Copied FluentWinUI3 from: G:\Python\Lib\site-packages\PySide6\qml\QtQuick\Contro
 Copied FluentWinUI3 from: G:\Python\Lib\site-packages\PySide6\qml\QtQuick\Controls\FluentWinUI3
 
 Copied FluentWinUI3 from: G:\Python\Lib\site-packages\PySide6\qml\QtQuick\Controls\FluentWinUI3
+
+Copied FluentWinUI3 from: G:\Python\Lib\site-packages\PySide6\qml\QtQuick\Controls\FluentWinUI3
