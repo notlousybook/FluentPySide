@@ -33,7 +33,7 @@ ApplicationWindow {
             Row {
                 spacing: 16
                 TextField { placeholderText: "Enter text" }
-                TextArea { placeholderText: "Multiline" width: 300 }
+                TextArea { placeholderText: "Multiline"; width: 300 }
             }
 
             Row {
