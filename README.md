@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/banner.png" alt="FluentPySide Banner">
+</p>
+
 FluentPySide
 ===========
 
