@@ -1312,9 +1312,9 @@ ApplicationWindow {
                                 color: treeMouse.containsMouse ? hoverColor : "transparent"
 
                                 Row {
-                                    verticalAlignment: Text.AlignVCenter
                                     leftPadding: 12 + depth * 20
                                     spacing: 8
+                                    anchors.verticalCenter: parent.verticalCenter
 
                                     // Expand/collapse arrow
                                     Text {
@@ -1323,6 +1323,7 @@ ApplicationWindow {
                                         font.pixelSize: 12
                                         color: textTertiary
                                         width: 16
+                                        anchors.verticalCenter: parent.verticalCenter
                                     }
 
                                     // Icon
@@ -1330,6 +1331,7 @@ ApplicationWindow {
                                         text: icon
                                         font.pixelSize: 14
                                         width: 20
+                                        anchors.verticalCenter: parent.verticalCenter
                                     }
 
                                     // Name
@@ -1337,6 +1339,7 @@ ApplicationWindow {
                                         text: name
                                         font.pixelSize: 13
                                         color: textPrimary
+                                        anchors.verticalCenter: parent.verticalCenter
                                     }
                                 }
 
