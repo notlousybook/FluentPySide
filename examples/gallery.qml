@@ -753,7 +753,7 @@ ApplicationWindow {
                         width: parent.width
                         Column { spacing: 12; padding: 8
                             Label { text: "Time Picker:"; font.pixelSize: 14; font.bold: true }
-                            Row { spacing: 6; verticalCenter: parent.verticalCenter
+                            Row { spacing: 6; anchors.verticalCenter: parent.verticalCenter
                                 Tumbler {
                                     model: ["AM", "PM"]
                                     width: 80
