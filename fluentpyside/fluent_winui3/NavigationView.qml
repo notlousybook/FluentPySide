@@ -1,15 +1,17 @@
-// FluentWinUI3 NavigationView — WinUI 3 style collapsible sidebar
+// FluentWinUI3 NavigationView - WinUI 3 style collapsible sidebar
 // Usage:
 //   NavigationView {
-//       model: ListModel { ... }  // items with "title", "icon" roles
+//       model: ListModel {
+//           ListElement { title: "Home"; icon: "\u2630" }
+//           ListElement { title: "Settings"; icon: "\u2699" }
+//       }
 //       currentIndex: 0
 //       onCurrentIndexChanged: { /* navigate */ }
-//       Item { ... }  // content area
+//       Item { ... }  // content area (default property)
 //   }
 
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Controls.FluentWinUI3
 import QtQuick.Layouts
 
 Item {
@@ -19,7 +21,7 @@ Item {
     property alias model: repeater.model
     property int currentIndex: 0
     property bool compact: false
-    property real expandedWidth: 220
+    property real expandedWidth: 240
     property real compactWidth: 48
     property real navigationWidth: compact ? compactWidth : expandedWidth
     property color accentColor: "#005fb8"
@@ -27,18 +29,16 @@ Item {
     property color sidebarHoverColor: "#e5e5e5"
     property color sidebarActiveColor: "#e0e0e0"
     property color textColor: "#1a1a1a"
-    property color textSecondaryColor: "#666666"
+    property color textSecondaryColor: "#616161"
     property color dividerColor: "#e0e0e0"
     property real topPadding: 4
-    property real toggleSize: 40
+    property real itemHeight: 40
 
-    // Back button support
+    // Signals
     signal backButtonClicked()
 
-    // Default content item
+    // Content area (default property)
     default property alias content: contentContainer.data
-
-    readonly property real panelMargin: compact ? 12 : 8
 
     Behavior on navigationWidth {
         NumberAnimation { duration: 200; easing.type: Easing.InOutCubic }
@@ -50,161 +50,234 @@ Item {
 
         // ===== SIDEBAR =====
         Rectangle {
+            id: sidebar
             Layout.fillHeight: true
-            Layout.preferredWidth: navigationWidth
-            color: sidebarBackground
+            Layout.preferredWidth: root.navigationWidth
+            color: root.sidebarBackground
 
             Behavior on Layout.preferredWidth {
                 NumberAnimation { duration: 200; easing.type: Easing.InOutCubic }
             }
 
-            Column {
-                width: parent.width
-                height: parent.height
+            // Vertical layout for sidebar contents
+            Item {
+                anchors.fill: parent
 
-                // Toggle button
-                Item {
-                    width: parent.width
-                    height: toggleSize + topPadding
+                // Toggle button area
+                Rectangle {
+                    id: toggleArea
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    height: root.itemHeight + root.topPadding
 
-                    Button {
+                    // Hamburger / Collapse button
+                    Rectangle {
                         id: toggleBtn
                         anchors.top: parent.top
-                        anchors.topMargin: topPadding
+                        anchors.topMargin: root.topPadding
                         anchors.left: parent.left
-                        anchors.leftMargin: panelMargin
-                        width: toggleSize; height: toggleSize
-                        flat: true
-                        text: compact ? "\u2630" : "\u00AB"
-                        font.pixelSize: 14
-                        onClicked: root.compact = !root.compact
+                        anchors.leftMargin: root.compact ? 4 : 8
+                        width: root.itemHeight
+                        height: root.itemHeight
+                        radius: 4
+                        color: toggleMouse.containsMouse ? root.sidebarHoverColor : "transparent"
+
+                        Text {
+                            anchors.centerIn: parent
+                            text: root.compact ? "\u2630" : "\u00AB"
+                            font.pixelSize: 14
+                            color: root.textColor
+                        }
+
+                        MouseArea {
+                            id: toggleMouse
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: root.compact = !root.compact
+                        }
                     }
                 }
 
-                // Divider
+                // Top divider
                 Rectangle {
-                    width: parent.width - (compact ? 24 : 16)
+                    id: topDivider
+                    anchors.top: toggleArea.bottom
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.leftMargin: root.compact ? 12 : 8
+                    anchors.rightMargin: root.compact ? 12 : 8
                     height: 1
-                    color: dividerColor
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    color: root.dividerColor
                 }
 
-                // Navigation items
+                // Navigation items list
                 Column {
-                    width: parent.width
+                    id: navItems
+                    anchors.top: topDivider.bottom
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.bottom: bottomDivider.top
                     topPadding: 4
+
                     Repeater {
                         id: repeater
 
-                        ItemDelegate {
+                        Rectangle {
+                            id: navItem
                             required property int index
                             required property string title
                             required property string icon
-
-                            width: parent.width
-                            height: toggleSize
-                            leftPadding: panelMargin
-                            rightPadding: panelMargin
-                            highlighted: false
-                            flat: true
+                            width: navItems.width
+                            height: root.itemHeight
+                            color: "transparent"
 
                             // Active indicator (left accent bar)
                             Rectangle {
                                 width: 3
-                                height: parent.height - 10
+                                height: navItem.height - 10
                                 anchors.left: parent.left
                                 anchors.leftMargin: 2
                                 anchors.verticalCenter: parent.verticalCenter
                                 radius: 1.5
                                 color: root.accentColor
-                                visible: index === root.currentIndex
+                                visible: navItem.index === root.currentIndex
                             }
 
-                            // Hover background
+                            // Hover / Active background
                             Rectangle {
                                 anchors.fill: parent
                                 anchors.margins: 2
                                 radius: 4
                                 color: {
-                                    if (index === root.currentIndex) return root.sidebarActiveColor
-                                    if (mouseArea.containsMouse) return root.sidebarHoverColor
+                                    if (navItem.index === root.currentIndex) return root.sidebarActiveColor
+                                    if (itemMouse.containsMouse) return root.sidebarHoverColor
                                     return "transparent"
                                 }
                             }
 
+                            // Content row (icon + text)
                             Row {
-                                width: parent.width
-                                height: parent.height
+                                anchors.left: parent.left
+                                anchors.leftMargin: root.compact ? 4 : 8
+                                anchors.right: parent.right
+                                anchors.rightMargin: root.compact ? 4 : 8
+                                anchors.verticalCenter: parent.verticalCenter
+                                height: root.itemHeight - 8
                                 spacing: 12
 
-                                // Icon area
+                                // Icon
                                 Text {
-                                    width: toggleSize - 16
+                                    width: root.itemHeight - 8
                                     height: parent.height
-                                    text: icon
+                                    text: navItem.icon
                                     font.pixelSize: 16
                                     horizontalAlignment: Text.AlignHCenter
                                     verticalAlignment: Text.AlignVCenter
-                                    color: index === root.currentIndex ? root.accentColor : root.textColor
+                                    color: navItem.index === root.currentIndex ? root.accentColor : root.textColor
                                 }
 
-                                // Title text
+                                // Title
                                 Text {
-                                    text: title
+                                    text: navItem.title
                                     font.pixelSize: 13
                                     height: parent.height
                                     verticalAlignment: Text.AlignVCenter
-                                    color: index === root.currentIndex ? root.accentColor : root.textColor
+                                    color: navItem.index === root.currentIndex ? root.accentColor : root.textColor
                                     elide: Text.ElideRight
+                                    width: root.compact ? 0 : implicitWidth
+                                    clip: true
                                     visible: !root.compact
-                                    opacity: root.compact ? 0 : 1
 
-                                    Behavior on opacity {
+                                    Behavior on width {
                                         NumberAnimation { duration: 150 }
                                     }
                                 }
                             }
 
-                            // Tooltip when compact
-                            ToolTip.text: title
-                            ToolTip.visible: root.compact && mouseArea.containsMouse
-                            ToolTip.delay: 400
-
+                            // Click handler
                             MouseArea {
-                                id: mouseArea
+                                id: itemMouse
                                 anchors.fill: parent
                                 hoverEnabled: true
-                                onClicked: root.currentIndex = index
                                 cursorShape: Qt.PointingHandCursor
+                                onClicked: root.currentIndex = navItem.index
+                            }
+
+                            // Tooltip for compact mode
+                            ToolTip {
+                                text: navItem.title
+                                visible: root.compact && itemMouse.containsMouse
+                                delay: 500
                             }
                         }
                     }
                 }
 
-                Item { Layout.fillHeight: true; width: parent.width }
-
                 // Bottom divider
                 Rectangle {
-                    width: parent.width - (compact ? 24 : 16)
+                    id: bottomDivider
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.bottom: footerArea.top
+                    anchors.leftMargin: root.compact ? 12 : 8
+                    anchors.rightMargin: root.compact ? 12 : 8
                     height: 1
-                    color: dividerColor
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    color: root.dividerColor
                 }
 
-                // Footer area (optional settings button)
-                Item {
-                    width: parent.width
-                    height: toggleSize
-                    bottomPadding: 8
+                // Footer area (settings button)
+                Rectangle {
+                    id: footerArea
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    height: root.itemHeight + 8
 
-                    Button {
-                        anchors.fill: parent
-                        anchors.leftMargin: panelMargin
-                        anchors.rightMargin: panelMargin
-                        anchors.bottomMargin: 8
-                        flat: true
-                        text: "\u2699"
-                        font.pixelSize: 16
+                    Rectangle {
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        anchors.margins: 2
+                        radius: 4
+                        color: footerMouse.containsMouse ? root.sidebarHoverColor : "transparent"
+
+                        Row {
+                            anchors.left: parent.left
+                            anchors.leftMargin: root.compact ? 4 : 8
+                            anchors.verticalCenter: parent.verticalCenter
+                            height: root.itemHeight
+                            spacing: 12
+
+                            Text {
+                                width: root.itemHeight - 8
+                                height: parent.height
+                                text: "\u2699"
+                                font.pixelSize: 16
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                                color: root.textColor
+                            }
+
+                            Text {
+                                text: "Settings"
+                                font.pixelSize: 13
+                                height: parent.height
+                                verticalAlignment: Text.AlignVCenter
+                                color: root.textColor
+                                elide: Text.ElideRight
+                                visible: !root.compact
+                            }
+                        }
+
+                        MouseArea {
+                            id: footerMouse
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                        }
                     }
                 }
             }
