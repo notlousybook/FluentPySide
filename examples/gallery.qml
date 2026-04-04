@@ -5,7 +5,6 @@ import QtQuick.Controls
 import QtQuick.Controls.FluentWinUI3
 import QtQuick.Layouts
 import QtQuick.Effects
-import FluentTheme
 
 ApplicationWindow {
     id: root
@@ -13,18 +12,28 @@ ApplicationWindow {
     width: 1100
     height: 750
     title: qsTr("FluentPySide Gallery")
-    color: Fluent.background
+    color: isDark ? "#202020" : "#f3f3f3"
 
-    // ===== THEME COLORS (referencing Fluent singleton) =====
-    readonly property color accentColor: Fluent.accent
-    readonly property color bgColor: Fluent.background
-    readonly property color cardBg: Fluent.cardBackground
-    readonly property color textPrimary: Fluent.textPrimary
-    readonly property color textSecondary: Fluent.textSecondary
-    readonly property color textTertiary: Fluent.textTertiary
-    readonly property color dividerColor: Fluent.divider
-    readonly property color hoverColor: Fluent.controlAltBackgroundTransparentHover
-    readonly property color pressedColor: Fluent.controlAltBackgroundTransparentPressed
+    // ===== INLINE THEME (no singleton dependency) =====
+    readonly property bool isDark: Application.styleHints.colorScheme === Qt.Dark
+    readonly property string themeFont: "Segoe UI Variable"
+
+    // Surface / Background
+    readonly property color bg: isDark ? "#202020" : "#f3f3f3"
+    readonly property color cardBg: isDark ? "#2d2d2d" : "#ffffff"
+    readonly property color controlAltBg: isDark ? "#383838" : "#f6f6f6"
+    readonly property color controlAltBgHover: isDark ? "#ffffff0a" : "#00000005"
+
+    // Text
+    readonly property color textPrimary: isDark ? "#ffffff" : "#1a1a1a"
+    readonly property color textSecondary: isDark ? "#9d9d9d" : "#616161"
+    readonly property color textTertiary: isDark ? "#7a7a7a" : "#8a8a8a"
+
+    // Accent
+    readonly property color accentColor: isDark ? "#60cdff" : "#005fb8"
+
+    // Border / Divider
+    readonly property color dividerColor: isDark ? "#3d3d3d" : "#d1d1d1"
 
     // ===== NAVIGATION STATE =====
     property int currentPage: 0
@@ -54,7 +63,7 @@ ApplicationWindow {
         anchors.left: parent.left
         anchors.right: parent.right
         height: 48
-        color: Fluent.isDark ? "#2b2b2b" : "#f3f3f3"
+        color: isDark ? "#2b2b2b" : "#f3f3f3"
 
         // Bottom border
         Rectangle {
@@ -82,7 +91,7 @@ ApplicationWindow {
 
             Text {
                 text: "FluentPySide"
-                font.family: Fluent.fontFamily
+                font.family: themeFont
                 font.pixelSize: 14
                 font.weight: Font.DemiBold
                 color: textPrimary
@@ -137,7 +146,7 @@ ApplicationWindow {
                         Text {
                             id: navText
                             text: parent.parent.title
-                            font.family: Fluent.fontFamily
+                            font.family: themeFont
                             font.pixelSize: 13
                             font.weight: root.currentPage === index ? Font.Medium : Font.Normal
                             color: root.currentPage === index ? accentColor : textPrimary
@@ -162,11 +171,11 @@ ApplicationWindow {
 
             // Theme indicator
             Text {
-                text: Fluent.isDark ? "\uf36e" : "\uf3f2"
+                text: isDark ? "\uf36e" : "\uf3f2"
                 font.family: root.iconFont
                 font.pixelSize: 16
                 color: textSecondary
-                ToolTip.text: Fluent.isDark ? "Dark Mode" : "Light Mode"
+                ToolTip.text: isDark ? "Dark Mode" : "Light Mode"
                 ToolTip.visible: themeMouse.containsMouse
                 ToolTip.delay: 500
                 MouseArea {
@@ -221,7 +230,7 @@ ApplicationWindow {
                             gradient: Gradient {
                                 GradientStop { position: 0.0; color: "transparent" }
                                 GradientStop { position: 0.6; color: "transparent" }
-                                GradientStop { position: 1.0; color: Fluent.isDark ? "#202020" : "#f3f3f3" }
+                                GradientStop { position: 1.0; color: isDark ? "#202020" : "#f3f3f3" }
                             }
                         }
                     }
@@ -236,21 +245,21 @@ ApplicationWindow {
 
                         Text {
                             text: "FluentPySide Gallery"
-                            font.family: Fluent.fontFamily
+                            font.family: themeFont
                             font.pixelSize: 36
                             font.weight: Font.Bold
                             color: textPrimary
                             style: Text.Outline
-                            styleColor: Fluent.isDark ? "#000000" : "#ffffff"
+                            styleColor: isDark ? "#000000" : "#ffffff"
                         }
                         Text {
                             text: "A Fluent Design System showcase for PySide6"
-                            font.family: Fluent.fontFamily
+                            font.family: themeFont
                             font.pixelSize: 16
                             color: textPrimary
                             opacity: 0.85
                             style: Text.Outline
-                            styleColor: Fluent.isDark ? "#000000" : "#ffffff"
+                            styleColor: isDark ? "#000000" : "#ffffff"
                         }
                         Row {
                             spacing: 12
@@ -286,7 +295,7 @@ ApplicationWindow {
 
                         Text {
                             text: "Explore Controls"
-                            font.family: Fluent.fontFamily
+                            font.family: themeFont
                             font.pixelSize: 20
                             font.weight: Font.DemiBold
                             color: textPrimary
@@ -318,7 +327,7 @@ ApplicationWindow {
                                     border.width: 1
                                     border.color: dividerColor
 
-                                    property color cardHoverColor: Fluent.isDark ? "#383838" : "#f0f0f0"
+                                    property color cardHoverColor: isDark ? "#383838" : "#f0f0f0"
 
                                     Behavior on color { ColorAnimation { duration: 150 } }
                                     Behavior on border.color { ColorAnimation { duration: 150 } }
@@ -363,14 +372,14 @@ ApplicationWindow {
                                             spacing: 4
                                             Text {
                                                 text: modelData.title
-                                                font.family: Fluent.fontFamily
+                                                font.family: themeFont
                                                 font.pixelSize: 15
                                                 font.weight: Font.DemiBold
                                                 color: textPrimary
                                             }
                                             Text {
                                                 text: modelData.desc
-                                                font.family: Fluent.fontFamily
+                                                font.family: themeFont
                                                 font.pixelSize: 12
                                                 color: textSecondary
                                                 wrapMode: Text.Wrap
@@ -405,8 +414,8 @@ ApplicationWindow {
                 spacing: 20
                 topPadding: 24
 
-                Text { text: "Basic Input"; font.family: Fluent.fontFamily; font.pixelSize: 28; font.weight: Font.Bold; color: textPrimary }
-                Text { text: "Standard controls for user input and interaction."; font.family: Fluent.fontFamily; font.pixelSize: 14; color: textSecondary; wrapMode: Text.Wrap; width: parent.width }
+                Text { text: "Basic Input"; font.family: themeFont; font.pixelSize: 28; font.weight: Font.Bold; color: textPrimary }
+                Text { text: "Standard controls for user input and interaction."; font.family: themeFont; font.pixelSize: 14; color: textSecondary; wrapMode: Text.Wrap; width: parent.width }
 
                 // -- Button Variants --
                 GroupBox {
@@ -478,12 +487,12 @@ ApplicationWindow {
                         TextField {
                             placeholderText: "\uf15c  Search..."
                             width: 300
-                            font.family: Fluent.fontFamily
+                            font.family: themeFont
                         }
                         TextField {
                             placeholderText: "\uf15c  Disabled search..."
                             width: 300
-                            font.family: Fluent.fontFamily
+                            font.family: themeFont
                             enabled: false
                         }
                     }
@@ -552,7 +561,7 @@ ApplicationWindow {
                                 background: Rectangle {
                                     implicitWidth: 100; implicitHeight: 100
                                     radius: 50
-                                    color: Fluent.controlAltBackground
+                                    color: controlAltBg
                                     border.color: dividerColor
                                     border.width: 1
                                 }
@@ -581,7 +590,7 @@ ApplicationWindow {
                                 background: Rectangle {
                                     implicitWidth: 100; implicitHeight: 100
                                     radius: 50
-                                    color: Fluent.controlAltBackground
+                                    color: controlAltBg
                                     border.color: dividerColor
                                     border.width: 1
                                     opacity: 0.5
@@ -632,8 +641,8 @@ ApplicationWindow {
                 spacing: 20
                 topPadding: 24
 
-                Text { text: "Selection Controls"; font.family: Fluent.fontFamily; font.pixelSize: 28; font.weight: Font.Bold; color: textPrimary }
-                Text { text: "Controls that allow users to make selections from a set of options."; font.family: Fluent.fontFamily; font.pixelSize: 14; color: textSecondary; wrapMode: Text.Wrap; width: parent.width }
+                Text { text: "Selection Controls"; font.family: themeFont; font.pixelSize: 28; font.weight: Font.Bold; color: textPrimary }
+                Text { text: "Controls that allow users to make selections from a set of options."; font.family: themeFont; font.pixelSize: 14; color: textSecondary; wrapMode: Text.Wrap; width: parent.width }
 
                 // -- CheckBox --
                 GroupBox {
@@ -686,10 +695,10 @@ ApplicationWindow {
                     title: "Item Delegate"
                     width: parent.width
                     Column { spacing: 2
-                        ItemDelegate { text: "\uf2a4  Open File"; width: 320; font.family: Fluent.fontFamily }
-                        ItemDelegate { text: "\uf299  Save File"; width: 320; highlighted: true; font.family: Fluent.fontFamily }
-                        ItemDelegate { text: "\uf10a  Settings"; width: 320; font.family: Fluent.fontFamily }
-                        ItemDelegate { text: "\uf191  Close"; width: 320; font.family: Fluent.fontFamily; enabled: false }
+                        ItemDelegate { text: "\uf2a4  Open File"; width: 320; font.family: themeFont }
+                        ItemDelegate { text: "\uf299  Save File"; width: 320; highlighted: true; font.family: themeFont }
+                        ItemDelegate { text: "\uf10a  Settings"; width: 320; font.family: themeFont }
+                        ItemDelegate { text: "\uf191  Close"; width: 320; font.family: themeFont; enabled: false }
                     }
                 }
 
@@ -746,8 +755,8 @@ ApplicationWindow {
                 spacing: 20
                 topPadding: 24
 
-                Text { text: "Progress & Feedback"; font.family: Fluent.fontFamily; font.pixelSize: 28; font.weight: Font.Bold; color: textPrimary }
-                Text { text: "Controls that indicate progress or provide status feedback."; font.family: Fluent.fontFamily; font.pixelSize: 14; color: textSecondary; wrapMode: Text.Wrap; width: parent.width }
+                Text { text: "Progress & Feedback"; font.family: themeFont; font.pixelSize: 28; font.weight: Font.Bold; color: textPrimary }
+                Text { text: "Controls that indicate progress or provide status feedback."; font.family: themeFont; font.pixelSize: 14; color: textSecondary; wrapMode: Text.Wrap; width: parent.width }
 
                 // -- Progress Bar --
                 GroupBox {
@@ -867,8 +876,8 @@ ApplicationWindow {
                 spacing: 20
                 topPadding: 24
 
-                Text { text: "Containers & Layout"; font.family: Fluent.fontFamily; font.pixelSize: 28; font.weight: Font.Bold; color: textPrimary }
-                Text { text: "Containers that hold and organize other controls."; font.family: Fluent.fontFamily; font.pixelSize: 14; color: textSecondary; wrapMode: Text.Wrap; width: parent.width }
+                Text { text: "Containers & Layout"; font.family: themeFont; font.pixelSize: 28; font.weight: Font.Bold; color: textPrimary }
+                Text { text: "Containers that hold and organize other controls."; font.family: themeFont; font.pixelSize: 14; color: textSecondary; wrapMode: Text.Wrap; width: parent.width }
 
                 // -- Frame --
                 GroupBox {
@@ -908,7 +917,7 @@ ApplicationWindow {
                         width: parent.width
                         height: 120
                         radius: 6
-                        color: Fluent.controlAltBackground
+                        color: controlAltBg
                         border.width: 1
                         border.color: dividerColor
                         clip: true
@@ -967,14 +976,14 @@ ApplicationWindow {
                         Rectangle {
                             SplitView.minimumWidth: 80
                             SplitView.preferredWidth: 180
-                            color: Fluent.controlAltBackground
+                            color: controlAltBg
                             radius: 6
                             Label { text: "Left\nPanel"; anchors.centerIn: parent; color: textSecondary; horizontalAlignment: Text.AlignHCenter }
                         }
                         Rectangle {
                             SplitView.minimumWidth: 80
                             SplitView.fillWidth: true
-                            color: Fluent.controlAltBackground
+                            color: controlAltBg
                             radius: 6
                             Label { text: "Right Panel (drag divider)"; anchors.centerIn: parent; color: textSecondary }
                         }
@@ -1014,8 +1023,8 @@ ApplicationWindow {
                 spacing: 20
                 topPadding: 24
 
-                Text { text: "Pickers"; font.family: Fluent.fontFamily; font.pixelSize: 28; font.weight: Font.Bold; color: textPrimary }
-                Text { text: "Controls for selecting values from a set of options."; font.family: Fluent.fontFamily; font.pixelSize: 14; color: textSecondary; wrapMode: Text.Wrap; width: parent.width }
+                Text { text: "Pickers"; font.family: themeFont; font.pixelSize: 28; font.weight: Font.Bold; color: textPrimary }
+                Text { text: "Controls for selecting values from a set of options."; font.family: themeFont; font.pixelSize: 14; color: textSecondary; wrapMode: Text.Wrap; width: parent.width }
 
                 // -- Tumbler (Number Picker) --
                 GroupBox {
@@ -1072,8 +1081,8 @@ ApplicationWindow {
                                     height: swipeView.height
                                     radius: 8
                                     color: index % 2 === 0
-                                           ? (Fluent.isDark ? "#1a3a5c" : "#e8f4fd")
-                                           : (Fluent.isDark ? "#3a1a5c" : "#f4e8fd")
+                                           ? (isDark ? "#1a3a5c" : "#e8f4fd")
+                                           : (isDark ? "#3a1a5c" : "#f4e8fd")
                                     border.width: 1
                                     border.color: dividerColor
 
@@ -1082,7 +1091,7 @@ ApplicationWindow {
                                         spacing: 8
                                         Text {
                                             text: pageText
-                                            font.family: Fluent.fontFamily
+                                            font.family: themeFont
                                             font.pixelSize: 24
                                             font.weight: Font.Bold
                                             color: textPrimary
@@ -1179,7 +1188,7 @@ ApplicationWindow {
                                 width: parent.width - 16
                                 height: 36
                                 radius: 4
-                                color: Fluent.controlAltBackground
+                                color: controlAltBg
                                 border.width: 1
                                 border.color: dividerColor
                             }
@@ -1207,8 +1216,8 @@ ApplicationWindow {
                 spacing: 20
                 topPadding: 24
 
-                Text { text: "Menus & Data"; font.family: Fluent.fontFamily; font.pixelSize: 28; font.weight: Font.Bold; color: textPrimary }
-                Text { text: "Menu bars, context menus, and tree views for organizing data."; font.family: Fluent.fontFamily; font.pixelSize: 14; color: textSecondary; wrapMode: Text.Wrap; width: parent.width }
+                Text { text: "Menus & Data"; font.family: themeFont; font.pixelSize: 28; font.weight: Font.Bold; color: textPrimary }
+                Text { text: "Menu bars, context menus, and tree views for organizing data."; font.family: themeFont; font.pixelSize: 14; color: textSecondary; wrapMode: Text.Wrap; width: parent.width }
 
                 // -- Menu Bar --
                 GroupBox {
@@ -1249,7 +1258,7 @@ ApplicationWindow {
                         width: parent.width
                         height: 80
                         radius: 6
-                        color: Fluent.controlAltBackground
+                        color: controlAltBg
                         border.width: 1
                         border.color: dividerColor
 
@@ -1288,7 +1297,7 @@ ApplicationWindow {
                         width: parent.width
                         height: 240
                         radius: 6
-                        color: Fluent.controlAltBackground
+                        color: controlAltBg
                         border.width: 1
                         border.color: dividerColor
                         clip: true
@@ -1449,7 +1458,7 @@ ApplicationWindow {
             }
         }
         Column { spacing: 12
-            Label { text: "This is a Popup"; font.family: Fluent.fontFamily; font.pixelSize: 18; font.weight: Font.DemiBold; color: textPrimary }
+            Label { text: "This is a Popup"; font.family: themeFont; font.pixelSize: 18; font.weight: Font.DemiBold; color: textPrimary }
             Label { text: "With Fluent background, border radius, and dim overlay. Click outside or press Escape to close."; wrapMode: Text.Wrap; width: 250; font.pixelSize: 13; color: textSecondary }
             Button { text: "Close"; onClicked: demoPopup.close() }
         }
@@ -1471,12 +1480,12 @@ ApplicationWindow {
         edge: Qt.LeftEdge
         background: Rectangle { color: cardBg; Rectangle { anchors.right: parent.right; width: 1; height: parent.height; color: dividerColor } }
         Column { padding: 20; spacing: 12; width: parent.width
-            Label { text: "Navigation Menu"; font.family: Fluent.fontFamily; font.bold: true; font.pixelSize: 18; color: textPrimary }
+            Label { text: "Navigation Menu"; font.family: themeFont; font.bold: true; font.pixelSize: 18; color: textPrimary }
             Rectangle { width: 220; height: 1; color: dividerColor }
-            ItemDelegate { text: "\uf10a  Home"; width: 220; font.family: Fluent.fontFamily; onClicked: edgeDrawer.close() }
-            ItemDelegate { text: "\uf2a4  Documents"; width: 220; font.family: Fluent.fontFamily; onClicked: edgeDrawer.close() }
-            ItemDelegate { text: "\uf7e0  Downloads"; width: 220; font.family: Fluent.fontFamily; onClicked: edgeDrawer.close() }
-            ItemDelegate { text: "\uf110  Settings"; width: 220; font.family: Fluent.fontFamily; onClicked: edgeDrawer.close() }
+            ItemDelegate { text: "\uf10a  Home"; width: 220; font.family: themeFont; onClicked: edgeDrawer.close() }
+            ItemDelegate { text: "\uf2a4  Documents"; width: 220; font.family: themeFont; onClicked: edgeDrawer.close() }
+            ItemDelegate { text: "\uf7e0  Downloads"; width: 220; font.family: themeFont; onClicked: edgeDrawer.close() }
+            ItemDelegate { text: "\uf110  Settings"; width: 220; font.family: themeFont; onClicked: edgeDrawer.close() }
         }
     }
 
@@ -1487,7 +1496,7 @@ ApplicationWindow {
         edge: Qt.BottomEdge
         background: Rectangle { color: cardBg; Rectangle { anchors.top: parent.top; width: parent.width; height: 1; color: dividerColor } }
         Column { padding: 20; spacing: 8; width: parent.width
-            Label { text: "Bottom Drawer"; font.family: Fluent.fontFamily; font.bold: true; font.pixelSize: 16; color: textPrimary }
+            Label { text: "Bottom Drawer"; font.family: themeFont; font.bold: true; font.pixelSize: 16; color: textPrimary }
             Label { text: "Slides up from the bottom edge. Great for pickers and quick actions."; color: textSecondary; font.pixelSize: 13 }
             Button { text: "Close"; onClicked: bottomDrawer.close() }
         }
@@ -1502,7 +1511,7 @@ ApplicationWindow {
         dim: true
         background: Rectangle { color: cardBg; Rectangle { anchors.left: parent.left; width: 1; height: parent.height; color: dividerColor } }
         Column { padding: 20; spacing: 12; width: parent.width
-            Label { text: "Modal Drawer"; font.family: Fluent.fontFamily; font.bold: true; font.pixelSize: 18; color: textPrimary }
+            Label { text: "Modal Drawer"; font.family: themeFont; font.bold: true; font.pixelSize: 18; color: textPrimary }
             Rectangle { width: 260; height: 1; color: dividerColor }
             Label { text: "This drawer dims the background and blocks interaction with other content."; wrapMode: Text.Wrap; width: 260; color: textSecondary; font.pixelSize: 13 }
             Switch { text: "Option A" }
