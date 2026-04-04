@@ -29,15 +29,18 @@ ApplicationWindow {
     property int currentPage: 0
     property string currentTitle: "Home"
 
+    // ===== ICON FONT (official Fluent UI System Icons from Microsoft) =====
+    readonly property string iconFont: "FluentSystemIcons-Regular"
+
     // ===== PAGE DEFINITIONS =====
     property var pages: [
-        { title: "Home",        icon: "\uE80F" },
-        { title: "Basic Input", icon: "\uE90F" },
-        { title: "Selection",   icon: "\uE73E" },
-        { title: "Progress",    icon: "\uE916" },
-        { title: "Containers",  icon: "\uE8A5" },
-        { title: "Pickers",     icon: "\uE787" },
-        { title: "Menus",       icon: "\uE700" }
+        { title: "Home",        icon: "\uf10a" },
+        { title: "Basic Input", icon: "\uf15c" },
+        { title: "Selection",   icon: "\uf419" },
+        { title: "Progress",    icon: "\uf40c" },
+        { title: "Containers",  icon: "\uf8b3" },
+        { title: "Pickers",     icon: "\uf3f2" },
+        { title: "Menus",       icon: "\uf6ec" }
     ]
 
     // ================================================================
@@ -69,8 +72,8 @@ ApplicationWindow {
 
             // App title / logo
             Text {
-                text: "\uE7C3"
-                font.family: "Segoe MDL2 Assets"
+                text: "\uf77d"
+                font.family: root.iconFont
                 font.pixelSize: 18
                 color: accentColor
                 Layout.rightMargin: 8
@@ -126,7 +129,7 @@ ApplicationWindow {
                         spacing: 6
                         Text {
                             text: parent.parent.icon
-                            font.family: "Segoe MDL2 Assets"
+                            font.family: root.iconFont
                             font.pixelSize: 14
                             color: root.currentPage === index ? accentColor : textSecondary
                         }
@@ -158,8 +161,8 @@ ApplicationWindow {
 
             // Theme indicator
             Text {
-                text: Fluent.isDark ? "\uE793" : "\uE706"
-                font.family: "Segoe MDL2 Assets"
+                text: Fluent.isDark ? "\uf36e" : "\uf3f2"
+                font.family: root.iconFont
                 font.pixelSize: 16
                 color: textSecondary
                 ToolTip.text: Fluent.isDark ? "Dark Mode" : "Light Mode"
@@ -297,12 +300,12 @@ ApplicationWindow {
 
                             Repeater {
                                 model: [
-                                    { title: "Basic Input", desc: "Buttons, text fields, sliders, switches, and combo boxes.", icon: "\uE90F", page: 1 },
-                                    { title: "Selection", desc: "Checkboxes, radio buttons, delegates, and toggle controls.", icon: "\uE73E", page: 2 },
-                                    { title: "Progress", desc: "Progress bars, busy indicators, and page indicators.", icon: "\uE916", page: 3 },
-                                    { title: "Containers", desc: "Frames, panes, scroll views, popups, and dialogs.", icon: "\uE8A5", page: 4 },
-                                    { title: "Pickers", desc: "Tumbler wheel picker and swipe view controls.", icon: "\uE787", page: 5 },
-                                    { title: "Menus", desc: "Menu bars, context menus, and tree views.", icon: "\uE700", page: 6 }
+                                    { title: "Basic Input", desc: "Buttons, text fields, sliders, switches, and combo boxes.", icon: "\uf15c", page: 1 },
+                                    { title: "Selection", desc: "Checkboxes, radio buttons, delegates, and toggle controls.", icon: "\uf419", page: 2 },
+                                    { title: "Progress", desc: "Progress bars, busy indicators, and page indicators.", icon: "\uf40c", page: 3 },
+                                    { title: "Containers", desc: "Frames, panes, scroll views, popups, and dialogs.", icon: "\uf8b3", page: 4 },
+                                    { title: "Pickers", desc: "Tumbler wheel picker and swipe view controls.", icon: "\uf3f2", page: 5 },
+                                    { title: "Menus", desc: "Menu bars, context menus, and tree views.", icon: "\uf6ec", page: 6 }
                                 ]
 
                                 delegate: Rectangle {
@@ -347,7 +350,7 @@ ApplicationWindow {
 
                                         Text {
                                             text: modelData.icon
-                                            font.family: "Segoe MDL2 Assets"
+                                            font.family: root.iconFont
                                             font.pixelSize: 28
                                             color: accentColor
                                             Layout.alignment: Qt.AlignTop
@@ -430,14 +433,14 @@ ApplicationWindow {
                             RoundButton { text: "OK" }
                             RoundButton { text: "+" }
                             RoundButton { text: "?" }
-                            RoundButton { text: "\uE711"; font.family: "Segoe MDL2 Assets"; font.pixelSize: 14 }
+                            RoundButton { text: "\uf191"; font.family: root.iconFont; font.pixelSize: 14 }
                         }
                         Row { spacing: 8
-                            ToolButton { text: "\uE710"; font.family: "Segoe MDL2 Assets"; ToolTip.text: "Open"; ToolTip.visible: hovered }
-                            ToolButton { text: "\uE74E"; font.family: "Segoe MDL2 Assets"; ToolTip.text: "Save"; ToolTip.visible: hovered }
+                            ToolButton { text: "\uf2a4"; font.family: root.iconFont; ToolTip.text: "Open"; ToolTip.visible: hovered }
+                            ToolButton { text: "\uf299"; font.family: root.iconFont; ToolTip.text: "Save"; ToolTip.visible: hovered }
                             ToolSeparator {}
-                            ToolButton { text: "\uE8C6"; font.family: "Segoe MDL2 Assets"; ToolTip.text: "Cut"; ToolTip.visible: hovered }
-                            ToolButton { text: "\uE8C8"; font.family: "Segoe MDL2 Assets"; ToolTip.text: "Copy"; ToolTip.visible: hovered; enabled: false }
+                            ToolButton { text: "\uf223"; font.family: root.iconFont; ToolTip.text: "Cut"; ToolTip.visible: hovered }
+                            ToolButton { text: "\uf1df"; font.family: root.iconFont; ToolTip.text: "Copy"; ToolTip.visible: hovered; enabled: false }
                         }
                         Row { spacing: 8
                             DelayButton { text: "Hold Me (1.5s)"; delay: 1500 }
@@ -471,12 +474,12 @@ ApplicationWindow {
                     width: parent.width
                     Row { spacing: 12
                         TextField {
-                            placeholderText: "\uE721  Search..."
+                            placeholderText: "\uf15c  Search..."
                             width: 300
                             font.family: Fluent.fontFamily
                         }
                         TextField {
-                            placeholderText: "\uE721  Disabled search..."
+                            placeholderText: "\uf15c  Disabled search..."
                             width: 300
                             font.family: Fluent.fontFamily
                             enabled: false
@@ -681,10 +684,10 @@ ApplicationWindow {
                     title: "Item Delegate"
                     width: parent.width
                     Column { spacing: 2
-                        ItemDelegate { text: "\uE8A5  Open File"; width: 320; font.family: Fluent.fontFamily }
-                        ItemDelegate { text: "\uE74E  Save File"; width: 320; highlighted: true; font.family: Fluent.fontFamily }
-                        ItemDelegate { text: "\uE7C3  Settings"; width: 320; font.family: Fluent.fontFamily }
-                        ItemDelegate { text: "\uE711  Close"; width: 320; font.family: Fluent.fontFamily; enabled: false }
+                        ItemDelegate { text: "\uf2a4  Open File"; width: 320; font.family: Fluent.fontFamily }
+                        ItemDelegate { text: "\uf299  Save File"; width: 320; highlighted: true; font.family: Fluent.fontFamily }
+                        ItemDelegate { text: "\uf10a  Settings"; width: 320; font.family: Fluent.fontFamily }
+                        ItemDelegate { text: "\uf191  Close"; width: 320; font.family: Fluent.fontFamily; enabled: false }
                     }
                 }
 
@@ -921,7 +924,7 @@ ApplicationWindow {
                                 color: listMouse.containsMouse ? hoverColor : "transparent"
 
                                 Label {
-                                    anchors.anchors.verticalCenter: parent.verticalCenter
+                                    anchors.verticalCenter: parent.verticalCenter
                                     anchors.left: parent.left
                                     anchors.leftMargin: 12
                                     text: "Scrollable item #" + (index + 1)
@@ -1139,7 +1142,7 @@ ApplicationWindow {
                                     font.pixelSize: 24
                                     font.weight: Font.Bold
                                     color: textPrimary
-                                    anchors.anchors.verticalCenter: parent.verticalCenter
+                                    anchors.verticalCenter: parent.verticalCenter
                                 }
 
                                 // Minute
@@ -1170,7 +1173,7 @@ ApplicationWindow {
                             // Center highlight bar
                             Rectangle {
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                anchors.anchors.verticalCenter: parent.verticalCenter
+                                anchors.verticalCenter: parent.verticalCenter
                                 width: parent.width - 16
                                 height: 36
                                 radius: 4
@@ -1211,27 +1214,27 @@ ApplicationWindow {
                     width: parent.width
                     MenuBar {
                         Menu { title: "File"
-                            MenuItem { text: "\uE710  New"; onTriggered: console.log("New") }
-                            MenuItem { text: "\uE8E5  Open"; onTriggered: console.log("Open") }
+                            MenuItem { text: "\uf2a4  New"; onTriggered: console.log("New") }
+                            MenuItem { text: "\uf8b3  Open"; onTriggered: console.log("Open") }
                             MenuSeparator {}
-                            MenuItem { text: "\uE74E  Save"; onTriggered: console.log("Save") }
+                            MenuItem { text: "\uf299  Save"; onTriggered: console.log("Save") }
                             MenuSeparator {}
-                            MenuItem { text: "\uE711  Exit"; onTriggered: Qt.quit() }
+                            MenuItem { text: "\uf191  Exit"; onTriggered: Qt.quit() }
                         }
                         Menu { title: "Edit"
-                            MenuItem { text: "\uE7A7  Undo" }
-                            MenuItem { text: "\uE8C6  Cut" }
-                            MenuItem { text: "\uE8C8  Copy" }
-                            MenuItem { text: "\uE8F5  Paste" }
+                            MenuItem { text: "\uf690  Undo" }
+                            MenuItem { text: "\uf223  Cut" }
+                            MenuItem { text: "\uf1df  Copy" }
+                            MenuItem { text: "\uf295  Paste" }
                         }
                         Menu { title: "View"
                             Menu { title: "Theme"
-                                MenuItem { text: "\uE706  Light" }
-                                MenuItem { text: "\uE793  Dark" }
+                                MenuItem { text: "\uf3f2  Light" }
+                                MenuItem { text: "\uf36e  Dark" }
                             }
                         }
                         Menu { title: "Help"
-                            MenuItem { text: "\uE897  About" }
+                            MenuItem { text: "\uf40c  About" }
                         }
                     }
                 }
@@ -1262,15 +1265,15 @@ ApplicationWindow {
 
                         Menu {
                             id: ctxMenu
-                            MenuItem { text: "\uE8A5  Open" }
-                            MenuItem { text: "\uE74E  Save As..." }
+                            MenuItem { text: "\uf2a4  Open" }
+                            MenuItem { text: "\uf299  Save As..." }
                             MenuSeparator {}
                             Menu { title: "Send to"
-                                MenuItem { text: "\uE774  Compress (zip)" }
-                                MenuItem { text: "\uE8BD  Email recipient" }
+                                MenuItem { text: "\uf5be  Compress (zip)" }
+                                MenuItem { text: "\uf489  Email recipient" }
                             }
                             MenuSeparator {}
-                            MenuItem { text: "\uE74D  Delete" }
+                            MenuItem { text: "\uf710  Delete" }
                         }
                     }
                 }
@@ -1309,15 +1312,15 @@ ApplicationWindow {
                                 color: treeMouse.containsMouse ? hoverColor : "transparent"
 
                                 Row {
-                                    anchors.anchors.verticalCenter: parent.verticalCenter
+                                    anchors.verticalCenter: parent.verticalCenter
                                     leftPadding: 12 + depth * 20
                                     spacing: 8
 
                                     // Expand/collapse arrow
                                     Text {
-                                        text: hasChildren ? (expanded ? "\uE70D" : "\uE70E") : "  "
-                                        font.family: "Segoe MDL2 Assets"
-                                        font.pixelSize: 10
+                                        text: hasChildren ? (expanded ? "\uf182" : "\uf86a") : "  "
+                                        font.family: root.iconFont
+                                        font.pixelSize: 12
                                         color: textTertiary
                                         width: 16
                                     }
@@ -1465,10 +1468,10 @@ ApplicationWindow {
         Column { padding: 20; spacing: 12; width: parent.width
             Label { text: "Navigation Menu"; font.family: Fluent.fontFamily; font.bold: true; font.pixelSize: 18; color: textPrimary }
             Rectangle { width: 220; height: 1; color: dividerColor }
-            ItemDelegate { text: "\uE80F  Home"; width: 220; font.family: Fluent.fontFamily; onClicked: edgeDrawer.close() }
-            ItemDelegate { text: "\uE8A5  Documents"; width: 220; font.family: Fluent.fontFamily; onClicked: edgeDrawer.close() }
-            ItemDelegate { text: "\uE77B  Downloads"; width: 220; font.family: Fluent.fontFamily; onClicked: edgeDrawer.close() }
-            ItemDelegate { text: "\uE713  Settings"; width: 220; font.family: Fluent.fontFamily; onClicked: edgeDrawer.close() }
+            ItemDelegate { text: "\uf10a  Home"; width: 220; font.family: Fluent.fontFamily; onClicked: edgeDrawer.close() }
+            ItemDelegate { text: "\uf2a4  Documents"; width: 220; font.family: Fluent.fontFamily; onClicked: edgeDrawer.close() }
+            ItemDelegate { text: "\uf7e0  Downloads"; width: 220; font.family: Fluent.fontFamily; onClicked: edgeDrawer.close() }
+            ItemDelegate { text: "\uf110  Settings"; width: 220; font.family: Fluent.fontFamily; onClicked: edgeDrawer.close() }
         }
     }
 
