@@ -665,15 +665,15 @@ ApplicationWindow {
                     width: parent.width
                     Column { spacing: 10
                         Row { spacing: 12
-                            Label { text: "Standard:"; width: 80; font.pixelSize: 13; color: textSecondary; anchors.verticalCenter: parent.verticalCenter }
+                            Label { text: "Standard:"; width: 80; font.pixelSize: 13; color: textSecondary; verticalAlignment: Text.AlignVCenter }
                             ComboBox { model: ["Apple", "Banana", "Cherry", "Durian", "Elderberry"]; width: 200 }
                         }
                         Row { spacing: 12
-                            Label { text: "Disabled:"; width: 80; font.pixelSize: 13; color: textSecondary; anchors.verticalCenter: parent.verticalCenter }
+                            Label { text: "Disabled:"; width: 80; font.pixelSize: 13; color: textSecondary; verticalAlignment: Text.AlignVCenter }
                             ComboBox { model: ["Red", "Green", "Blue"]; enabled: false; width: 200 }
                         }
                         Row { spacing: 12
-                            Label { text: "Editable:"; width: 80; font.pixelSize: 13; color: textSecondary; anchors.verticalCenter: parent.verticalCenter }
+                            Label { text: "Editable:"; width: 80; font.pixelSize: 13; color: textSecondary; verticalAlignment: Text.AlignVCenter }
                             ComboBox { model: ["First", "Second", "Third"]; editable: true; width: 200 }
                         }
                     }
@@ -811,15 +811,15 @@ ApplicationWindow {
                     width: parent.width
                     Column { spacing: 16
                         Row { spacing: 16
-                            Label { text: "5 pages, index 0:"; width: 120; font.pixelSize: 13; color: textSecondary; anchors.verticalCenter: parent.verticalCenter }
+                            Label { text: "5 pages, index 0:"; width: 120; font.pixelSize: 13; color: textSecondary; verticalAlignment: Text.AlignVCenter }
                             PageIndicator { count: 5; currentIndex: 0 }
                         }
                         Row { spacing: 16
-                            Label { text: "5 pages, index 2:"; width: 120; font.pixelSize: 13; color: textSecondary; anchors.verticalCenter: parent.verticalCenter }
+                            Label { text: "5 pages, index 2:"; width: 120; font.pixelSize: 13; color: textSecondary; verticalAlignment: Text.AlignVCenter }
                             PageIndicator { count: 5; currentIndex: 2 }
                         }
                         Row { spacing: 16
-                            Label { text: "10 pages, index 7:"; width: 130; font.pixelSize: 13; color: textSecondary; anchors.verticalCenter: parent.verticalCenter }
+                            Label { text: "10 pages, index 7:"; width: 130; font.pixelSize: 13; color: textSecondary; verticalAlignment: Text.AlignVCenter }
                             PageIndicator { count: 10; currentIndex: 7 }
                         }
                     }
@@ -924,7 +924,7 @@ ApplicationWindow {
                                 color: listMouse.containsMouse ? hoverColor : "transparent"
 
                                 Label {
-                                    anchors.verticalCenter: parent.verticalCenter
+                                    verticalAlignment: Text.AlignVCenter
                                     anchors.left: parent.left
                                     anchors.leftMargin: 12
                                     text: "Scrollable item #" + (index + 1)
@@ -1142,7 +1142,7 @@ ApplicationWindow {
                                     font.pixelSize: 24
                                     font.weight: Font.Bold
                                     color: textPrimary
-                                    anchors.verticalCenter: parent.verticalCenter
+                                    verticalAlignment: Text.AlignVCenter
                                 }
 
                                 // Minute
@@ -1173,7 +1173,7 @@ ApplicationWindow {
                             // Center highlight bar
                             Rectangle {
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                anchors.verticalCenter: parent.verticalCenter
+                                verticalAlignment: Text.AlignVCenter
                                 width: parent.width - 16
                                 height: 36
                                 radius: 4
@@ -1312,7 +1312,7 @@ ApplicationWindow {
                                 color: treeMouse.containsMouse ? hoverColor : "transparent"
 
                                 Row {
-                                    anchors.verticalCenter: parent.verticalCenter
+                                    verticalAlignment: Text.AlignVCenter
                                     leftPadding: 12 + depth * 20
                                     spacing: 8
 
