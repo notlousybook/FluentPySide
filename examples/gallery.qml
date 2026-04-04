@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Controls.FluentWinUI3
 import QtQuick.Layouts 1.15
+import QtQuick.Templates 2.15 as T
 
 ApplicationWindow {
     visible: true
@@ -722,11 +723,22 @@ ApplicationWindow {
                     width: parent.width - 40
                     Column {
                         spacing: 10
-                        Calendar {
+                        T.Calendar {
                             id: cal
                             width: 300; height: 280
+                            locale: Qt.locale()
+                            background: Rectangle {
+                                color: Fluent.cardBackground
+                                radius: 8
+                                border.color: Fluent.border
+                                border.width: 1
+                            }
+                            navigationBarVisible: false
+                            contentItem: Item {}
+                            monthView.contentItem: Item {}
                         }
                         Label { text: "Selected: " + cal.selectedDate.toLocaleDateString(Qt.locale(), "yyyy-MM-dd") }
+                        Label { text: "(Qt 6.10+ Calendar is a singleton — shown via Template)" font.pixelSize: 11; color: "#888" }
                     }
                 }
 
