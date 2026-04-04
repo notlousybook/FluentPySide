@@ -491,8 +491,7 @@ ApplicationWindow {
                         Column {
                             anchors.fill: parent
                             Label { text: "A Pane container with content" }
-                            Label { text: "Has background, padding, and border radius"; color: Fluent.textSecondary }
-                        }
+                            Label { text: "Has background, padding, and border radius"; color: "#666666" }                        }
                     }
                 }
 
@@ -683,8 +682,7 @@ ApplicationWindow {
                                 }
                                 Label {
                                     text: "This is the " + pageName + " page.\nNavigate using the sidebar or the button below."
-                                    color: Fluent.textSecondary
-                                }
+                                    color: "#666666                                }
                                 Button {
                                     text: "Go to Settings"
                                     onClicked: pageStack.push(pageComponent, { pageName: "Settings" })
@@ -726,12 +724,9 @@ ApplicationWindow {
                         Label { text: "Note: In PySide6 6.10+, Calendar is a composite singleton type\nand cannot be instantiated directly in QML. The FluentWinUI3 Calendar\nskin will be applied automatically when Calendar is used in a real app."; color: "#888"; wrapMode: Text.Wrap; width: 400 }
                         Rectangle {
                             width: 300; height: 180
-                            color: Fluent.cardBackground
-                            radius: 8
-                            border.color: Fluent.border
-                            border.width: 1
-                            Label { anchors.centerIn: parent; text: "Calendar Preview\n(see above)"; color: Fluent.textSecondary; horizontalAlignment: Text.AlignHCenter }
-                        }
+                            color: "#ffffff                            radius: 8
+                            border.color: "#d0d0d0                            border.width: 1
+                            Label { anchors.centerIn: parent; text: "Calendar Preview\n(see above)"; color: "#666666"; horizontalAlignment: Text.AlignHCenter }                        }
                     }
                 }
 
@@ -794,8 +789,7 @@ ApplicationWindow {
                         Label {
                             text: "← Time picker example"
                             anchors.verticalCenter: parent.verticalCenter
-                            color: Fluent.textSecondary
-                        }
+                            color: "#666666                        }
                     }
                 }
 
@@ -1017,25 +1011,23 @@ ApplicationWindow {
                                     width: 14
                                     font.pixelSize: 9
                                     anchors.verticalCenter: parent.verticalCenter
-                                    color: Fluent.textSecondary
-                                }
+                                    color: "#666666                                }
                                 Text {
                                     text: icon + " " + name
                                     anchors.verticalCenter: parent.verticalCenter
                                     font.pixelSize: 13
-                                    color: hovered ? Fluent.textPrimary : Fluent.textPrimary
+                                    color: hovered ? #000000 : #000000
                                 }
                             }
                             background: Rectangle {
-                                color: treeRow.hovered ? Fluent.controlAltBackgroundTransparentHover : "transparent"
+                                color: treeRow.hovered ? #0a000000 : "transparent"
                                 Rectangle {
                                     visible: treeRow.hovered
                                     anchors.left: parent.left
                                     anchors.top: parent.top
                                     anchors.bottom: parent.bottom
                                     width: 3
-                                    color: Fluent.accent
-                                }
+                                    color: "#005fb8                                }
                             }
                             onClicked: treeListView.toggleExpand(index)
                         }
@@ -1074,14 +1066,12 @@ ApplicationWindow {
                                     width: 60; height: 40
                                     radius: 4
                                     color: Fluent[colorProp]
-                                    border.color: Fluent.border
-                                    border.width: 1
+                                    border.color: "#d0d0d0                                    border.width: 1
                                 }
                                 Label {
                                     text: name
                                     font.pixelSize: 10
-                                    color: Fluent.textSecondary
-                                    horizontalAlignment: Text.AlignHCenter
+                                    color: "#666666                                    horizontalAlignment: Text.AlignHCenter
                                     width: 60
                                     elide: Text.ElideRight
                                 }
@@ -1089,18 +1079,15 @@ ApplicationWindow {
                         }
                     }
                     Label {
-                        text: "Font: " + Fluent.fontFamily + " | Body: " + Fluent.fontBodySize + "px | Title: " + Fluent.fontTitleSize + "px"
-                        color: Fluent.textSecondary
-                        anchors.topMargin: 12
+                        text: "Font: " + "Segoe UI" + " | Body: " + 14 + "px | Title: " + 28 + "px"
+                        color: "#666666                        anchors.topMargin: 12
                     }
                     Label {
-                        text: "Spacing: XS=" + Fluent.spacingXS + " S=" + Fluent.spacingS + " M=" + Fluent.spacingM + " L=" + Fluent.spacingL + " XL=" + Fluent.spacingXL
-                        color: Fluent.textSecondary
-                    }
+                        text: "Spacing: XS=" + 4 + " S=" + 8 + " M=" + 12 + " L=" + 16 + " XL=" + 20
+                        color: "#666666                    }
                     Label {
-                        text: "Radius: Small=" + Fluent.radiusSmall + " Medium=" + Fluent.radiusMedium + " Large=" + Fluent.radiusLarge
-                        color: Fluent.textSecondary
-                    }
+                        text: "Radius: Small=" + 4 + " Medium=" + 8 + " Large=" + 12
+                        color: "#666666                    }
                 }
             }
         }
