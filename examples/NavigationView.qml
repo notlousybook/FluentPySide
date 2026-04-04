@@ -1,5 +1,7 @@
-// FluentWinUI3 NavigationView - WinUI 3 style collapsible sidebar
-// Auto-detects dark/light mode. Uses Fluent ItemDelegate for nav items.
+// NavigationView - WinUI 3 style collapsible sidebar navigation
+// Faithfully replicates the Windows 11 NavigationView control.
+// Uses Segoe MDL2 Assets for icons, auto-detects dark/light mode.
+//
 // Usage:
 //   NavigationView {
 //       model: ListModel {
@@ -7,7 +9,8 @@
 //       }
 //       currentIndex: 0
 //       onCurrentIndexChanged: { }
-//       Item { ... }  // content area
+//       onSettingsClicked: { }
+//       Item { ... }  // default property -> content area
 //   }
 
 import QtQuick
@@ -17,41 +20,46 @@ import QtQuick.Layouts
 Item {
     id: root
 
+    // --- Public API ---
     property alias model: repeater.model
     property int currentIndex: 0
     property bool compact: false
-    property real expandedWidth: 240
-    property real compactWidth: 48
-    property real navigationWidth: compact ? compactWidth : expandedWidth
-    property real topPadding: 4
-    property real itemHeight: 36
-
-    signal backButtonClicked()
 
     default property alias content: contentContainer.data
 
-    // Auto dark/light
+    signal settingsClicked()
+
+    // --- Dimensions ---
+    property real expandedWidth: 240
+    property real compactWidth: 48
+    property real itemHeight: 40
+    property real iconSize: 16
+
+    // --- Auto dark/light detection ---
     readonly property bool darkMode: {
         try { return Application.styleHints.colorScheme === Qt.ColorScheme.Dark }
         catch (e) { return true }
     }
 
-    // Fluent WinUI 3 colors
-    property color accentColor: darkMode ? "#60cdff" : "#005fb8"
-    property color accentHoverColor: darkMode ? "#78d0ff" : "#106ebe"
-    property color sidebarBackground: darkMode ? "#2b2b2b" : "#f3f3f3"
-    property color sidebarHoverColor: darkMode ? "#3a3a3a" : "#e9e9e9"
-    property color sidebarActiveColor: darkMode ? "#3d3d3d" : "#e5e5e5"
-    property color textColor: darkMode ? "#e4e4e4" : "#1a1a1a"
-    property color textSecondaryColor: darkMode ? "#9d9d9d" : "#616161"
-    property color dividerColor: darkMode ? "#3d3d3d" : "#e0e0e0"
-    property color windowBackground: darkMode ? "#1c1c1c" : "#ffffff"
-    property color iconColor: darkMode ? "#e4e4e4" : "#1a1a1a"
+    // --- WinUI 3 Dark Mode Colors ---
+    readonly property color accentColor: darkMode ? "#60cdff" : "#005fb8"
+    readonly property color sidebarBackground: darkMode ? "#2b2b2b" : "#f3f3f3"
+    readonly property color hoverBackgroundColor: darkMode ? "#ffffff0d" : "#00000008"
+    readonly property color textColor: darkMode ? "#e4e4e4" : "#1a1a1a"
+    readonly property color textDisabledColor: darkMode ? "#5c5c5c" : "#a0a0a0"
+    readonly property color dividerColor: darkMode ? "#3d3d3d" : "#e0e0e0"
+    readonly property color windowBackground: darkMode ? "#1c1c1c" : "#ffffff"
 
-    Behavior on navigationWidth {
-        NumberAnimation { duration: 150; easing.type: Easing.OutCubic }
+    // --- Computed sidebar width with animation ---
+    property real _sidebarWidth: compact ? compactWidth : expandedWidth
+
+    Behavior on _sidebarWidth {
+        NumberAnimation { duration: 200; easing.type: Easing.OutCubic }
     }
 
+    // ================================================================
+    // Root layout: sidebar + content
+    // ================================================================
     RowLayout {
         anchors.fill: parent
         spacing: 0
@@ -60,87 +68,52 @@ Item {
         Rectangle {
             id: sidebar
             Layout.fillHeight: true
-            Layout.preferredWidth: root.navigationWidth
+            Layout.preferredWidth: root._sidebarWidth
             color: root.sidebarBackground
 
             Behavior on Layout.preferredWidth {
-                NumberAnimation { duration: 150; easing.type: Easing.OutCubic }
+                NumberAnimation { duration: 200; easing.type: Easing.OutCubic }
             }
 
             ColumnLayout {
                 anchors.fill: parent
                 spacing: 0
 
-                // --- Toggle button ---
+                // --- Toggle button (hamburger / chevron-left) ---
                 Item {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: root.itemHeight + root.topPadding + 4
+                    Layout.preferredHeight: root.itemHeight + 8
 
                     Rectangle {
                         id: toggleBtn
                         anchors.top: parent.top
-                        anchors.topMargin: root.topPadding + 2
-                        anchors.left: parent.left
-                        anchors.leftMargin: root.compact ? 4 : 8
-                        width: root.itemHeight
+                        anchors.topMargin: 4
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        width: root.compact ? (root.compactWidth - 8) : (root.itemHeight + 4)
                         height: root.itemHeight
                         radius: 4
-                        color: toggleMouse.containsMouse ? root.sidebarHoverColor : "transparent"
+                        color: toggleMouseArea.containsMouse ? root.hoverBackgroundColor : "transparent"
 
-                        // Fluent chevron/hamburger icon
-                        Canvas {
-                            id: toggleIcon
+                        Text {
                             anchors.centerIn: parent
-                            width: 16
-                            height: 16
-                            antialiasing: true
-
-                            property real progress: root.compact ? 0 : 1
-
-                            Behavior on progress {
-                                NumberAnimation { duration: 120; easing.type: Easing.OutCubic }
-                            }
-
-                            onPaint: {
-                                var ctx = getContext("2d")
-                                ctx.reset()
-                                ctx.strokeStyle = root.textColor
-                                ctx.lineWidth = 1.5
-                                ctx.lineCap = "round"
-
-                                // Draw hamburger (3 lines) that morphs to chevron-left
-                                var cx = 8
-                                var cy = 8
-                                var len = 6
-                                var spread = 3
-
-                                if (progress < 0.5) {
-                                    // Hamburger
-                                    var t = progress * 2
-                                    for (var i = -1; i <= 1; i++) {
-                                        var y = cy + i * spread
-                                        ctx.beginPath()
-                                        ctx.moveTo(cx - len, y)
-                                        ctx.lineTo(cx + len, y)
-                                        ctx.stroke()
-                                    }
-                                } else {
-                                    // Chevron left
-                                    ctx.beginPath()
-                                    ctx.moveTo(cx + 3, cy - spread)
-                                    ctx.lineTo(cx - 3, cy)
-                                    ctx.lineTo(cx + 3, cy + spread)
-                                    ctx.stroke()
-                                }
-                            }
+                            text: root.compact ? "\uE700" : "\uE70E"
+                            font.family: "Segoe MDL2 Assets"
+                            font.pixelSize: root.iconSize
+                            color: root.textColor
                         }
 
                         MouseArea {
-                            id: toggleMouse
+                            id: toggleMouseArea
                             anchors.fill: parent
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             onClicked: root.compact = !root.compact
+                        }
+
+                        ToolTip {
+                            text: root.compact ? "Expand" : "Collapse"
+                            visible: root.compact && toggleMouseArea.containsMouse
+                            delay: 500
                         }
                     }
                 }
@@ -154,97 +127,109 @@ Item {
                     color: root.dividerColor
                 }
 
-                // --- Navigation items ---
-                Column {
+                // --- Navigation items (scrollable) ---
+                Item {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    topPadding: 4
 
-                    Repeater {
-                        id: repeater
+                    Column {
+                        id: navColumn
+                        width: parent.width
+                        topPadding: 4
+                        bottomPadding: 4
 
-                        Item {
-                            id: navItem
-                            width: parent.width
-                            height: root.itemHeight
-                            visible: true
+                        Repeater {
+                            id: repeater
 
-                            // Active indicator pill
-                            Rectangle {
-                                id: activePill
-                                width: root.compact ? (navItemMouse.containsMouse ? parent.width - 8 : parent.width - 8) : 3
-                                height: root.compact ? parent.height - 4 : parent.height - 8
-                                anchors.left: parent.left
-                                anchors.leftMargin: root.compact ? 4 : 2
-                                anchors.verticalCenter: parent.verticalCenter
-                                radius: root.compact ? 4 : 1.5
-                                color: {
-                                    if (index === root.currentIndex) return root.accentColor
-                                    if (navItemMouse.containsMouse) return root.sidebarHoverColor
-                                    return "transparent"
+                            delegate: Item {
+                                id: navItemDelegate
+                                required property string title
+                                required property string icon
+                                required property int index
+
+                                width: navColumn.width
+                                height: root.itemHeight
+
+                                // Hover background highlight
+                                Rectangle {
+                                    anchors.fill: parent
+                                    anchors.leftMargin: root.compact ? 4 : 0
+                                    anchors.rightMargin: root.compact ? 4 : 0
+                                    radius: 4
+                                    color: root.hoverBackgroundColor
+                                    visible: navMouseArea.containsMouse && navItemDelegate.index !== root.currentIndex
                                 }
-                                opacity: (index === root.currentIndex || navItemMouse.containsMouse) ? 1.0 : 0.0
 
-                                Behavior on width {
-                                    NumberAnimation { duration: 100; easing.type: Easing.OutCubic }
+                                // Selected indicator: small accent pill on LEFT edge
+                                Rectangle {
+                                    width: 3
+                                    height: 16
+                                    radius: 1.5
+                                    anchors.left: parent.left
+                                    anchors.leftMargin: 4
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    color: root.accentColor
+                                    visible: navItemDelegate.index === root.currentIndex
+
+                                    Behavior on opacity {
+                                        NumberAnimation { duration: 150 }
+                                    }
                                 }
-                                Behavior on color {
-                                    ColorAnimation { duration: 100 }
+
+                                // Icon
+                                Text {
+                                    id: navIconText
+                                    anchors.left: parent.left
+                                    anchors.leftMargin: root.compact ? ((root.compactWidth - root.iconSize) / 2) : 16
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    text: navItemDelegate.icon
+                                    font.family: "Segoe MDL2 Assets"
+                                    font.pixelSize: root.iconSize
+                                    color: navItemDelegate.index === root.currentIndex ? root.accentColor : root.textColor
+
+                                    Behavior on color {
+                                        ColorAnimation { duration: 150 }
+                                    }
                                 }
-                            }
 
-                            // Icon
-                            Text {
-                                id: navIcon
-                                anchors.left: parent.left
-                                anchors.leftMargin: root.compact ? 6 : 12
-                                anchors.verticalCenter: parent.verticalCenter
-                                text: model.icon
-                                font.pixelSize: 15
-                                font.family: "Segoe MDL2 Assets, Segoe UI Emoji, Noto Color Emoji, sans-serif"
-                                color: index === root.currentIndex ? root.accentColor : root.iconColor
+                                // Label text (hidden in compact mode)
+                                Text {
+                                    anchors.left: navIconText.right
+                                    anchors.leftMargin: 12
+                                    anchors.right: parent.right
+                                    anchors.rightMargin: 16
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    text: navItemDelegate.title
+                                    font.family: "Segoe UI Variable, Segoe UI, sans-serif"
+                                    font.pixelSize: 13
+                                    font.weight: navItemDelegate.index === root.currentIndex ? Font.Medium : Font.Normal
+                                    color: navItemDelegate.index === root.currentIndex ? root.accentColor : root.textColor
+                                    elide: Text.ElideRight
+                                    visible: !root.compact
+                                    opacity: root.compact ? 0 : 1
 
-                                Behavior on color {
-                                    ColorAnimation { duration: 100 }
+                                    Behavior on color {
+                                        ColorAnimation { duration: 150 }
+                                    }
+                                    Behavior on opacity {
+                                        NumberAnimation { duration: 120 }
+                                    }
                                 }
-                            }
 
-                            // Title text
-                            Text {
-                                anchors.left: navIcon.right
-                                anchors.leftMargin: 10
-                                anchors.right: parent.right
-                                anchors.rightMargin: 12
-                                anchors.verticalCenter: parent.verticalCenter
-                                text: model.title
-                                font.pixelSize: 13
-                                font.weight: index === root.currentIndex ? Font.Medium : Font.Normal
-                                color: index === root.currentIndex ? root.accentColor : root.textColor
-                                elide: Text.ElideRight
-                                visible: !root.compact
-                                opacity: root.compact ? 0 : 1
-
-                                Behavior on color {
-                                    ColorAnimation { duration: 100 }
+                                MouseArea {
+                                    id: navMouseArea
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: root.currentIndex = navItemDelegate.index
                                 }
-                                Behavior on opacity {
-                                    NumberAnimation { duration: 100 }
+
+                                // Tooltip in compact mode
+                                ToolTip {
+                                    text: navItemDelegate.title
+                                    visible: root.compact && navMouseArea.containsMouse
+                                    delay: 500
                                 }
-                            }
-
-                            MouseArea {
-                                id: navItemMouse
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked: root.currentIndex = index
-                            }
-
-                            // Tooltip for compact
-                            ToolTip {
-                                text: model.title
-                                visible: root.compact && navItemMouse.containsMouse
-                                delay: 500
                             }
                         }
                     }
@@ -259,55 +244,67 @@ Item {
                     color: root.dividerColor
                 }
 
-                // --- Footer (Settings) ---
+                // --- Settings button at bottom ---
                 Item {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: root.itemHeight + 4
+                    Layout.preferredHeight: root.itemHeight
                     Layout.bottomMargin: 4
 
                     Rectangle {
-                        id: footerBg
+                        id: settingsBg
                         anchors.fill: parent
-                        anchors.margins: root.compact ? 2 : 0
                         anchors.leftMargin: root.compact ? 4 : 0
                         anchors.rightMargin: root.compact ? 4 : 0
                         radius: 4
-                        color: footerMouse.containsMouse ? root.sidebarHoverColor : "transparent"
+                        color: settingsMouseArea.containsMouse ? root.hoverBackgroundColor : "transparent"
 
                         Text {
-                            id: footerIcon
+                            id: settingsIconText
                             anchors.left: parent.left
-                            anchors.leftMargin: root.compact ? 6 : 12
+                            anchors.leftMargin: root.compact ? ((root.compactWidth - root.iconSize) / 2) : 16
                             anchors.verticalCenter: parent.verticalCenter
-                            text: "\u2699"
-                            font.pixelSize: 15
-                            font.family: "Segoe MDL2 Assets, Segoe UI Emoji, Noto Color Emoji, sans-serif"
-                            color: root.iconColor
+                            text: "\uE713"
+                            font.family: "Segoe MDL2 Assets"
+                            font.pixelSize: root.iconSize
+                            color: root.textColor
+
+                            Behavior on color {
+                                ColorAnimation { duration: 150 }
+                            }
                         }
 
                         Text {
-                            anchors.left: footerIcon.right
-                            anchors.leftMargin: 10
+                            anchors.left: settingsIconText.right
+                            anchors.leftMargin: 12
                             anchors.right: parent.right
-                            anchors.rightMargin: 12
+                            anchors.rightMargin: 16
                             anchors.verticalCenter: parent.verticalCenter
                             text: "Settings"
+                            font.family: "Segoe UI Variable, Segoe UI, sans-serif"
                             font.pixelSize: 13
+                            font.weight: Font.Normal
                             color: root.textColor
                             elide: Text.ElideRight
                             visible: !root.compact
                             opacity: root.compact ? 0 : 1
 
                             Behavior on opacity {
-                                NumberAnimation { duration: 100 }
+                                NumberAnimation { duration: 120 }
                             }
                         }
 
                         MouseArea {
-                            id: footerMouse
+                            id: settingsMouseArea
                             anchors.fill: parent
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
+                            onClicked: root.settingsClicked()
+                        }
+
+                        ToolTip {
+                            text: "Settings"
+                            visible: root.compact && settingsMouseArea.containsMouse
+                            delay: 500
                         }
                     }
                 }
@@ -315,11 +312,10 @@ Item {
         }
 
         // ===== CONTENT AREA =====
-        Rectangle {
+        Item {
             id: contentContainer
             Layout.fillWidth: true
             Layout.fillHeight: true
-            color: root.windowBackground
         }
     }
 }

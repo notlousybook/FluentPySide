@@ -11,7 +11,6 @@ ApplicationWindow {
     title: qsTr("FluentWinUI3 Gallery")
 
     property int currentPage: 0
-    property int pendingPage: -1
 
     ListModel {
         id: navModel
@@ -30,6 +29,7 @@ ApplicationWindow {
         model: navModel
         currentIndex: root.currentPage
         onCurrentIndexChanged: root.currentPage = currentIndex
+        onSettingsClicked: settingsPopup.open()
 
         StackLayout {
             id: pageStack
@@ -116,8 +116,9 @@ ApplicationWindow {
                     }
 
                     GroupBox {
-                        title: "Switch Delegate"
+                        title: "Switch Delegate (Fusion fallback - no Fluent skin)"
                         width: parent.width
+                        visible: false
                         Column { spacing: 2
                             SwitchDelegate { text: "Airplane Mode"; width: parent.width }
                             SwitchDelegate { text: "Hotspot"; checked: true; width: parent.width }
@@ -210,7 +211,7 @@ ApplicationWindow {
                     }
 
                     GroupBox {
-                        title: "Dial"
+                        title: "Dial (Fusion fallback - no Fluent skin)"
                         width: parent.width
                         Row { spacing: 30
                             Column { spacing: 4
@@ -518,14 +519,13 @@ ApplicationWindow {
                     }
 
                     GroupBox {
-                        title: "Tumbler (Wheel Picker)"
+                        title: "Tumbler (Fusion fallback - no Fluent skin)"
                         width: parent.width
                         Column { spacing: 12
-                            Label { text: "Time Picker:"; font.pixelSize: 14; font.bold: true }
-                            Row { spacing: 6
-                                Tumbler { model: ["AM", "PM"]; width: 80 }
-                                Tumbler { model: ["1","2","3","4","5","6","7","8","9","10","11","12"]; width: 80 }
-                                Tumbler { model: ["00","05","10","15","20","25","30","35","40","45","50","55"]; width: 80; wrap: true }
+                            Label { text: "Number Picker:"; font.pixelSize: 14; font.bold: true }
+                            Tumbler {
+                                model: 10
+                                width: 100
                             }
                         }
                     }
@@ -540,6 +540,7 @@ ApplicationWindow {
                                 height: 140
                                 Repeater { model: 5
                                     Item {
+                                        required property int index
                                         width: swipeView.width
                                         height: swipeView.height
                                         Rectangle {
@@ -772,5 +773,18 @@ ApplicationWindow {
         anchors.centerIn: parent
         standardButtons: Dialog.Ok | Dialog.Cancel
         Label { text: "This is a modal dialog.\nClick OK or Cancel."; wrapMode: Text.Wrap; width: 300 }
+    }
+    Popup {
+        id: settingsPopup
+        parent: Overlay.overlay
+        anchors.centerIn: parent
+        width: 300; height: 200
+        modal: true
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+        Column { padding: 16; spacing: 12
+            Label { text: "Settings"; font.bold: true; font.pixelSize: 18 }
+            Label { text: "Application settings would go here.\nThis popup is triggered from the NavigationView settings button."; wrapMode: Text.Wrap; width: 260; color: "#888888" }
+            Button { text: "Close"; onClicked: settingsPopup.close() }
+        }
     }
 }
