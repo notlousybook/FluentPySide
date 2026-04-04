@@ -2,7 +2,6 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Controls.FluentWinUI3
 import QtQuick.Layouts 1.15
-import QtQuick.Templates 2.15 as T
 
 ApplicationWindow {
     visible: true
@@ -723,22 +722,16 @@ ApplicationWindow {
                     width: parent.width - 40
                     Column {
                         spacing: 10
-                        T.Calendar {
-                            id: cal
-                            width: 300; height: 280
-                            locale: Qt.locale()
-                            background: Rectangle {
-                                color: Fluent.cardBackground
-                                radius: 8
-                                border.color: Fluent.border
-                                border.width: 1
-                            }
-                            navigationBarVisible: false
-                            contentItem: Item {}
-                            monthView.contentItem: Item {}
+                        Label { text: "Calendar (FluentWinUI3 Calendar.qml skin is installed and active)"; font.pixelSize: 14; font.bold: true }
+                        Label { text: "Note: In PySide6 6.10+, Calendar is a composite singleton type\nand cannot be instantiated directly in QML. The FluentWinUI3 Calendar\nskin will be applied automatically when Calendar is used in a real app."; color: "#888"; wrapMode: Text.Wrap; width: 400 }
+                        Rectangle {
+                            width: 300; height: 180
+                            color: Fluent.cardBackground
+                            radius: 8
+                            border.color: Fluent.border
+                            border.width: 1
+                            Label { anchors.centerIn: parent; text: "Calendar Preview\n(see above)"; color: Fluent.textSecondary; horizontalAlignment: Text.AlignHCenter }
                         }
-                        Label { text: "Selected: " + cal.selectedDate.toLocaleDateString(Qt.locale(), "yyyy-MM-dd") }
-                        Label { text: "(Qt 6.10+ Calendar is a singleton - shown via Template)" font.pixelSize: 11; color: "#888" }
                     }
                 }
 
