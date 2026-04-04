@@ -720,19 +720,13 @@ ApplicationWindow {
                 GroupBox {
                     title: "Calendar"
                     width: parent.width - 40
-                    Row {
-                        spacing: 30
+                    Column {
+                        spacing: 10
                         Calendar {
+                            id: cal
                             width: 300; height: 280
                         }
-                        Column {
-                            spacing: 8
-                            Label { text: "Selected: " + cal.selectedDate.toLocaleDateString(Qt.locale(), "yyyy-MM-dd") }
-                            Calendar {
-                                id: cal
-                                width: 300; height: 280
-                            }
-                        }
+                        Label { text: "Selected: " + cal.selectedDate.toLocaleDateString(Qt.locale(), "yyyy-MM-dd") }
                     }
                 }
 
