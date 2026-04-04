@@ -453,6 +453,13 @@ python tools/update_theme.py /path/to/your/project
 
 This copies `FluentWinUI3/` into `/path/to/your/project/QtQuick/Controls/FluentWinUI3/` so you can add the project root as a QML import path.
 
+Acknowledgements
+---------------
+
+- **Upstream QML assets**: Most styled components are sourced from the locally installed PySide6 / PySide6-Essentials FluentWinUI3 style plugin. Follow Qt/PySide licensing when redistributing.
+- **[Rin-UI](https://github.com/RinLit-233-shiroko/Rin-UI)**: The custom `NavigationView` sidebar and several design patterns were inspired by Rin-UI's excellent Fluent Design implementation for QML. Licensed under MIT.
+- **[WinUI 3 Gallery](https://github.com/microsoft/WinUI-Gallery)**: Referenced for accurate WinUI 3 design tokens, color values, and control behavior.
+
 License
 -------
 
