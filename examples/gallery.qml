@@ -1025,7 +1025,7 @@ ApplicationWindow {
                             Tumbler {
                                 model: 20
                                 width: 80
-                                visibleCount: 5
+                                visibleItemCount: 5
                             }
                         }
                         Column { spacing: 8
@@ -1045,7 +1045,7 @@ ApplicationWindow {
                                     ListElement { display: "50" }
                                 }
                                 width: 80
-                                visibleCount: 5
+                                visibleItemCount: 5
                             }
                         }
                     }
@@ -1133,7 +1133,7 @@ ApplicationWindow {
                                         id: hourTumbler
                                         model: 12
                                         width: 60
-                                        visibleCount: 5
+                                        visibleItemCount: 5
                                     }
                                 }
 
@@ -1153,7 +1153,7 @@ ApplicationWindow {
                                         id: minuteTumbler
                                         model: 60
                                         width: 60
-                                        visibleCount: 5
+                                        visibleItemCount: 5
                                     }
                                 }
 
@@ -1165,7 +1165,7 @@ ApplicationWindow {
                                         id: ampmTumbler
                                         model: ["AM", "PM"]
                                         width: 60
-                                        visibleCount: 3
+                                        visibleItemCount: 3
                                     }
                                 }
                             }
