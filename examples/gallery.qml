@@ -31,6 +31,10 @@ ApplicationWindow {
     // Accent
     readonly property color accentColor: isDark ? "#60cdff" : "#005fb8"
 
+    // Hover / Pressed
+    readonly property color hoverColor: isDark ? "#ffffff0d" : "#00000008"
+    readonly property color pressedColor: isDark ? "#ffffff14" : "#0000000f"
+
     // Border / Divider
     readonly property color dividerColor: isDark ? "#3d3d3d" : "#d1d1d1"
 
@@ -52,13 +56,14 @@ ApplicationWindow {
         onSettingsClicked: { root.currentPage = 0 }
 
         model: ListModel {
-            ListElement { title: "Home"; icon: "\uE10F" }
-            ListElement { title: "Basic Input"; icon: "\uE8F4" }
-            ListElement { title: "Selection"; icon: "\uE762" }
-            ListElement { title: "Progress"; icon: "\uE915" }
-            ListElement { title: "Containers"; icon: "\uE8F7" }
-            ListElement { title: "Pickers"; icon: "\uE787" }
-            ListElement { title: "Menus"; icon: "\uE8C7" }
+            ListElement { title: "Home"; icon: "\uE10F"; position: 0 }
+            ListElement { title: "Basic Input"; icon: "\uE8F4"; position: 1 }
+            ListElement { title: "Selection"; icon: "\uE762"; position: 1 }
+            ListElement { title: "Progress"; icon: "\uE915"; position: 1 }
+            ListElement { title: "Containers"; icon: "\uE8F7"; position: 1 }
+            ListElement { title: "Pickers"; icon: "\uE787"; position: 1 }
+            ListElement { title: "Menus"; icon: "\uE8C7"; position: 1 }
+            ListElement { title: "Settings"; icon: "\uE713"; position: 2 }
         }
 
         // ===== CONTENT STACK =====
@@ -93,17 +98,18 @@ ApplicationWindow {
                             asynchronous: true
                         }
 
-                        // Gradient overlay: tinted accent at top -> bg color at bottom
+                        // Gradient overlay: rich accent fade from top -> bg color at bottom (RinUI style)
                         Rectangle {
                             anchors.fill: parent
                             gradient: Gradient {
-                                GradientStop { position: 0.0; color: isDark ? "#60cdff18" : "#005fb818" }
-                                GradientStop { position: 0.5; color: isDark ? "#60cdff08" : "#005fb808" }
+                                GradientStop { position: 0.0; color: isDark ? "#003366" : "#005fb8" }
+                                GradientStop { position: 0.35; color: isDark ? "#1a3a5c" : "#3a8fd4" }
+                                GradientStop { position: 0.65; color: isDark ? "#202020" : "#e8e8e8" }
                                 GradientStop { position: 1.0; color: isDark ? "#202020" : "#f3f3f3" }
                             }
                         }
 
-                        // Banner text overlay (plain text, no outline)
+                        // Banner text overlay with white text on gradient
                         Column {
                             anchors.left: parent.left
                             anchors.bottom: parent.bottom
@@ -116,14 +122,14 @@ ApplicationWindow {
                                 font.family: themeFont
                                 font.pixelSize: 36
                                 font.weight: Font.Bold
-                                color: textPrimary
+                                color: "#ffffff"
                             }
                             Text {
                                 text: "A Fluent Design System showcase for PySide6"
                                 font.family: themeFont
                                 font.pixelSize: 16
-                                color: textPrimary
-                                opacity: 0.85
+                                color: "#ffffff"
+                                opacity: 0.9
                             }
                             Row {
                                 spacing: 12
