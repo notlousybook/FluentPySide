@@ -48,6 +48,8 @@ MenuItem 2.0 MenuItem.qml
 MenuSeparator 6.0 MenuSeparator.qml
 MenuSeparator 2.0 MenuSeparator.qml
 Pane 6.0 Pane.qml
+NavigationView 6.0 NavigationView.qml
+NavigationView 2.0 NavigationView.qml
 Pane 2.0 Pane.qml
 Popup 6.0 Popup.qml
 Popup 2.0 Popup.qml

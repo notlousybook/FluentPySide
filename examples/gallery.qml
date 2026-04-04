@@ -11,59 +11,27 @@ ApplicationWindow {
 
     property int currentPage: 0
 
-    RowLayout {
+    ListModel {
+        id: navModel
+        ListElement { title: "Buttons"; icon: "\uD83D\uDD18" }
+        ListElement { title: "Input"; icon: "\u270F" }
+        ListElement { title: "Selection"; icon: "\u2611" }
+        ListElement { title: "Progress"; icon: "\u25CE" }
+        ListElement { title: "Containers"; icon: "\uD83D\uDDC2" }
+        ListElement { title: "Navigation"; icon: "\u2796" }
+        ListElement { title: "Pickers"; icon: "\uD83D\uDCC5" }
+        ListElement { title: "Menus"; icon: "\u2630" }
+    }
+
+    NavigationView {
+        id: navView
         anchors.fill: parent
-        spacing: 0
+        model: navModel
+        currentIndex: root.currentPage
+        onCurrentIndexChanged: root.currentPage = currentIndex
 
-        // ===== SIDEBAR =====
-        Rectangle {
-            Layout.fillHeight: true
-            Layout.preferredWidth: 200
-            color: "#f3f3f3"
-
-            Column {
-                anchors.fill: parent
-                anchors.margins: 8
-                spacing: 4
-
-                Label {
-                    text: "FluentWinUI3"
-                    font.pixelSize: 16
-                    font.bold: true
-                    topPadding: 8
-                    bottomPadding: 8
-                }
-
-                Repeater {
-                    model: ["Buttons", "Input", "Selection", "Progress", "Containers", "Navigation", "Pickers", "Menus"]
-                    Button {
-                        required property string modelData
-                        required property int index
-                        text: modelData
-                        flat: true
-                        highlighted: index === currentPage
-                        width: parent.width
-                        leftPadding: 16
-                        onClicked: currentPage = index
-                    }
-                }
-
-                Item { Layout.fillHeight: true; width: parent.width }
-
-                Label {
-                    text: "v0.2.1"
-                    font.pixelSize: 11
-                    color: "#888888"
-                    topPadding: 8
-                }
-            }
-        }
-
-        // ===== CONTENT =====
         StackLayout {
-            currentIndex: currentPage
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+            currentIndex: root.currentPage
 
             // ========== PAGE 0: BUTTONS ==========
             Flickable {
