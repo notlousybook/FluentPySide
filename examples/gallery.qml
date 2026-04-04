@@ -565,8 +565,8 @@ ApplicationWindow {
                             anchors.centerIn: parent
                             Label { text: "This is a modal dialog with Fluent styling." }
                             DialogButtonBox {
-                                Button { text: "Cancel"; DialogButtonBox.role: DialogButtonBox.RejectRole }
-                                Button { text: "OK"; DialogButtonBox.role: DialogButtonBox.AcceptRole }
+                                Button { text: "Cancel" }
+                                Button { text: "OK" }
                             }
                         }
                     }
