@@ -738,7 +738,7 @@ ApplicationWindow {
                             monthView.contentItem: Item {}
                         }
                         Label { text: "Selected: " + cal.selectedDate.toLocaleDateString(Qt.locale(), "yyyy-MM-dd") }
-                        Label { text: "(Qt 6.10+ Calendar is a singleton — shown via Template)" font.pixelSize: 11; color: "#888" }
+                        Label { text: "(Qt 6.10+ Calendar is a singleton - shown via Template)" font.pixelSize: 11; color: "#888" }
                     }
                 }
 
