@@ -197,8 +197,8 @@ ApplicationWindow {
                     width: parent.width - 40
                     Column {
                         spacing: 10
-                        SearchField { placeholderText: "Search..." }
-                        SearchField { placeholderText: "Disabled"; enabled: false }
+                        SearchField { }
+                        SearchField { enabled: false }
                     }
                 }
 
@@ -863,10 +863,10 @@ ApplicationWindow {
                     Menu {
                         id: fileMenu
                         title: "File"
-                        MenuItem { text: "New"; shortcut: "Ctrl+N" }
-                        MenuItem { text: "Open"; shortcut: "Ctrl+O" }
+                        MenuItem { text: "New" }
+                        MenuItem { text: "Open" }
                         MenuSeparator {}
-                        MenuItem { text: "Save"; shortcut: "Ctrl+S" }
+                        MenuItem { text: "Save" }
                         MenuItem { text: "Save As..." }
                         MenuSeparator {}
                         MenuItem { text: "Exit" }
@@ -874,18 +874,18 @@ ApplicationWindow {
                     Menu {
                         id: editMenu
                         title: "Edit"
-                        MenuItem { text: "Undo"; shortcut: "Ctrl+Z" }
-                        MenuItem { text: "Redo"; shortcut: "Ctrl+Y" }
+                        MenuItem { text: "Undo" }
+                        MenuItem { text: "Redo" }
                         MenuSeparator {}
-                        MenuItem { text: "Cut"; shortcut: "Ctrl+X" }
-                        MenuItem { text: "Copy"; shortcut: "Ctrl+C" }
-                        MenuItem { text: "Paste"; shortcut: "Ctrl+V" }
+                        MenuItem { text: "Cut" }
+                        MenuItem { text: "Copy" }
+                        MenuItem { text: "Paste" }
                     }
                     Menu {
                         id: viewMenu
                         title: "View"
-                        MenuItem { text: "Zoom In"; shortcut: "Ctrl++" }
-                        MenuItem { text: "Zoom Out"; shortcut: "Ctrl+-" }
+                        MenuItem { text: "Zoom In" }
+                        MenuItem { text: "Zoom Out" }
                         MenuSeparator {}
                         Menu {
                             title: "Theme"
