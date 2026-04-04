@@ -5,6 +5,7 @@ import QtQuick.Controls
 import QtQuick.Controls.FluentWinUI3
 import QtQuick.Layouts
 import QtQuick.Effects
+import FluentTheme
 
 ApplicationWindow {
     id: root
@@ -287,7 +288,7 @@ ApplicationWindow {
                             text: "Explore Controls"
                             font.family: Fluent.fontFamily
                             font.pixelSize: 20
-                            font.weight: Font.SemiBold
+                            font.weight: Font.DemiBold
                             color: textPrimary
                         }
 
@@ -364,7 +365,7 @@ ApplicationWindow {
                                                 text: modelData.title
                                                 font.family: Fluent.fontFamily
                                                 font.pixelSize: 15
-                                                font.weight: Font.SemiBold
+                                                font.weight: Font.DemiBold
                                                 color: textPrimary
                                             }
                                             Text {
@@ -1448,7 +1449,7 @@ ApplicationWindow {
             }
         }
         Column { spacing: 12
-            Label { text: "This is a Popup"; font.family: Fluent.fontFamily; font.pixelSize: 18; font.weight: Font.SemiBold; color: textPrimary }
+            Label { text: "This is a Popup"; font.family: Fluent.fontFamily; font.pixelSize: 18; font.weight: Font.DemiBold; color: textPrimary }
             Label { text: "With Fluent background, border radius, and dim overlay. Click outside or press Escape to close."; wrapMode: Text.Wrap; width: 250; font.pixelSize: 13; color: textSecondary }
             Button { text: "Close"; onClicked: demoPopup.close() }
         }

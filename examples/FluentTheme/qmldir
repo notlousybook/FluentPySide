@@ -1,0 +1,2 @@
+module FluentTheme
+singleton Fluent 1.0 FluentTheme.qml

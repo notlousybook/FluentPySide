@@ -34,7 +34,12 @@ if os.path.isdir(fonts_dir):
 QQuickStyle.setStyle("FluentWinUI3")
 
 engine = QQmlApplicationEngine()
-qml_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "gallery.qml")
+
+# Add examples dir to import path so co-located modules (FluentTheme) resolve
+examples_dir = os.path.dirname(os.path.abspath(__file__))
+engine.addImportPath(examples_dir)
+
+qml_path = os.path.join(examples_dir, "gallery.qml")
 engine.load(qml_path)
 
 if not engine.rootObjects():
