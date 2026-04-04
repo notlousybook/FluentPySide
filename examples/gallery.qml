@@ -4,6 +4,7 @@ import QtQuick.Controls.FluentWinUI3
 import QtQuick.Layouts
 
 ApplicationWindow {
+    id: root
     visible: true
     width: 1100
     height: 750
