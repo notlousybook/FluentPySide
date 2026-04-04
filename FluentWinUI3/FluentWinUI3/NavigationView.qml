@@ -133,10 +133,6 @@ Item {
                                     ctx.stroke()
                                 }
                             }
-
-                            Behavior on progress {
-                                NumberAnimation { duration: 120; easing.type: Easing.OutCubic }
-                            }
                         }
 
                         MouseArea {
@@ -168,6 +164,7 @@ Item {
                         id: repeater
 
                         Item {
+                            id: navItem
                             width: parent.width
                             height: root.itemHeight
                             visible: true
