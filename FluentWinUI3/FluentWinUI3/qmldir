@@ -80,6 +80,8 @@ ToolSeparator 6.0 ToolSeparator.qml
 ToolSeparator 2.0 ToolSeparator.qml
 ToolTip 6.0 ToolTip.qml
 ToolTip 2.0 ToolTip.qml
+singleton Fluent 6.0 Fluent.qml
+singleton Fluent 2.0 Fluent.qml
 singleton Config 6.0 Config.qml
 singleton Config 2.0 Config.qml
 StyleImage 6.0 StyleImage.qml

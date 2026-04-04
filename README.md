@@ -15,19 +15,19 @@ The goal is to make it simple to enable the Fluent theme without bundling the fu
 > This library is a **QML visual theme only**. It styles Qt Quick Controls 2 components (Button, TextField, CheckBox, etc.) to look like Windows 11's Fluent Design. It does **NOT** provide:
 >
 > - A Python widget library (it does NOT touch `QtWidgets` — no `QPushButton`, `QLabel`, etc.)
-> - A color/theme singleton called `Fluent` (there is no `Fluent.backgroundColor`, `Fluent.accentColor`, etc.)
 > - Custom QML components — you use the **standard** Qt Quick Controls 2 API, this library just changes how they look
 >
-> If you need colors in your QML, define them yourself:
+> For colors and design tokens, use the `Fluent` singleton (available after calling `fluentpyside.apply()`):
 > ```qml
-> // ✅ Correct — use standard QML properties
 > Rectangle {
->     color: "#f3f3f3"  // WinUI 3 light background
-> }
->
-> // ❌ WRONG — "Fluent" does NOT exist
-> Rectangle {
->     color: Fluent.backgroundColor  // ReferenceError: Fluent is not defined
+>     color: Fluent.cardBackground
+>     radius: Fluent.radiusMedium
+>     Label {
+>         text: "Hello"
+>         color: Fluent.textPrimary
+>         font.pixelSize: Fluent.fontBodySize
+>         font.family: Fluent.fontFamily
+>     }
 > }
 > ```
 
@@ -178,6 +178,169 @@ These **standard Qt Quick Controls 2** components get Fluent styling automatical
 | `Tumbler` | Not implemented by upstream FluentWinUI3 |
 | `Label` | Plain text — no styling needed, uses default |
 
+
+Fluent Design Tokens
+---------------------
+
+After calling `fluentpyside.apply()`, a `Fluent` singleton is available in your QML with WinUI 3 design tokens. All colors automatically switch between light and dark mode based on the system preference (`Fluent.isDark`).
+
+### Example usage
+
+```qml
+import QtQuick
+import QtQuick.Controls
+
+ApplicationWindow {
+    visible: true; width: 600; height: 400
+
+    Rectangle {
+        anchors.fill: parent
+        color: Fluent.background
+
+        ColumnLayout {
+            anchors.centerIn: parent
+
+            Label {
+                text: "Welcome"
+                color: Fluent.textPrimary
+                font.pixelSize: Fluent.fontTitleSize
+                font.family: Fluent.fontFamily
+            }
+
+            Button {
+                text: "Accent Button"
+                Layout.alignment: Qt.AlignHCenter
+            }
+
+            Rectangle {
+                width: 200; height: 4
+                radius: Fluent.radiusSmall
+                color: Fluent.accent
+                Layout.alignment: Qt.AlignHCenter
+            }
+        }
+    }
+}
+```
+
+### Available properties
+
+**Surface Colors**
+
+| Property | Light | Dark |
+|---|---|---|
+| `Fluent.background` | `#f3f3f3` | `#202020` |
+| `Fluent.backgroundSecondary` | `#e5e5e5` | `#1c1c1c` |
+| `Fluent.backgroundTertiary` | `#f9f9f9` | `#282828` |
+| `Fluent.cardBackground` | `#ffffff` | `#2d2d2d` |
+| `Fluent.cardBackgroundSecondary` | `#f6f6f6` | `#383838` |
+| `Fluent.popupBackground` | `#ffffff` | `#2d2d2d` |
+| `Fluent.layerBackground` | `#e8e8e8` | `#2c2c2c` |
+| `Fluent.layerAltBackground` | `#f6f6f6` | `#383838` |
+
+**Text Colors**
+
+| Property | Light | Dark |
+|---|---|---|
+| `Fluent.textPrimary` | `#1a1a1a` | `#ffffff` |
+| `Fluent.textSecondary` | `#616161` | `#9d9d9d` |
+| `Fluent.textTertiary` | `#8a8a8a` | `#7a7a7a` |
+| `Fluent.textDisabled` | `#a0a0a0` | `#5d5d5d` |
+| `Fluent.textOnAccent` | `#ffffff` | `#003d7a` |
+
+**Accent Colors**
+
+| Property | Light | Dark |
+|---|---|---|
+| `Fluent.accent` | `#005fb8` | `#60cdff` |
+| `Fluent.accentHover` | `#004c95` | `#7dd6ff` |
+| `Fluent.accentPressed` | `#003d7a` | `#005a9e` |
+| `Fluent.accentSelected` | `#c7e0f4` | `#003d7a` |
+| `Fluent.accentDisabled` | `#a0a0a0` | `#3d7a9e` |
+| `Fluent.accentFocusOuter` | `#005fb8` | `#60cdff` |
+
+**Control Colors**
+
+| Property | Light | Dark |
+|---|---|---|
+| `Fluent.controlBackground` | `#ffffff` | `#3d3d3d` |
+| `Fluent.controlBackgroundHover` | `#f0f0f0` | `#484848` |
+| `Fluent.controlBackgroundPressed` | `#e5e5e5` | `#3d3d3d` |
+| `Fluent.controlBackgroundDisabled` | `#f9f9f9` | `#282828` |
+| `Fluent.controlStrongBackground` | `#005fb8` | `#60cdff` |
+| `Fluent.controlStrongForeground` | `#ffffff` | `#003d7a` |
+| `Fluent.controlAltBackground` | `#f6f6f6` | `#383838` |
+| `Fluent.controlAltBackgroundTransparentHover` | `#00000005` | `#ffffff0a` |
+| `Fluent.controlAltBackgroundTransparentPressed` | `#0000000f` | `#ffffff14` |
+
+**Input / Text Field Colors**
+
+| Property | Light | Dark |
+|---|---|---|
+| `Fluent.inputBackground` | `#ffffff` | `#2d2d2d` |
+| `Fluent.inputBackgroundHover` | `#f0f0f0` | `#383838` |
+| `Fluent.inputBorder` | `#9d9d9d` | `#5d5d5d` |
+| `Fluent.inputBorderHover` | `#7a7a7a` | `#7a7a7a` |
+| `Fluent.inputBorderFocus` | `#005fb8` | `#60cdff` |
+| `Fluent.inputPlaceholderForeground` | `#8a8a8a` | `#7a7a7a` |
+| `Fluent.inputForeground` | `#1a1a1a` | `#ffffff` |
+
+**Border / Divider**
+
+| Property | Light | Dark |
+|---|---|---|
+| `Fluent.border` | `#d1d1d1` | `#3d3d3d` |
+| `Fluent.borderStrong` | `#9d9d9d` | `#5d5d5d` |
+| `Fluent.borderDisabled` | `#e5e5e5` | `#2d2d2d` |
+| `Fluent.divider` | `#d1d1d1` | `#3d3d3d` |
+| `Fluent.dividerStrong` | `#9d9d9d` | `#5d5d5d` |
+
+**Status Colors**
+
+| Property | Light | Dark |
+|---|---|---|
+| `Fluent.success` | `#0f7b0f` | `#6ccb5f` |
+| `Fluent.caution` | `#9d5d00` | `#fcb900` |
+| `Fluent.warning` | `#ff8c00` | `#ffb900` |
+| `Fluent.critical` | `#c42b1c` | `#ff99a4` |
+| `Fluent.informational` | `#005fb8` | `#60cdff` |
+
+**Typography**
+
+| Property | Value |
+|---|---|
+| `Fluent.fontFamily` | `"Segoe UI Variable"` |
+| `Fluent.fontCaptionSize` | `12` |
+| `Fluent.fontBodySize` | `14` |
+| `Fluent.fontBodyStrongSize` | `14` |
+| `Fluent.fontBodyLargeSize` | `16` |
+| `Fluent.fontSubtitleSize` | `20` |
+| `Fluent.fontTitleSize` | `28` |
+| `Fluent.fontTitleLargeSize` | `40` |
+| `Fluent.fontDisplaySize` | `68` |
+
+**Spacing**
+
+| Property | Value |
+|---|---|
+| `Fluent.spacingXXS` | `2` |
+| `Fluent.spacingXS` | `4` |
+| `Fluent.spacingS` | `8` |
+| `Fluent.spacingM` | `12` |
+| `Fluent.spacingL` | `16` |
+| `Fluent.spacingXL` | `20` |
+| `Fluent.spacingXXL` | `24` |
+
+**Radius**
+
+| Property | Value |
+|---|---|
+| `Fluent.radiusSmall` | `4` |
+| `Fluent.radiusMedium` | `8` |
+| `Fluent.radiusLarge` | `12` |
+| `Fluent.radiusXLarge` | `16` |
+| `Fluent.radiusCircle` | `9999` |
+
 Requirements
 ------------
 
@@ -227,29 +390,12 @@ Common mistakes
 
 ### ❌ "ReferenceError: Fluent is not defined"
 
-This library does **not** provide a `Fluent` singleton. There is no `Fluent.backgroundColor`, `Fluent.accentColor`, `Fluent.primaryColor`, etc.
+Make sure you call `fluentpyside.apply()` **before** loading your QML. The `Fluent` singleton is only available after the style is applied:
 
-If you need colors, define them in your own QML:
-
-```qml
-Item {
-    // Define your own color constants
-    readonly property color bgColor: "#f3f3f3"
-    readonly property color accentColor: "#005fb8"
-    readonly property color textColor: "#1a1a1a"
-
-    Rectangle {
-        color: bgColor  // ✅ use your own properties
-    }
-}
-```
-
-Or use `SystemPalette` / `Application.styleHints`:
-
-```qml
-Label {
-    color: SystemPalette.text  // follows system colors
-}
+```py
+engine = QQmlApplicationEngine()
+fluentpyside.apply()  # ✅ Fluent singleton is now available
+engine.load("main.qml")
 ```
 
 ### ❌ Using Qt Widgets instead of Qt Quick
