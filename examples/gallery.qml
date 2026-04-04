@@ -10,7 +10,6 @@ ApplicationWindow {
     title: qsTr("FluentWinUI3 Gallery")
 
     property int currentPage: 0
-    property var pageNames: ["Buttons", "Input", "Selection", "Progress", "Containers", "Navigation", "Pickers", "Menus"]
 
     RowLayout {
         anchors.fill: parent
@@ -22,7 +21,7 @@ ApplicationWindow {
             Layout.preferredWidth: 200
             color: "#f3f3f3"
 
-            ColumnLayout {
+            Column {
                 anchors.fill: parent
                 anchors.margins: 8
                 spacing: 4
@@ -31,183 +30,145 @@ ApplicationWindow {
                     text: "FluentWinUI3"
                     font.pixelSize: 16
                     font.bold: true
-                    Layout.margins: 8
+                    topPadding: 8
+                    bottomPadding: 8
                 }
 
                 Repeater {
-                    model: pageNames
-
+                    model: ["Buttons", "Input", "Selection", "Progress", "Containers", "Navigation", "Pickers", "Menus"]
                     Button {
                         required property string modelData
                         required property int index
                         text: modelData
                         flat: true
                         highlighted: index === currentPage
-                        Layout.fillWidth: true
+                        width: parent.width
                         leftPadding: 16
                         onClicked: currentPage = index
                     }
                 }
 
-                Item { Layout.fillHeight: true }
+                Item { Layout.fillHeight: true; width: parent.width }
 
                 Label {
                     text: "v0.2.1"
                     font.pixelSize: 11
                     color: "#888888"
-                    Layout.margins: 8
+                    topPadding: 8
                 }
             }
         }
 
-        // ===== CONTENT AREA =====
+        // ===== CONTENT =====
         StackLayout {
             currentIndex: currentPage
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            // ============================================================
-            // PAGE 0: BUTTONS
-            // ============================================================
-            Item {
-                ListView {
-                    anchors.fill: parent
-                    anchors.margins: 16
-                    clip: true
-                    model: buttonsModel
-                    delegate: buttonsDelegate
-                    spacing: 12
-                    ListModel { id: buttonsModel }
-                    Component.onCompleted: {
-                        buttonsModel.append({ type: "header", text: "Buttons", desc: "Standard buttons with Fluent styling." })
-                        buttonsModel.append({ type: "group", title: "Button Variants" })
-                        buttonsModel.append({ type: "buttons_row", items: ["Normal", "Checked", "Flat", "Disabled"] })
-                        buttonsModel.append({ type: "buttons_row2", items: ["Highlighted", "Flat + Checked"] })
-                        buttonsModel.append({ type: "group", title: "Round Button" })
-                        buttonsModel.append({ type: "round_buttons" })
-                        buttonsModel.append({ type: "group", title: "Delay Button (hold to confirm)" })
-                        buttonsModel.append({ type: "delay_buttons" })
-                        buttonsModel.append({ type: "group", title: "Tool Buttons" })
-                        buttonsModel.append({ type: "tool_buttons" })
-                        buttonsModel.append({ type: "group", title: "Switch" })
-                        buttonsModel.append({ type: "switches" })
-                        buttonsModel.append({ type: "group", title: "Switch Delegate" })
-                        buttonsModel.append({ type: "switch_delegates" })
-                        buttonsModel.append({ type: "spacer" })
-                    }
-                }
-                Component {
-                    id: buttonsDelegate
-                    Loader {
-                        property var model: model
-                        sourceComponent: {
-                            switch (model.type) {
-                            case "header": return headerComp
-                            case "group": return groupComp
-                            case "buttons_row": return btnRow1Comp
-                            case "buttons_row2": return btnRow2Comp
-                            case "round_buttons": return roundBtnComp
-                            case "delay_buttons": return delayBtnComp
-                            case "tool_buttons": return toolBtnComp
-                            case "switches": return switchComp
-                            case "switch_delegates": return switchDelComp
-                            case "spacer": return spacerComp
-                            default: return null
-                            }
-                        }
-                        width: ListView.view.width
-                    }
-                }
-                Component {
-                    id: headerComp
-                    Column { spacing: 4
-                        property alias model: innerItem.model
-                        Item { id: innerItem; property var model }
-                        Label { text: model.text; font.pixelSize: 24; font.bold: true }
-                        Label { text: model.desc; color: "#666666"; wrapMode: Text.Wrap; width: parent.width }
-                    }
-                }
-                Component {
-                    id: groupComp
-                    GroupBox { title: model.title; width: parent ? parent.width : 400 }
-                }
-                Component {
-                    id: spacerComp; Item { height: 20 }
-                }
-                Component {
-                    id: btnRow1Comp
-                    Row { spacing: 8; padding: 8
-                        Button { text: "Normal" }
-                        Button { text: "Checked"; checked: true }
-                        Button { text: "Flat"; flat: true }
-                        Button { text: "Disabled"; enabled: false }
-                    }
-                }
-                Component {
-                    id: btnRow2Comp
-                    Row { spacing: 8; padding: 8
-                        Button { text: "Highlighted"; highlighted: true }
-                        Button { text: "Flat + Checked"; flat: true; checked: true }
-                    }
-                }
-                Component {
-                    id: roundBtnComp
-                    Row { spacing: 8; padding: 8
-                        RoundButton { text: "OK" }
-                        RoundButton { text: "+" }
-                        RoundButton { text: "?" }
-                        RoundButton { text: "X"; enabled: false }
-                    }
-                }
-                Component {
-                    id: delayBtnComp
-                    Row { spacing: 8; padding: 8
-                        DelayButton { text: "Hold Me"; delay: 1500 }
-                        DelayButton { text: "Disabled"; enabled: false }
-                    }
-                }
-                Component {
-                    id: toolBtnComp
-                    Row { spacing: 8; padding: 8
-                        ToolButton { text: "Open" }
-                        ToolButton { text: "Save" }
-                        ToolButton { text: "Cut" }
-                        ToolSeparator {}
-                        ToolButton { text: "Copy"; enabled: false }
-                    }
-                }
-                Component {
-                    id: switchComp
-                    Column { spacing: 8; padding: 8
-                        Row { spacing: 20
-                            Switch { text: "Wi-Fi" }
-                            Switch { text: "Bluetooth"; checked: true }
-                            Switch { text: "Disabled"; enabled: false }
-                        }
-                    }
-                }
-                Component {
-                    id: switchDelComp
-                    Column { spacing: 2; padding: 8
-                        SwitchDelegate { text: "Airplane Mode" }
-                        SwitchDelegate { text: "Hotspot"; checked: true }
-                        SwitchDelegate { text: "VPN" }
-                    }
-                }
-            }
-
-            // ============================================================
-            // PAGE 1: INPUT
-            // ============================================================
+            // ========== PAGE 0: BUTTONS ==========
             Flickable {
-                anchors.fill: parent
+                Layout.fillWidth: true
+                Layout.fillHeight: true
                 contentWidth: width
-                contentHeight: inputCol.implicitHeight + 32
+                contentHeight: btnCol.implicitHeight + 32
                 clip: true
                 ScrollBar.vertical: ScrollBar {}
 
                 Column {
-                    id: inputCol
+                    id: btnCol
+                    width: parent.width - 32
+                    x: 16
+                    spacing: 16
+
+                    Label { text: "Buttons"; font.pixelSize: 24; font.bold: true }
+                    Label { text: "Standard buttons with Fluent styling." }
+
+                    GroupBox {
+                        title: "Button Variants"
+                        width: parent.width
+                        Column { spacing: 8
+                            Row { spacing: 8
+                                Button { text: "Normal" }
+                                Button { text: "Checked"; checked: true }
+                                Button { text: "Flat"; flat: true }
+                                Button { text: "Disabled"; enabled: false }
+                            }
+                            Row { spacing: 8
+                                Button { text: "Highlighted"; highlighted: true }
+                                Button { text: "Flat + Checked"; flat: true; checked: true }
+                            }
+                        }
+                    }
+
+                    GroupBox {
+                        title: "Round Button"
+                        width: parent.width
+                        Row { spacing: 8
+                            RoundButton { text: "OK" }
+                            RoundButton { text: "+" }
+                            RoundButton { text: "?" }
+                            RoundButton { text: "X"; enabled: false }
+                        }
+                    }
+
+                    GroupBox {
+                        title: "Delay Button (hold to confirm)"
+                        width: parent.width
+                        Row { spacing: 8
+                            DelayButton { text: "Hold Me"; delay: 1500 }
+                            DelayButton { text: "Disabled"; enabled: false }
+                        }
+                    }
+
+                    GroupBox {
+                        title: "Tool Buttons"
+                        width: parent.width
+                        Row { spacing: 8
+                            ToolButton { text: "Open" }
+                            ToolButton { text: "Save" }
+                            ToolSeparator {}
+                            ToolButton { text: "Cut" }
+                            ToolButton { text: "Copy"; enabled: false }
+                        }
+                    }
+
+                    GroupBox {
+                        title: "Switch"
+                        width: parent.width
+                        Column { spacing: 8
+                            Row { spacing: 20
+                                Switch { text: "Wi-Fi" }
+                                Switch { text: "Bluetooth"; checked: true }
+                                Switch { text: "Disabled"; enabled: false }
+                            }
+                        }
+                    }
+
+                    GroupBox {
+                        title: "Switch Delegate"
+                        width: parent.width
+                        Column { spacing: 2
+                            SwitchDelegate { text: "Airplane Mode" }
+                            SwitchDelegate { text: "Hotspot"; checked: true }
+                            SwitchDelegate { text: "VPN" }
+                        }
+                    }
+
+                    Item { height: 16 }
+                }
+            }
+
+            // ========== PAGE 1: INPUT ==========
+            Flickable {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                contentWidth: width
+                contentHeight: inpCol.implicitHeight + 32
+                clip: true
+                ScrollBar.vertical: ScrollBar {}
+
+                Column {
+                    id: inpCol
                     width: parent.width - 32
                     x: 16
                     spacing: 16
@@ -265,11 +226,7 @@ ApplicationWindow {
                         title: "Range Slider"
                         width: parent.width
                         Column { spacing: 12
-                            RangeSlider {
-                                first.value: 0.25
-                                second.value: 0.75
-                                width: 350
-                            }
+                            RangeSlider { first.value: 0.25; second.value: 0.75; width: 350 }
                         }
                     }
 
@@ -286,31 +243,18 @@ ApplicationWindow {
                     GroupBox {
                         title: "Dial"
                         width: parent.width
-                        Row { spacing: 30; padding: 8
+                        Row { spacing: 30
                             Column { spacing: 4
-                                Dial {
-                                    value: 0.5
-                                    from: 0; to: 1; stepSize: 0.1
-                                    width: 100; height: 100
-                                }
-                                Label { text: "value: " + parent.children[0].value.toFixed(1); anchors.horizontalCenter: parent.horizontalCenter; font.pixelSize: 11; color: "#666" }
+                                Dial { id: dial1; value: 0.5; from: 0; to: 1; stepSize: 0.1; width: 100; height: 100 }
+                                Label { text: "value: " + dial1.value.toFixed(1); width: 100; horizontalAlignment: Text.AlignHCenter; font.pixelSize: 11; color: "#666" }
                             }
                             Column { spacing: 4
-                                Dial {
-                                    value: 0.75
-                                    from: 0; to: 1
-                                    width: 100; height: 100
-                                }
-                                Label { text: "value: " + parent.children[0].value.toFixed(1); anchors.horizontalCenter: parent.horizontalCenter; font.pixelSize: 11; color: "#666" }
+                                Dial { id: dial2; value: 0.75; from: 0; to: 1; width: 100; height: 100 }
+                                Label { text: "value: " + dial2.value.toFixed(1); width: 100; horizontalAlignment: Text.AlignHCenter; font.pixelSize: 11; color: "#666" }
                             }
                             Column { spacing: 4
-                                Dial {
-                                    value: 0.25
-                                    from: 0; to: 1
-                                    width: 100; height: 100
-                                    enabled: false
-                                }
-                                Label { text: "Disabled"; anchors.horizontalCenter: parent.horizontalCenter; font.pixelSize: 11; color: "#666" }
+                                Dial { id: dial3; value: 0.25; from: 0; to: 1; width: 100; height: 100; enabled: false }
+                                Label { text: "Disabled"; width: 100; horizontalAlignment: Text.AlignHCenter; font.pixelSize: 11; color: "#666" }
                             }
                         }
                     }
@@ -319,11 +263,10 @@ ApplicationWindow {
                 }
             }
 
-            // ============================================================
-            // PAGE 2: SELECTION
-            // ============================================================
+            // ========== PAGE 2: SELECTION ==========
             Flickable {
-                anchors.fill: parent
+                Layout.fillWidth: true
+                Layout.fillHeight: true
                 contentWidth: width
                 contentHeight: selCol.implicitHeight + 32
                 clip: true
@@ -407,11 +350,10 @@ ApplicationWindow {
                 }
             }
 
-            // ============================================================
-            // PAGE 3: PROGRESS & FEEDBACK
-            // ============================================================
+            // ========== PAGE 3: PROGRESS ==========
             Flickable {
-                anchors.fill: parent
+                Layout.fillWidth: true
+                Layout.fillHeight: true
                 contentWidth: width
                 contentHeight: progCol.implicitHeight + 32
                 clip: true
@@ -441,18 +383,18 @@ ApplicationWindow {
                     GroupBox {
                         title: "Busy Indicator"
                         width: parent.width
-                        Row { spacing: 24; padding: 8
-                            Column { spacing: 4
+                        Row { spacing: 24
+                            Column { spacing: 4; width: 64
                                 BusyIndicator { running: true; width: 40; height: 40 }
-                                Label { text: "Running"; font.pixelSize: 11; color: "#666"; anchors.horizontalCenter: parent.horizontalCenter }
+                                Label { text: "Running"; font.pixelSize: 11; color: "#666"; width: 64; horizontalAlignment: Text.AlignHCenter }
                             }
-                            Column { spacing: 4
+                            Column { spacing: 4; width: 64
                                 BusyIndicator { running: false; width: 40; height: 40 }
-                                Label { text: "Stopped"; font.pixelSize: 11; color: "#666"; anchors.horizontalCenter: parent.horizontalCenter }
+                                Label { text: "Stopped"; font.pixelSize: 11; color: "#666"; width: 64; horizontalAlignment: Text.AlignHCenter }
                             }
-                            Column { spacing: 4
+                            Column { spacing: 4; width: 64
                                 BusyIndicator { running: true; width: 64; height: 64 }
-                                Label { text: "Large"; font.pixelSize: 11; color: "#666"; anchors.horizontalCenter: parent.horizontalCenter }
+                                Label { text: "Large"; font.pixelSize: 11; color: "#666"; width: 64; horizontalAlignment: Text.AlignHCenter }
                             }
                         }
                     }
@@ -470,7 +412,7 @@ ApplicationWindow {
                     GroupBox {
                         title: "Tool Tip (hover over buttons)"
                         width: parent.width
-                        Row { spacing: 16; padding: 8
+                        Row { spacing: 16
                             Button {
                                 text: "Hover me"
                                 ToolTip.text: "I am a tooltip!"
@@ -489,11 +431,10 @@ ApplicationWindow {
                 }
             }
 
-            // ============================================================
-            // PAGE 4: CONTAINERS
-            // ============================================================
+            // ========== PAGE 4: CONTAINERS ==========
             Flickable {
-                anchors.fill: parent
+                Layout.fillWidth: true
+                Layout.fillHeight: true
                 contentWidth: width
                 contentHeight: contCol.implicitHeight + 32
                 clip: true
@@ -514,7 +455,7 @@ ApplicationWindow {
                         Frame {
                             width: parent.width
                             height: 50
-                            Label { text: "Content inside a Frame"; anchors.centerIn: parent }
+                            Label { text: "Content inside a Frame"; width: parent.width; height: parent.height; horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter }
                         }
                     }
 
@@ -523,8 +464,8 @@ ApplicationWindow {
                         width: parent.width
                         Pane {
                             width: parent.width
-                            height: 60
-                            Column { anchors.fill: parent
+                            implicitHeight: 60
+                            Column { width: parent.width
                                 Label { text: "A Pane container with content" }
                                 Label { text: "Has background, padding, and border radius"; color: "#666666" }
                             }
@@ -534,20 +475,12 @@ ApplicationWindow {
                     GroupBox {
                         title: "Scroll View"
                         width: parent.width
-                        Flickable {
+                        ListView {
                             width: parent.width
                             height: 100
                             clip: true
-                            contentHeight: scrollCol.implicitHeight
-                            ScrollBar.vertical: ScrollBar {}
-                            Column {
-                                id: scrollCol
-                                spacing: 6
-                                Repeater {
-                                    model: 20
-                                    Label { text: "Scrollable item #" + (index + 1) }
-                                }
-                            }
+                            model: 20
+                            delegate: Label { text: "Scrollable item #" + (index + 1); padding: 4 }
                         }
                     }
 
@@ -560,12 +493,14 @@ ApplicationWindow {
                             Pane {
                                 SplitView.minimumWidth: 80
                                 SplitView.preferredWidth: 150
-                                Label { text: "Left\nPanel"; anchors.centerIn: parent }
+                                implicitHeight: 120
+                                Label { text: "Left\nPanel"; width: parent.width; height: parent.height; horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter }
                             }
                             Pane {
                                 SplitView.minimumWidth: 80
                                 SplitView.fillWidth: true
-                                Label { text: "Right Panel (drag divider)"; anchors.centerIn: parent }
+                                implicitHeight: 120
+                                Label { text: "Right Panel (drag divider)"; width: parent.width; height: parent.height; horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter }
                             }
                         }
                     }
@@ -574,26 +509,7 @@ ApplicationWindow {
                         title: "Popup"
                         width: parent.width
                         Column { spacing: 8
-                            Row { spacing: 8
-                                Button { text: "Open Popup"; onClicked: demoPopup.open() }
-                            }
-                            Popup {
-                                id: demoPopup
-                                parent: Overlay.overlay
-                                anchors.centerIn: parent
-                                width: 260
-                                height: 140
-                                modal: true
-                                closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-                                Column {
-                                    anchors.fill: parent
-                                    anchors.margins: 16
-                                    spacing: 12
-                                    Label { text: "This is a Popup"; font.bold: true; font.pixelSize: 16 }
-                                    Label { text: "With Fluent background and border radius."; wrapMode: Text.Wrap; width: 220 }
-                                    Button { text: "Close"; onClicked: demoPopup.close() }
-                                }
-                            }
+                            Button { text: "Open Popup"; onClicked: demoPopup.open() }
                         }
                     }
 
@@ -601,44 +517,26 @@ ApplicationWindow {
                         title: "Dialog"
                         width: parent.width
                         Column { spacing: 8
-                            Row { spacing: 8
-                                Button { text: "Open Dialog"; onClicked: demoDialog.open() }
-                            }
-                            Dialog {
-                                id: demoDialog
-                                title: "Fluent Dialog"
-                                modal: true
-                                anchors.centerIn: parent
-                                standardButtons: Dialog.Ok | Dialog.Cancel
-                                Label {
-                                    text: "This is a modal dialog with Fluent styling.\nClick OK or Cancel to close."
-                                    wrapMode: Text.Wrap
-                                    width: 300
-                                }
-                            }
+                            Button { text: "Open Dialog"; onClicked: demoDialog.open() }
                         }
                     }
 
                     GroupBox {
                         title: "Drawer"
                         width: parent.width
-                        Column { spacing: 8
-                            Row { spacing: 8
-                                Button { text: "Edge Drawer"; onClicked: edgeDrawer.open() }
-                                Button { text: "Bottom Drawer"; onClicked: bottomDrawer.open() }
-                                Button { text: "Modal Drawer"; onClicked: modalDrawer.open() }
-                            }
+                        Row { spacing: 8
+                            Button { text: "Edge"; onClicked: edgeDrawer.open() }
+                            Button { text: "Bottom"; onClicked: bottomDrawer.open() }
+                            Button { text: "Modal"; onClicked: modalDrawer.open() }
                         }
                     }
 
                     Item { height: 16 }
                 }
-                // Drawers at bottom of page so they don't conflict
+
                 Drawer {
                     id: edgeDrawer
-                    width: 250
-                    height: parent.height
-                    edge: Qt.LeftEdge
+                    width: 250; height: parent.height; edge: Qt.LeftEdge
                     Column { padding: 16; spacing: 8
                         Label { text: "Navigation Menu"; font.bold: true; font.pixelSize: 18 }
                         MenuSeparator { width: 220 }
@@ -650,88 +548,102 @@ ApplicationWindow {
                 }
                 Drawer {
                     id: bottomDrawer
-                    width: parent.width
-                    height: 180
-                    edge: Qt.BottomEdge
-                    Column { anchors.centerIn: parent; spacing: 8
+                    width: parent.width; height: 180; edge: Qt.BottomEdge
+                    Column { padding: 16; spacing: 8
                         Label { text: "Bottom Drawer"; font.bold: true }
                         Label { text: "Slides up from the bottom" }
                     }
                 }
                 Drawer {
                     id: modalDrawer
-                    width: 280
-                    height: parent.height
-                    edge: Qt.RightEdge
-                    modal: true; dim: true
+                    width: 280; height: parent.height; edge: Qt.RightEdge; modal: true; dim: true
                     Column { padding: 16; spacing: 12
                         Label { text: "Modal Drawer"; font.bold: true; font.pixelSize: 18 }
                         MenuSeparator { width: 240 }
-                        Label { text: "This drawer dims the background and blocks interaction."; wrapMode: Text.Wrap; width: 240 }
+                        Label { text: "Dims background and blocks interaction."; wrapMode: Text.Wrap; width: 240 }
                         Button { text: "Close"; onClicked: modalDrawer.close() }
                     }
                 }
-            }
 
-            // ============================================================
-            // PAGE 5: NAVIGATION
-            // ============================================================
-            Item {
-                SplitView {
-                    anchors.fill: parent
-                    Pane {
-                        SplitView.minimumWidth: 140
-                        SplitView.preferredWidth: 180
-                        Column { anchors.fill: parent; padding: 8; spacing: 4
-                            Label { text: "Pages"; font.bold: true; font.pixelSize: 16 }
-                            MenuSeparator { width: parent.width - 16 }
-                            Repeater {
-                                model: ["Home", "Profile", "Settings", "Help"]
-                                Button {
-                                    required property string modelData
-                                    required property int index
-                                    text: modelData
-                                    flat: true
-                                    width: parent.width - 16
-                                    onClicked: pageStack.push(navPageComp, { pageName: modelData })
-                                }
-                            }
-                        }
-                    }
-                    StackView {
-                        id: pageStack
-                        SplitView.fillWidth: true
-                        initialItem: navPageComp
+                Popup {
+                    id: demoPopup
+                    parent: Overlay.overlay
+                    anchors.centerIn: parent
+                    width: 260; height: 140
+                    modal: true
+                    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+                    Column { padding: 16; spacing: 12
+                        Label { text: "This is a Popup"; font.bold: true; font.pixelSize: 16 }
+                        Label { text: "With Fluent background and border radius."; wrapMode: Text.Wrap; width: 220 }
+                        Button { text: "Close"; onClicked: demoPopup.close() }
                     }
                 }
-                Component {
-                    id: navPageComp
-                    Pane {
-                        property string pageName: "Home"
-                        Column { anchors.fill: parent; padding: 24; spacing: 12
-                            Label { text: pageName; font.pixelSize: 28; font.bold: true }
-                            Label { text: "This is the " + pageName + " page.\nNavigate using the sidebar."; color: "#666666"; wrapMode: Text.Wrap }
-                            Row { spacing: 8
-                                Button { text: "Go to Settings"; onClicked: pageStack.push(navPageComp, { pageName: "Settings" }) }
-                                Button { text: "Go Back"; visible: pageStack.depth > 1; onClicked: pageStack.pop() }
-                            }
-                        }
-                    }
+                Dialog {
+                    id: demoDialog
+                    title: "Fluent Dialog"
+                    modal: true
+                    anchors.centerIn: parent
+                    standardButtons: Dialog.Ok | Dialog.Cancel
+                    Label { text: "This is a modal dialog.\nClick OK or Cancel."; wrapMode: Text.Wrap; width: 300 }
                 }
             }
 
-            // ============================================================
-            // PAGE 6: PICKERS
-            // ============================================================
+            // ========== PAGE 5: NAVIGATION ==========
+            SplitView {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Pane {
+                    SplitView.minimumWidth: 140
+                    SplitView.preferredWidth: 180
+                    implicitHeight: 400
+                    Column { width: parent.width; spacing: 4; padding: 8
+                        Label { text: "Pages"; font.bold: true; font.pixelSize: 16; bottomPadding: 8 }
+                        MenuSeparator { width: parent.width - 16 }
+                        Repeater {
+                            model: ["Home", "Profile", "Settings", "Help"]
+                            Button {
+                                required property string modelData
+                                required property int index
+                                text: modelData
+                                flat: true
+                                width: parent.width - 16
+                                onClicked: pageStack.push(navPageComp, { pageName: modelData })
+                            }
+                        }
+                    }
+                }
+                StackView {
+                    id: pageStack
+                    SplitView.fillWidth: true
+                    initialItem: navPageComp
+                }
+            }
+            Component {
+                id: navPageComp
+                Pane {
+                    property string pageName: "Home"
+                    Column { padding: 24; spacing: 12
+                        Label { text: pageName; font.pixelSize: 28; font.bold: true }
+                        Label { text: "This is the " + pageName + " page."; color: "#666666"; wrapMode: Text.Wrap; width: 300 }
+                        Row { spacing: 8
+                            Button { text: "Go to Settings"; onClicked: pageStack.push(navPageComp, { pageName: "Settings" }) }
+                            Button { text: "Go Back"; visible: pageStack.depth > 1; onClicked: pageStack.pop() }
+                        }
+                    }
+                }
+            }
+
+            // ========== PAGE 6: PICKERS ==========
             Flickable {
-                anchors.fill: parent
+                Layout.fillWidth: true
+                Layout.fillHeight: true
                 contentWidth: width
-                contentHeight: pickerCol.implicitHeight + 32
+                contentHeight: pickCol.implicitHeight + 32
                 clip: true
                 ScrollBar.vertical: ScrollBar {}
 
                 Column {
-                    id: pickerCol
+                    id: pickCol
                     width: parent.width - 32
                     x: 16
                     spacing: 16
@@ -742,31 +654,21 @@ ApplicationWindow {
                     GroupBox {
                         title: "Calendar"
                         width: parent.width
-                        Column { spacing: 8; padding: 8
-                            Label { text: "Calendar control is a singleton type in PySide6 6.10+ and cannot be instantiated directly in QML." }
-                            Label { text: "The FluentWinUI3 Calendar.qml skin is installed and will be applied automatically when Calendar is used in a standalone app."; color: "#666666"; wrapMode: Text.Wrap; width: 400 }
+                        Column { spacing: 8
+                            Label { text: "Calendar is a singleton type in PySide6 6.10+ and cannot be instantiated directly in QML." }
+                            Label { text: "The FluentWinUI3 Calendar.qml skin is installed and applies automatically in standalone apps."; color: "#666666"; wrapMode: Text.Wrap; width: 400 }
                         }
                     }
 
                     GroupBox {
                         title: "Tumbler (Wheel Picker)"
                         width: parent.width
-                        Column { spacing: 12; padding: 8
+                        Column { spacing: 12
                             Label { text: "Time Picker:"; font.pixelSize: 14; font.bold: true }
-                            Row { spacing: 6; anchors.verticalCenter: parent.verticalCenter
-                                Tumbler {
-                                    model: ["AM", "PM"]
-                                    width: 80
-                                }
-                                Tumbler {
-                                    model: ["1","2","3","4","5","6","7","8","9","10","11","12"]
-                                    width: 80
-                                }
-                                Tumbler {
-                                    model: ["00","05","10","15","20","25","30","35","40","45","50","55"]
-                                    width: 80
-                                    wrap: true
-                                }
+                            Row { spacing: 6
+                                Tumbler { model: ["AM", "PM"]; width: 80 }
+                                Tumbler { model: ["1","2","3","4","5","6","7","8","9","10","11","12"]; width: 80 }
+                                Tumbler { model: ["00","05","10","15","20","25","30","35","40","45","50","55"]; width: 80; wrap: true }
                             }
                         }
                     }
@@ -774,35 +676,25 @@ ApplicationWindow {
                     GroupBox {
                         title: "Swipe View"
                         width: parent.width
-                        Column { spacing: 12; padding: 8
+                        Column { spacing: 12
                             SwipeView {
                                 id: swipeView
                                 width: parent.width - 32
                                 height: 140
-                                Repeater {
-                                    model: 5
+                                Repeater { model: 5
                                     Item {
                                         width: swipeView.width
                                         height: swipeView.height
                                         Rectangle {
-                                            anchors.fill: parent
+                                            width: parent.width; height: parent.height
                                             color: index % 2 === 0 ? "#e8f0fe" : "#f0e8fe"
                                             radius: 8
-                                            Label {
-                                                anchors.centerIn: parent
-                                                text: "Page " + (index + 1)
-                                                font.pixelSize: 24
-                                                font.bold: true
-                                            }
+                                            Label { text: "Page " + (index + 1); font.pixelSize: 24; font.bold: true; width: parent.width; height: parent.height; horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter }
                                         }
                                     }
                                 }
                             }
-                            PageIndicator {
-                                count: 5
-                                currentIndex: swipeView.currentIndex
-                                anchors.horizontalCenter: parent.horizontalCenter
-                            }
+                            PageIndicator { count: 5; currentIndex: swipeView.currentIndex }
                         }
                     }
 
@@ -810,11 +702,10 @@ ApplicationWindow {
                 }
             }
 
-            // ============================================================
-            // PAGE 7: MENUS & DATA
-            // ============================================================
+            // ========== PAGE 7: MENUS ==========
             Flickable {
-                anchors.fill: parent
+                Layout.fillWidth: true
+                Layout.fillHeight: true
                 contentWidth: width
                 contentHeight: menuCol.implicitHeight + 32
                 clip: true
@@ -863,10 +754,10 @@ ApplicationWindow {
                         width: parent.width
                         Pane {
                             width: parent.width
-                            height: 60
-                            Label { text: "Right-click me!"; anchors.centerIn: parent; font.pixelSize: 16 }
+                            implicitHeight: 60
+                            Label { text: "Right-click me!"; width: parent.width; height: parent.height; horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter; font.pixelSize: 16 }
                             MouseArea {
-                                anchors.fill: parent
+                                width: parent.width; height: parent.height
                                 acceptedButtons: Qt.RightButton
                                 onClicked: ctxMenu.popup()
                             }
@@ -893,8 +784,6 @@ ApplicationWindow {
                             clip: true
                             model: ListModel { id: treeMdl }
                             delegate: Row {
-                                id: treeRow
-                                spacing: 4
                                 required property int index
                                 required property string name
                                 required property string icon
@@ -909,50 +798,39 @@ ApplicationWindow {
                                 Text {
                                     text: hasChildren ? (expanded ? "\u25BC" : "\u25B6") : "  "
                                     width: 14; font.pixelSize: 9
-                                    anchors.verticalCenter: parent.verticalCenter
                                 }
-                                Text {
-                                    text: icon + " " + name
-                                    font.pixelSize: 13
-                                    anchors.verticalCenter: parent.verticalCenter
-                                }
+                                Text { text: icon + " " + name; font.pixelSize: 13 }
 
-                                Rectangle {
-                                    anchors.fill: parent
-                                    visible: mouseArea.containsMouse
-                                    color: "#0a000000"
-                                }
+                                Rectangle { width: parent.width; height: parent.height; visible: treeMouse.containsMouse; color: "#0a000000" }
                                 MouseArea {
-                                    id: mouseArea
-                                    anchors.fill: parent
+                                    id: treeMouse
+                                    width: parent.width; height: parent.height
                                     hoverEnabled: true
                                     onClicked: {
-                                        if (hasChildren) {
-                                            if (expanded) {
-                                                var rc = 0
-                                                for (var i = index + 1; i < treeMdl.count; i++) {
-                                                    if (treeMdl.get(i).depth > depth) rc++
-                                                    else break
-                                                }
-                                                treeMdl.remove(index + 1, rc)
-                                                treeMdl.setProperty(index, "expanded", false)
-                                            } else {
-                                                var data = JSON.parse(treeMdl.get(index).childData)
-                                                for (var j = data.length - 1; j >= 0; j--) {
-                                                    treeMdl.insert(index + 1, {
-                                                        name: data[j].name, icon: data[j].icon,
-                                                        depth: depth + 1, expanded: false,
-                                                        hasChildren: data[j].children.length > 0,
-                                                        childData: JSON.stringify(data[j].children)
-                                                    })
-                                                }
-                                                treeMdl.setProperty(index, "expanded", true)
+                                        if (!hasChildren) return
+                                        if (expanded) {
+                                            var rc = 0
+                                            for (var i = index + 1; i < treeMdl.count; i++) {
+                                                if (treeMdl.get(i).depth > depth) rc++
+                                                else break
                                             }
+                                            treeMdl.remove(index + 1, rc)
+                                            treeMdl.setProperty(index, "expanded", false)
+                                        } else {
+                                            var data = JSON.parse(treeMdl.get(index).childData)
+                                            for (var j = data.length - 1; j >= 0; j--) {
+                                                treeMdl.insert(index + 1, {
+                                                    name: data[j].name, icon: data[j].icon,
+                                                    depth: depth + 1, expanded: false,
+                                                    hasChildren: data[j].children.length > 0,
+                                                    childData: JSON.stringify(data[j].children)
+                                                })
+                                            }
+                                            treeMdl.setProperty(index, "expanded", true)
                                         }
                                     }
                                 }
                             }
-
                             property var treeData: [
                                 { name: "Project Files", icon: "\uD83D\uDCC1", children: [
                                     { name: "src", icon: "\uD83D\uDCC1", children: [
@@ -966,7 +844,6 @@ ApplicationWindow {
                                     { name: "fluentpyside", icon: "\u2728", children: [] }
                                 ]}
                             ]
-
                             Component.onCompleted: {
                                 for (var i = 0; i < treeData.length; i++) {
                                     treeMdl.append({
