@@ -11,17 +11,17 @@ ApplicationWindow {
     title: qsTr("FluentWinUI3 Gallery")
 
     property int currentPage: 0
+    property int pendingPage: -1
 
     ListModel {
         id: navModel
-        ListElement { title: "Buttons"; icon: "\uD83D\uDD18" }
-        ListElement { title: "Input"; icon: "\u270F" }
-        ListElement { title: "Selection"; icon: "\u2611" }
-        ListElement { title: "Progress"; icon: "\u25CE" }
-        ListElement { title: "Containers"; icon: "\uD83D\uDDC2" }
-        ListElement { title: "Navigation"; icon: "\u2796" }
-        ListElement { title: "Pickers"; icon: "\uD83D\uDCC5" }
-        ListElement { title: "Menus"; icon: "\u2630" }
+        ListElement { title: "Buttons"; icon: "\uE8BD" }
+        ListElement { title: "Input"; icon: "\uE90F" }
+        ListElement { title: "Selection"; icon: "\uE73E" }
+        ListElement { title: "Progress"; icon: "\uE916" }
+        ListElement { title: "Containers"; icon: "\uE8A5" }
+        ListElement { title: "Pickers"; icon: "\uE787" }
+        ListElement { title: "Menus"; icon: "\uE700" }
     }
 
     NavigationView {
@@ -32,6 +32,7 @@ ApplicationWindow {
         onCurrentIndexChanged: root.currentPage = currentIndex
 
         StackLayout {
+            id: pageStack
             anchors.fill: parent
             currentIndex: root.currentPage
 
@@ -51,7 +52,7 @@ ApplicationWindow {
                     spacing: 16
 
                     Label { text: "Buttons"; font.pixelSize: 24; font.bold: true }
-                    Label { text: "Standard buttons with Fluent styling." }
+                    Label { text: "Standard buttons with Fluent styling."; color: "#888888" }
 
                     GroupBox {
                         title: "Button Variants"
@@ -118,9 +119,9 @@ ApplicationWindow {
                         title: "Switch Delegate"
                         width: parent.width
                         Column { spacing: 2
-                            SwitchDelegate { text: "Airplane Mode" }
-                            SwitchDelegate { text: "Hotspot"; checked: true }
-                            SwitchDelegate { text: "VPN" }
+                            SwitchDelegate { text: "Airplane Mode"; width: parent.width }
+                            SwitchDelegate { text: "Hotspot"; checked: true; width: parent.width }
+                            SwitchDelegate { text: "VPN"; width: parent.width }
                         }
                     }
 
@@ -144,7 +145,7 @@ ApplicationWindow {
                     spacing: 16
 
                     Label { text: "Input Controls"; font.pixelSize: 24; font.bold: true }
-                    Label { text: "Text entry, sliders, spin boxes, and text areas." }
+                    Label { text: "Text entry, sliders, spin boxes, and text areas."; color: "#888888" }
 
                     GroupBox {
                         title: "Text Field"
@@ -162,12 +163,10 @@ ApplicationWindow {
                     GroupBox {
                         title: "Text Area"
                         width: parent.width
-                        Column { spacing: 8
-                            TextArea {
-                                placeholderText: "Multi-line text input area"
-                                width: 400; height: 80
-                                wrapMode: TextArea.Wrap
-                            }
+                        TextArea {
+                            placeholderText: "Multi-line text input area"
+                            width: 400; height: 80
+                            wrapMode: TextArea.Wrap
                         }
                     }
 
@@ -216,15 +215,15 @@ ApplicationWindow {
                         Row { spacing: 30
                             Column { spacing: 4
                                 Dial { id: dial1; value: 0.5; from: 0; to: 1; stepSize: 0.1; width: 100; height: 100 }
-                                Label { text: "value: " + dial1.value.toFixed(1); width: 100; horizontalAlignment: Text.AlignHCenter; font.pixelSize: 11; color: "#666" }
+                                Label { text: "value: " + dial1.value.toFixed(1); width: 100; horizontalAlignment: Text.AlignHCenter; font.pixelSize: 11; color: "#888888" }
                             }
                             Column { spacing: 4
                                 Dial { id: dial2; value: 0.75; from: 0; to: 1; width: 100; height: 100 }
-                                Label { text: "value: " + dial2.value.toFixed(1); width: 100; horizontalAlignment: Text.AlignHCenter; font.pixelSize: 11; color: "#666" }
+                                Label { text: "value: " + dial2.value.toFixed(1); width: 100; horizontalAlignment: Text.AlignHCenter; font.pixelSize: 11; color: "#888888" }
                             }
                             Column { spacing: 4
                                 Dial { id: dial3; value: 0.25; from: 0; to: 1; width: 100; height: 100; enabled: false }
-                                Label { text: "Disabled"; width: 100; horizontalAlignment: Text.AlignHCenter; font.pixelSize: 11; color: "#666" }
+                                Label { text: "Disabled"; width: 100; horizontalAlignment: Text.AlignHCenter; font.pixelSize: 11; color: "#888888" }
                             }
                         }
                     }
@@ -249,7 +248,7 @@ ApplicationWindow {
                     spacing: 16
 
                     Label { text: "Selection Controls"; font.pixelSize: 24; font.bold: true }
-                    Label { text: "Checkboxes, radio buttons, combo boxes, and delegates." }
+                    Label { text: "Checkboxes, radio buttons, combo boxes, and delegates."; color: "#888888" }
 
                     GroupBox {
                         title: "Check Box"
@@ -289,8 +288,8 @@ ApplicationWindow {
                         width: parent.width
                         Column { spacing: 2
                             ItemDelegate { text: "Click me"; width: 300 }
-                            ItemDelegate { text: "Or me"; width: 300; highlighted: true }
-                            ItemDelegate { text: "Or this one"; width: 300 }
+                            ItemDelegate { text: "Highlighted"; width: 300; highlighted: true }
+                            ItemDelegate { text: "Another option"; width: 300 }
                         }
                     }
 
@@ -336,7 +335,7 @@ ApplicationWindow {
                     spacing: 16
 
                     Label { text: "Progress & Feedback"; font.pixelSize: 24; font.bold: true }
-                    Label { text: "Progress indicators, busy spinners, and page indicators." }
+                    Label { text: "Progress indicators, busy spinners, and page indicators."; color: "#888888" }
 
                     GroupBox {
                         title: "Progress Bar"
@@ -356,15 +355,15 @@ ApplicationWindow {
                         Row { spacing: 24
                             Column { spacing: 4; width: 64
                                 BusyIndicator { running: true; width: 40; height: 40 }
-                                Label { text: "Running"; font.pixelSize: 11; color: "#666"; width: 64; horizontalAlignment: Text.AlignHCenter }
+                                Label { text: "Running"; font.pixelSize: 11; color: "#888888"; width: 64; horizontalAlignment: Text.AlignHCenter }
                             }
                             Column { spacing: 4; width: 64
                                 BusyIndicator { running: false; width: 40; height: 40 }
-                                Label { text: "Stopped"; font.pixelSize: 11; color: "#666"; width: 64; horizontalAlignment: Text.AlignHCenter }
+                                Label { text: "Stopped"; font.pixelSize: 11; color: "#888888"; width: 64; horizontalAlignment: Text.AlignHCenter }
                             }
                             Column { spacing: 4; width: 64
                                 BusyIndicator { running: true; width: 64; height: 64 }
-                                Label { text: "Large"; font.pixelSize: 11; color: "#666"; width: 64; horizontalAlignment: Text.AlignHCenter }
+                                Label { text: "Large"; font.pixelSize: 11; color: "#888888"; width: 64; horizontalAlignment: Text.AlignHCenter }
                             }
                         }
                     }
@@ -417,7 +416,7 @@ ApplicationWindow {
                     spacing: 16
 
                     Label { text: "Containers & Layout"; font.pixelSize: 24; font.bold: true }
-                    Label { text: "Frames, panes, scroll views, split views, popups, and dialogs." }
+                    Label { text: "Frames, panes, scroll views, split views, popups, and dialogs."; color: "#888888" }
 
                     GroupBox {
                         title: "Frame"
@@ -437,7 +436,7 @@ ApplicationWindow {
                             implicitHeight: 60
                             Column { width: parent.width
                                 Label { text: "A Pane container with content" }
-                                Label { text: "Has background, padding, and border radius"; color: "#666666" }
+                                Label { text: "Has background, padding, and border radius"; color: "#888888" }
                             }
                         }
                     }
@@ -476,134 +475,22 @@ ApplicationWindow {
                     }
 
                     GroupBox {
-                        title: "Popup"
-                        width: parent.width
-                        Column { spacing: 8
-                            Button { text: "Open Popup"; onClicked: demoPopup.open() }
-                        }
-                    }
-
-                    GroupBox {
-                        title: "Dialog"
-                        width: parent.width
-                        Column { spacing: 8
-                            Button { text: "Open Dialog"; onClicked: demoDialog.open() }
-                        }
-                    }
-
-                    GroupBox {
-                        title: "Drawer"
+                        title: "Popups, Dialogs & Drawers"
                         width: parent.width
                         Row { spacing: 8
-                            Button { text: "Edge"; onClicked: edgeDrawer.open() }
-                            Button { text: "Bottom"; onClicked: bottomDrawer.open() }
-                            Button { text: "Modal"; onClicked: modalDrawer.open() }
+                            Button { text: "Popup"; onClicked: demoPopup.open() }
+                            Button { text: "Dialog"; onClicked: demoDialog.open() }
+                            Button { text: "Edge Drawer"; onClicked: edgeDrawer.open() }
+                            Button { text: "Bottom Drawer"; onClicked: bottomDrawer.open() }
+                            Button { text: "Modal Drawer"; onClicked: modalDrawer.open() }
                         }
                     }
 
                     Item { height: 16 }
                 }
-
-                Drawer {
-                    id: edgeDrawer
-                    width: 250; height: parent.height; edge: Qt.LeftEdge
-                    Column { padding: 16; spacing: 8
-                        Label { text: "Navigation Menu"; font.bold: true; font.pixelSize: 18 }
-                        MenuSeparator { width: 220 }
-                        ItemDelegate { text: "Home"; width: 220 }
-                        ItemDelegate { text: "Documents"; width: 220 }
-                        ItemDelegate { text: "Settings"; width: 220 }
-                        ItemDelegate { text: "About"; width: 220 }
-                    }
-                }
-                Drawer {
-                    id: bottomDrawer
-                    width: parent.width; height: 180; edge: Qt.BottomEdge
-                    Column { padding: 16; spacing: 8
-                        Label { text: "Bottom Drawer"; font.bold: true }
-                        Label { text: "Slides up from the bottom" }
-                    }
-                }
-                Drawer {
-                    id: modalDrawer
-                    width: 280; height: parent.height; edge: Qt.RightEdge; modal: true; dim: true
-                    Column { padding: 16; spacing: 12
-                        Label { text: "Modal Drawer"; font.bold: true; font.pixelSize: 18 }
-                        MenuSeparator { width: 240 }
-                        Label { text: "Dims background and blocks interaction."; wrapMode: Text.Wrap; width: 240 }
-                        Button { text: "Close"; onClicked: modalDrawer.close() }
-                    }
-                }
-
-                Popup {
-                    id: demoPopup
-                    parent: Overlay.overlay
-                    anchors.centerIn: parent
-                    width: 260; height: 140
-                    modal: true
-                    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-                    Column { padding: 16; spacing: 12
-                        Label { text: "This is a Popup"; font.bold: true; font.pixelSize: 16 }
-                        Label { text: "With Fluent background and border radius."; wrapMode: Text.Wrap; width: 220 }
-                        Button { text: "Close"; onClicked: demoPopup.close() }
-                    }
-                }
-                Dialog {
-                    id: demoDialog
-                    title: "Fluent Dialog"
-                    modal: true
-                    anchors.centerIn: parent
-                    standardButtons: Dialog.Ok | Dialog.Cancel
-                    Label { text: "This is a modal dialog.\nClick OK or Cancel."; wrapMode: Text.Wrap; width: 300 }
-                }
             }
 
-            // ========== PAGE 5: NAVIGATION ==========
-            SplitView {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Pane {
-                    SplitView.minimumWidth: 140
-                    SplitView.preferredWidth: 180
-                    implicitHeight: 400
-                    Column { width: parent.width; spacing: 4; padding: 8
-                        Label { text: "Pages"; font.bold: true; font.pixelSize: 16; bottomPadding: 8 }
-                        MenuSeparator { width: parent.width - 16 }
-                        Repeater {
-                            model: ["Home", "Profile", "Settings", "Help"]
-                            Button {
-                                required property string modelData
-                                required property int index
-                                text: modelData
-                                flat: true
-                                width: parent.width - 16
-                                onClicked: pageStack.push(navPageComp, { pageName: modelData })
-                            }
-                        }
-                    }
-                }
-                StackView {
-                    id: pageStack
-                    SplitView.fillWidth: true
-                    initialItem: navPageComp
-                }
-            }
-            Component {
-                id: navPageComp
-                Pane {
-                    property string pageName: "Home"
-                    Column { padding: 24; spacing: 12
-                        Label { text: pageName; font.pixelSize: 28; font.bold: true }
-                        Label { text: "This is the " + pageName + " page."; color: "#666666"; wrapMode: Text.Wrap; width: 300 }
-                        Row { spacing: 8
-                            Button { text: "Go to Settings"; onClicked: pageStack.push(navPageComp, { pageName: "Settings" }) }
-                            Button { text: "Go Back"; visible: pageStack.depth > 1; onClicked: pageStack.pop() }
-                        }
-                    }
-                }
-            }
-
-            // ========== PAGE 6: PICKERS ==========
+            // ========== PAGE 5: PICKERS ==========
             Flickable {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -619,14 +506,14 @@ ApplicationWindow {
                     spacing: 16
 
                     Label { text: "Pickers"; font.pixelSize: 24; font.bold: true }
-                    Label { text: "Calendar, tumbler wheel picker, and swipe view." }
+                    Label { text: "Tumbler wheel picker and swipe view."; color: "#888888" }
 
                     GroupBox {
                         title: "Calendar"
                         width: parent.width
                         Column { spacing: 8
-                            Label { text: "Calendar is a singleton type in PySide6 6.10+ and cannot be instantiated directly in QML." }
-                            Label { text: "The FluentWinUI3 Calendar.qml skin is installed and applies automatically in standalone apps."; color: "#666666"; wrapMode: Text.Wrap; width: 400 }
+                            Label { text: "Calendar is a composite singleton in PySide6 6.10+ and cannot be instantiated directly in QML." }
+                            Label { text: "The FluentWinUI3 Calendar.qml skin applies automatically in standalone apps."; color: "#888888"; wrapMode: Text.Wrap; width: 400 }
                         }
                     }
 
@@ -656,10 +543,10 @@ ApplicationWindow {
                                         width: swipeView.width
                                         height: swipeView.height
                                         Rectangle {
-                                            width: parent.width; height: parent.height
-                                            color: index % 2 === 0 ? "#e8f0fe" : "#f0e8fe"
+                                            anchors.fill: parent
+                                            color: index % 2 === 0 ? "#1a3a5c" : "#3a1a5c"
                                             radius: 8
-                                            Label { text: "Page " + (index + 1); font.pixelSize: 24; font.bold: true; width: parent.width; height: parent.height; horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter }
+                                            Label { text: "Page " + (index + 1); font.pixelSize: 24; font.bold: true; anchors.centerIn: parent }
                                         }
                                     }
                                 }
@@ -672,7 +559,7 @@ ApplicationWindow {
                 }
             }
 
-            // ========== PAGE 7: MENUS ==========
+            // ========== PAGE 6: MENUS ==========
             Flickable {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -688,7 +575,7 @@ ApplicationWindow {
                     spacing: 16
 
                     Label { text: "Menus & Data"; font.pixelSize: 24; font.bold: true }
-                    Label { text: "Menu bars, context menus, and tree views." }
+                    Label { text: "Menu bars, context menus, and tree views."; color: "#888888" }
 
                     GroupBox {
                         title: "Menu Bar"
@@ -831,5 +718,59 @@ ApplicationWindow {
                 }
             }
         }
+    }
+
+    // ===== POPUPS / DIALOGS / DRAWERS =====
+    // These must be direct children of ApplicationWindow for proper positioning
+    Drawer {
+        id: edgeDrawer
+        width: 250; height: parent.height; edge: Qt.LeftEdge
+        Column { padding: 16; spacing: 8
+            Label { text: "Navigation Menu"; font.bold: true; font.pixelSize: 18 }
+            MenuSeparator { width: 220 }
+            ItemDelegate { text: "Home"; width: 220 }
+            ItemDelegate { text: "Documents"; width: 220 }
+            ItemDelegate { text: "Settings"; width: 220 }
+            ItemDelegate { text: "About"; width: 220 }
+        }
+    }
+    Drawer {
+        id: bottomDrawer
+        width: parent.width; height: 180; edge: Qt.BottomEdge
+        Column { padding: 16; spacing: 8
+            Label { text: "Bottom Drawer"; font.bold: true }
+            Label { text: "Slides up from the bottom" }
+        }
+    }
+    Drawer {
+        id: modalDrawer
+        width: 280; height: parent.height; edge: Qt.RightEdge; modal: true; dim: true
+        Column { padding: 16; spacing: 12
+            Label { text: "Modal Drawer"; font.bold: true; font.pixelSize: 18 }
+            MenuSeparator { width: 240 }
+            Label { text: "Dims background and blocks interaction."; wrapMode: Text.Wrap; width: 240 }
+            Button { text: "Close"; onClicked: modalDrawer.close() }
+        }
+    }
+    Popup {
+        id: demoPopup
+        parent: Overlay.overlay
+        anchors.centerIn: parent
+        width: 260; height: 140
+        modal: true
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+        Column { padding: 16; spacing: 12
+            Label { text: "This is a Popup"; font.bold: true; font.pixelSize: 16 }
+            Label { text: "With Fluent background and border radius."; wrapMode: Text.Wrap; width: 220 }
+            Button { text: "Close"; onClicked: demoPopup.close() }
+        }
+    }
+    Dialog {
+        id: demoDialog
+        title: "Fluent Dialog"
+        modal: true
+        anchors.centerIn: parent
+        standardButtons: Dialog.Ok | Dialog.Cancel
+        Label { text: "This is a modal dialog.\nClick OK or Cancel."; wrapMode: Text.Wrap; width: 300 }
     }
 }
