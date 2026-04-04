@@ -1173,7 +1173,7 @@ ApplicationWindow {
                             // Center highlight bar
                             Rectangle {
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                verticalAlignment: Text.AlignVCenter
+                                anchors.verticalCenter: parent.verticalCenter
                                 width: parent.width - 16
                                 height: 36
                                 radius: 4
