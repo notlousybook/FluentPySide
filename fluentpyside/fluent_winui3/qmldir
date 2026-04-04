@@ -17,18 +17,26 @@ CheckDelegate 6.0 CheckDelegate.qml
 CheckDelegate 2.0 CheckDelegate.qml
 ComboBox 6.0 ComboBox.qml
 ComboBox 2.0 ComboBox.qml
+Calendar 6.0 Calendar.qml
+Calendar 2.0 Calendar.qml
+Dial 6.0 Dial.qml
+Dial 2.0 Dial.qml
 DelayButton 6.0 DelayButton.qml
 DelayButton 2.0 DelayButton.qml
 Dialog 6.0 Dialog.qml
 Dialog 2.0 Dialog.qml
 DialogButtonBox 6.0 DialogButtonBox.qml
 DialogButtonBox 2.0 DialogButtonBox.qml
+Drawer 6.0 Drawer.qml
+Drawer 2.0 Drawer.qml
 Frame 6.0 Frame.qml
 Frame 2.0 Frame.qml
 GroupBox 6.0 GroupBox.qml
 GroupBox 2.0 GroupBox.qml
 ItemDelegate 6.0 ItemDelegate.qml
 ItemDelegate 2.0 ItemDelegate.qml
+Label 6.0 Label.qml
+Label 2.0 Label.qml
 Menu 6.0 Menu.qml
 Menu 2.0 Menu.qml
 MenuBar 6.0 MenuBar.qml
@@ -41,6 +49,8 @@ MenuSeparator 6.0 MenuSeparator.qml
 MenuSeparator 2.0 MenuSeparator.qml
 Popup 6.0 Popup.qml
 Popup 2.0 Popup.qml
+Pane 6.0 Pane.qml
+Pane 2.0 Pane.qml
 ProgressBar 6.0 ProgressBar.qml
 ProgressBar 2.0 ProgressBar.qml
 PageIndicator 6.0 PageIndicator.qml
@@ -53,17 +63,25 @@ RangeSlider 6.0 RangeSlider.qml
 RangeSlider 2.0 RangeSlider.qml
 RoundButton 6.0 RoundButton.qml
 RoundButton 2.0 RoundButton.qml
+ScrollView 6.0 ScrollView.qml
+ScrollView 2.0 ScrollView.qml
 SearchField 6.10 SearchField.qml
 Slider 6.0 Slider.qml
 Slider 2.0 Slider.qml
 SpinBox 6.0 SpinBox.qml
 SpinBox 2.0 SpinBox.qml
+SplitView 6.0 SplitView.qml
+SplitView 2.0 SplitView.qml
+StackView 6.0 StackView.qml
+StackView 2.0 StackView.qml
 SwipeDelegate 6.0 SwipeDelegate.qml
 SwipeDelegate 2.0 SwipeDelegate.qml
 Switch 6.0 Switch.qml
 Switch 2.0 Switch.qml
 SwitchDelegate 6.0 SwitchDelegate.qml
 SwitchDelegate 2.0 SwitchDelegate.qml
+SwipeView 6.0 SwipeView.qml
+SwipeView 2.0 SwipeView.qml
 TabBar 6.0 TabBar.qml
 TabBar 2.0 TabBar.qml
 TabButton 6.0 TabButton.qml
@@ -80,6 +98,10 @@ ToolSeparator 6.0 ToolSeparator.qml
 ToolSeparator 2.0 ToolSeparator.qml
 ToolTip 6.0 ToolTip.qml
 ToolTip 2.0 ToolTip.qml
+TreeView 6.0 TreeView.qml
+TreeView 2.0 TreeView.qml
+Tumbler 6.0 Tumbler.qml
+Tumbler 2.0 Tumbler.qml
 singleton Fluent 6.0 Fluent.qml
 singleton Fluent 2.0 Fluent.qml
 singleton Config 6.0 Config.qml

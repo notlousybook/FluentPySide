@@ -164,19 +164,28 @@ These **standard Qt Quick Controls 2** components get Fluent styling automatical
 | `ToolTip` | Hover tooltip |
 | `ItemDelegate` | Clickable list item |
 | `SwipeDelegate` | Swipeable list item |
+| `Calendar` | Date picker with month navigation |
+| `Dial` | Rotary/knob control (custom Fluent design) |
+| `Drawer` | Sliding side panel (left/right/bottom, modal) |
+| `Label` | Text label with Fluent typography |
+| `Pane` | Background container with Fluent styling |
+| `ScrollView` | Scrollable area with Fluent scrollbars |
+| `SplitView` | Resizable split layout with styled divider |
+| `StackView` | Navigation stack with slide transitions |
+| `SwipeView` | Swipeable page container |
+| `Tumbler` | Wheel/drum picker (3D effect) |
+| `TreeView` | Expandable tree view with chevron indicators |
 
-### NOT styled (will fall back to system/default Qt style)
+That's **52 styled components** covering the full Qt Quick Controls 2 API. All components automatically switch between light and dark mode.
 
-| Component | Reason |
-|---|---|
-| `Dial` | Not implemented by upstream FluentWinUI3 |
-| `Drawer` | Not implemented by upstream FluentWinUI3 |
-| `SplitView` | Not implemented by upstream FluentWinUI3 |
-| `StackView` | Not implemented by upstream FluentWinUI3 |
-| `SwipeView` | Not implemented by upstream FluentWinUI3 |
-| `TreeView` | Not implemented by upstream FluentWinUI3 |
-| `Tumbler` | Not implemented by upstream FluentWinUI3 |
-| `Label` | Plain text — no styling needed, uses default |
+### Gallery Demo
+
+A comprehensive gallery showcasing every control is included. Run it with:
+
+```sh
+cd examples
+python run_gallery.py
+```
 
 
 Fluent Design Tokens
