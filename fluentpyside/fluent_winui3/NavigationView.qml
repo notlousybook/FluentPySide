@@ -179,11 +179,11 @@ Item {
                                 anchors.verticalCenter: parent.verticalCenter
                                 radius: root.compact ? 4 : 1.5
                                 color: {
-                                    if (navItem.index === root.currentIndex) return root.accentColor
+                                    if (index === root.currentIndex) return root.accentColor
                                     if (navItemMouse.containsMouse) return root.sidebarHoverColor
                                     return "transparent"
                                 }
-                                opacity: (navItem.index === root.currentIndex || navItemMouse.containsMouse) ? 1.0 : 0.0
+                                opacity: (index === root.currentIndex || navItemMouse.containsMouse) ? 1.0 : 0.0
 
                                 Behavior on width {
                                     NumberAnimation { duration: 100; easing.type: Easing.OutCubic }
@@ -199,10 +199,10 @@ Item {
                                 anchors.left: parent.left
                                 anchors.leftMargin: root.compact ? 6 : 12
                                 anchors.verticalCenter: parent.verticalCenter
-                                text: navItem.icon
+                                text: model.icon
                                 font.pixelSize: 15
                                 font.family: "Segoe MDL2 Assets, Segoe UI Emoji, Noto Color Emoji, sans-serif"
-                                color: navItem.index === root.currentIndex ? root.accentColor : root.iconColor
+                                color: index === root.currentIndex ? root.accentColor : root.iconColor
 
                                 Behavior on color {
                                     ColorAnimation { duration: 100 }
@@ -216,10 +216,10 @@ Item {
                                 anchors.right: parent.right
                                 anchors.rightMargin: 12
                                 anchors.verticalCenter: parent.verticalCenter
-                                text: navItem.title
+                                text: model.title
                                 font.pixelSize: 13
-                                font.weight: navItem.index === root.currentIndex ? Font.Medium : Font.Normal
-                                color: navItem.index === root.currentIndex ? root.accentColor : root.textColor
+                                font.weight: index === root.currentIndex ? Font.Medium : Font.Normal
+                                color: index === root.currentIndex ? root.accentColor : root.textColor
                                 elide: Text.ElideRight
                                 visible: !root.compact
                                 opacity: root.compact ? 0 : 1
@@ -237,12 +237,12 @@ Item {
                                 anchors.fill: parent
                                 hoverEnabled: true
                                 cursorShape: Qt.PointingHandCursor
-                                onClicked: root.currentIndex = navItem.index
+                                onClicked: root.currentIndex = index
                             }
 
                             // Tooltip for compact
                             ToolTip {
-                                text: navItem.title
+                                text: model.title
                                 visible: root.compact && navItemMouse.containsMouse
                                 delay: 500
                             }
