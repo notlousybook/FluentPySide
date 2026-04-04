@@ -309,6 +309,7 @@ ApplicationWindow {
                                 ]
 
                                 delegate: Rectangle {
+                                    id: categoryCard
                                     width: (categoryGrid.width - categoryGrid.columnSpacing * (categoryGrid.columns - 1)) / categoryGrid.columns
                                     height: 100
                                     radius: 8
@@ -324,8 +325,8 @@ ApplicationWindow {
                                     states: State {
                                         name: "hovered"
                                         PropertyChanges {
-                                            target: categoryDelegate
-                                            color: categoryDelegate.cardHoverColor
+                                            target: categoryCard
+                                            color: categoryCard.cardHoverColor
                                             border.color: accentColor
                                         }
                                     }
@@ -335,8 +336,8 @@ ApplicationWindow {
                                         anchors.fill: parent
                                         hoverEnabled: true
                                         cursorShape: Qt.PointingHandCursor
-                                        onEntered: parent.state = "hovered"
-                                        onExited: parent.state = ""
+                                        onEntered: categoryCard.state = "hovered"
+                                        onExited: categoryCard.state = ""
                                         onClicked: {
                                             root.currentPage = modelData.page
                                             root.currentTitle = modelData.title
