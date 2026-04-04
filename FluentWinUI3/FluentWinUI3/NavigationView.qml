@@ -1,4 +1,5 @@
 // FluentWinUI3 NavigationView - WinUI 3 style collapsible sidebar
+// Auto-detects dark/light mode from Application.styleHints.colorScheme
 // Usage:
 //   NavigationView {
 //       model: ListModel {
@@ -24,13 +25,6 @@ Item {
     property real expandedWidth: 240
     property real compactWidth: 48
     property real navigationWidth: compact ? compactWidth : expandedWidth
-    property color accentColor: "#005fb8"
-    property color sidebarBackground: "#f3f3f3"
-    property color sidebarHoverColor: "#e5e5e5"
-    property color sidebarActiveColor: "#e0e0e0"
-    property color textColor: "#1a1a1a"
-    property color textSecondaryColor: "#616161"
-    property color dividerColor: "#e0e0e0"
     property real topPadding: 4
     property real itemHeight: 40
 
@@ -39,6 +33,22 @@ Item {
 
     // Content area (default property)
     default property alias content: contentContainer.data
+
+    // Auto-detect dark/light mode (Qt 6.5+)
+    readonly property bool darkMode: {
+        try { return Application.styleHints.colorScheme === Qt.ColorScheme.Dark }
+        catch (e) { return true }
+    }
+
+    // WinUI 3 Fluent colors - auto-switch based on theme
+    property color accentColor: darkMode ? "#60cdff" : "#005fb8"
+    property color sidebarBackground: darkMode ? "#1c1c1c" : "#f3f3f3"
+    property color sidebarHoverColor: darkMode ? "#2d2d2d" : "#e9e9e9"
+    property color sidebarActiveColor: darkMode ? "#383838" : "#e5e5e5"
+    property color textColor: darkMode ? "#ffffff" : "#1a1a1a"
+    property color textSecondaryColor: darkMode ? "#9d9d9d" : "#616161"
+    property color dividerColor: darkMode ? "#2d2d2d" : "#e0e0e0"
+    property color windowBackground: darkMode ? "#1c1c1c" : "#ffffff"
 
     Behavior on navigationWidth {
         NumberAnimation { duration: 200; easing.type: Easing.InOutCubic }
@@ -59,19 +69,17 @@ Item {
                 NumberAnimation { duration: 200; easing.type: Easing.InOutCubic }
             }
 
-            // Vertical layout for sidebar contents
             Item {
                 anchors.fill: parent
 
                 // Toggle button area
-                Rectangle {
+                Item {
                     id: toggleArea
                     anchors.top: parent.top
                     anchors.left: parent.left
                     anchors.right: parent.right
                     height: root.itemHeight + root.topPadding
 
-                    // Hamburger / Collapse button
                     Rectangle {
                         id: toggleBtn
                         anchors.top: parent.top
@@ -167,7 +175,6 @@ Item {
                                 height: root.itemHeight - 8
                                 spacing: 12
 
-                                // Icon
                                 Text {
                                     width: root.itemHeight - 8
                                     height: parent.height
@@ -178,7 +185,6 @@ Item {
                                     color: navItem.index === root.currentIndex ? root.accentColor : root.textColor
                                 }
 
-                                // Title
                                 Text {
                                     text: navItem.title
                                     font.pixelSize: 13
@@ -196,7 +202,6 @@ Item {
                                 }
                             }
 
-                            // Click handler
                             MouseArea {
                                 id: itemMouse
                                 anchors.fill: parent
@@ -205,7 +210,6 @@ Item {
                                 onClicked: root.currentIndex = navItem.index
                             }
 
-                            // Tooltip for compact mode
                             ToolTip {
                                 text: navItem.title
                                 visible: root.compact && itemMouse.containsMouse
@@ -227,7 +231,7 @@ Item {
                     color: root.dividerColor
                 }
 
-                // Footer area (settings button)
+                // Footer area (settings)
                 Rectangle {
                     id: footerArea
                     anchors.left: parent.left
@@ -284,10 +288,11 @@ Item {
         }
 
         // ===== CONTENT AREA =====
-        Item {
+        Rectangle {
             id: contentContainer
             Layout.fillWidth: true
             Layout.fillHeight: true
+            color: root.windowBackground
         }
     }
 }
