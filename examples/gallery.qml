@@ -39,7 +39,7 @@ ApplicationWindow {
         // PAGE 1: BUTTONS
         // ============================================================
         ScrollView {
-            contentItem: Column {
+            Column {
                 width: parent ? parent.width : 1000
                 spacing: 20
                 padding: 20
@@ -147,7 +147,7 @@ ApplicationWindow {
         // PAGE 2: INPUT
         // ============================================================
         ScrollView {
-            contentItem: Column {
+            Column {
                 width: parent ? parent.width : 1000
                 spacing: 20
                 padding: 20
@@ -268,7 +268,7 @@ ApplicationWindow {
         // PAGE 3: SELECTION
         // ============================================================
         ScrollView {
-            contentItem: Column {
+            Column {
                 width: parent ? parent.width : 1000
                 spacing: 20
                 padding: 20
@@ -388,7 +388,7 @@ ApplicationWindow {
         // PAGE 4: PROGRESS & FEEDBACK
         // ============================================================
         ScrollView {
-            contentItem: Column {
+            Column {
                 width: parent ? parent.width : 1000
                 spacing: 20
                 padding: 20
@@ -460,7 +460,7 @@ ApplicationWindow {
         // PAGE 5: CONTAINERS
         // ============================================================
         ScrollView {
-            contentItem: Column {
+            Column {
                 width: parent ? parent.width : 1000
                 spacing: 20
                 padding: 20
@@ -502,7 +502,7 @@ ApplicationWindow {
                     ScrollView {
                         width: parent.width
                         height: 120
-                        contentItem: Column {
+                        Column {
                             spacing: 8
                             Repeater {
                                 model: 20
@@ -705,7 +705,7 @@ ApplicationWindow {
         // PAGE 7: PICKERS (Calendar, Tumbler)
         // ============================================================
         ScrollView {
-            contentItem: Column {
+            Column {
                 width: parent ? parent.width : 1000
                 spacing: 20
                 padding: 20
@@ -838,7 +838,7 @@ ApplicationWindow {
         // PAGE 8: MENUS, TREE VIEW
         // ============================================================
         ScrollView {
-            contentItem: Column {
+            Column {
                 width: parent ? parent.width : 1000
                 spacing: 20
                 padding: 20
@@ -854,51 +854,42 @@ ApplicationWindow {
                     title: "Menu Bar"
                     width: parent.width - 40
                     MenuBar {
-                        MenuBarItem { text: "File"; menu: fileMenu }
-                        MenuBarItem { text: "Edit"; menu: editMenu }
-                        MenuBarItem { text: "View"; menu: viewMenu }
-                        MenuBarItem { text: "Help"; menu: helpMenu }
-                    }
-
-                    Menu {
-                        id: fileMenu
-                        title: "File"
-                        MenuItem { text: "New" }
-                        MenuItem { text: "Open" }
-                        MenuSeparator {}
-                        MenuItem { text: "Save" }
-                        MenuItem { text: "Save As..." }
-                        MenuSeparator {}
-                        MenuItem { text: "Exit" }
-                    }
-                    Menu {
-                        id: editMenu
-                        title: "Edit"
-                        MenuItem { text: "Undo" }
-                        MenuItem { text: "Redo" }
-                        MenuSeparator {}
-                        MenuItem { text: "Cut" }
-                        MenuItem { text: "Copy" }
-                        MenuItem { text: "Paste" }
-                    }
-                    Menu {
-                        id: viewMenu
-                        title: "View"
-                        MenuItem { text: "Zoom In" }
-                        MenuItem { text: "Zoom Out" }
-                        MenuSeparator {}
                         Menu {
-                            title: "Theme"
-                            MenuItem { text: "Light" }
-                            MenuItem { text: "Dark" }
-                            MenuItem { text: "System" }
+                            title: "File"
+                            MenuItem { text: "New" }
+                            MenuItem { text: "Open" }
+                            MenuSeparator {}
+                            MenuItem { text: "Save" }
+                            MenuItem { text: "Save As..." }
+                            MenuSeparator {}
+                            MenuItem { text: "Exit" }
                         }
-                    }
-                    Menu {
-                        id: helpMenu
-                        title: "Help"
-                        MenuItem { text: "Documentation" }
-                        MenuItem { text: "About" }
+                        Menu {
+                            title: "Edit"
+                            MenuItem { text: "Undo" }
+                            MenuItem { text: "Redo" }
+                            MenuSeparator {}
+                            MenuItem { text: "Cut" }
+                            MenuItem { text: "Copy" }
+                            MenuItem { text: "Paste" }
+                        }
+                        Menu {
+                            title: "View"
+                            MenuItem { text: "Zoom In" }
+                            MenuItem { text: "Zoom Out" }
+                            MenuSeparator {}
+                            Menu {
+                                title: "Theme"
+                                MenuItem { text: "Light" }
+                                MenuItem { text: "Dark" }
+                                MenuItem { text: "System" }
+                            }
+                        }
+                        Menu {
+                            title: "Help"
+                            MenuItem { text: "Documentation" }
+                            MenuItem { text: "About" }
+                        }
                     }
                 }
 
