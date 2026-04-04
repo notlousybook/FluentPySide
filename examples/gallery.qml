@@ -32,6 +32,7 @@ ApplicationWindow {
         onCurrentIndexChanged: root.currentPage = currentIndex
 
         StackLayout {
+            anchors.fill: parent
             currentIndex: root.currentPage
 
             // ========== PAGE 0: BUTTONS ==========
