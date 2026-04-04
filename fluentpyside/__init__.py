@@ -5,9 +5,6 @@ One-liner to enable the FluentWinUI3 theme in PySide6 apps.
 
 from __future__ import annotations
 
-from pathlib import Path
-from typing import Optional
-
 from ._installer import install_assets, find_installed_style, default_style_path
 from ._loader import set_style
 
