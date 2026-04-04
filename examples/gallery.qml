@@ -1073,7 +1073,7 @@ ApplicationWindow {
                                 Rectangle {
                                     width: 60; height: 40
                                     radius: 4
-                                    color: Fluent[colorProp]
+                                    color: colorProp === "critical" ? "#c42b1c" : colorProp === "success" ? "#0f7b0f" : colorProp === "warning" ? "#9d5d00" : colorProp === "informational" ? "#0078d4" : "#005fb8"
                                     border.color: "#d0d0d0"
                                     border.width: 1
                                 }
