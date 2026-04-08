@@ -28,8 +28,11 @@ ApplicationWindow {
     readonly property color textSecondary: isDark ? "#9d9d9d" : "#616161"
     readonly property color textTertiary: isDark ? "#7a7a7a" : "#8a8a8a"
 
-    // Accent
+    // Accent colors - FluentWinUI3 spec
     readonly property color accentColor: isDark ? "#60cdff" : "#005fb8"
+    readonly property color accentHover: isDark ? "#7dd6ff" : "#004c95"
+    readonly property color accentPressed: isDark ? "#005a9e" : "#003d7a"
+    readonly property color accentSelected: isDark ? "#003d7a" : "#c7e0f4"
 
     // Hover / Pressed
     readonly property color hoverColor: isDark ? "#ffffff0d" : "#00000008"
@@ -51,6 +54,7 @@ ApplicationWindow {
     NavigationView {
         id: navView
         anchors.fill: parent
+        iconFont: root.iconFont
         currentIndex: root.currentPage
         onCurrentIndexChanged: root.currentPage = currentIndex
         onSettingsClicked: { root.currentPage = 0 }
@@ -364,16 +368,28 @@ ApplicationWindow {
                         title: "Search Fields"
                         width: parent.width
                         Row { spacing: 12
-                            TextField {
-                                placeholderText: "\uf15c  Search..."
-                                width: 300
-                                font.family: themeFont
+                            // Proper search field with icon as element, not in placeholder
+                            Rectangle {
+                                width: 300; height: 36; radius: 4; color: controlAltBg; border.width: 1; border.color: dividerColor
+                                Row { anchors.fill: parent; anchors.leftMargin: 10; spacing: 8
+                                    Text { text: "\uE721"; font.family: iconFont; font.pixelSize: 14; color: textSecondary; anchors.verticalCenter: parent.verticalCenter }
+                                    TextField {
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        placeholderText: "Search..."
+                                        width: 240; font.family: themeFont
+                                    }
+                                }
                             }
-                            TextField {
-                                placeholderText: "\uf15c  Disabled search..."
-                                width: 300
-                                font.family: themeFont
-                                enabled: false
+                            Rectangle {
+                                width: 300; height: 36; radius: 4; color: controlAltBg; border.width: 1; border.color: dividerColor; opacity: 0.5
+                                Row { anchors.fill: parent; anchors.leftMargin: 10; spacing: 8
+                                    Text { text: "\uE721"; font.family: iconFont; font.pixelSize: 14; color: textTertiary; anchors.verticalCenter: parent.verticalCenter }
+                                    TextField {
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        placeholderText: "Disabled search..."
+                                        width: 240; font.family: themeFont; enabled: false
+                                    }
+                                }
                             }
                         }
                     }

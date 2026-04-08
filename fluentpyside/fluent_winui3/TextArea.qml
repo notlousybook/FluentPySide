@@ -30,7 +30,7 @@ T.TextArea {
     selectionColor: control.palette.highlight
     selectedTextColor: control.palette.highlightedText
     placeholderTextColor: control.palette.placeholderText
-    verticalAlignment: Text.AlignVCenter
+    verticalAlignment: Text.AlignTop
 
     readonly property string __currentState: [
         !enabled && "disabled",

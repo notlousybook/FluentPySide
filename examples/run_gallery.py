@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """FluentWinUI3 Gallery Launcher - showcases every single control."""
+
 import sys
 import os
 
@@ -10,6 +11,12 @@ from PySide6.QtGui import QGuiApplication, QFontDatabase
 from PySide6.QtQml import QQmlApplicationEngine
 from PySide6.QtQuickControls2 import QQuickStyle
 import fluentpyside
+from fluentpyside._mica import (
+    apply_mica,
+    change_header_color,
+    change_title_color,
+    get_accent_color,
+)
 
 # Apply the Fluent WinUI 3 theme
 fluentpyside.apply()
@@ -45,5 +52,32 @@ engine.load(qml_path)
 if not engine.rootObjects():
     print(f"Error: Failed to load {qml_path}", file=sys.stderr)
     sys.exit(1)
+
+# Apply Mica backdrop effect to the main window
+root = engine.rootObjects()[0]
+if root:
+    # Try to get the window from QML
+    try:
+        from PySide6.QtWidgets import QApplication
+        from PySide6.QtCore import QWindow
+
+        # Find the QWindow from QML
+        window = root
+        if hasattr(root, "window"):
+            window = root.window()
+        elif hasattr(root, "winId"):
+            from PySide6.QtWidgets import QWidget
+
+            window = QWidget.find(int(root.winId()))
+
+        if window:
+            is_dark = hasattr(root, "isDark") and root.isDark
+            apply_mica(window, dark=is_dark)
+            # Optionally set header color to match accent
+            accent = get_accent_color()
+            if accent:
+                change_header_color(window, accent)
+    except Exception as e:
+        print(f"Note: Could not apply Mica (Windows 11 required): {e}", file=sys.stderr)
 
 sys.exit(app.exec())
