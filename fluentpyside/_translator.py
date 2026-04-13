@@ -3,7 +3,7 @@ from pathlib import Path
 
 from PySide6.QtCore import QLocale, QTranslator
 
-from .config import FLUENT_PATH
+from ._config import FLUENT_PATH
 
 
 class FluentTranslator(QTranslator):

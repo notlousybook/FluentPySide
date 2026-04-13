@@ -10,8 +10,8 @@ from PySide6.QtQml import QQmlApplicationEngine
 from PySide6.QtQuick import QQuickWindow
 from PySide6.QtWidgets import QApplication
 
-from .config import FLUENT_PATH, BackdropEffect, Theme, is_windows
-from .theme import ThemeManager
+from ._config import FLUENT_PATH, BackdropEffect, Theme, is_windows
+from ._theme import ThemeManager
 
 
 class FluentWindow:
@@ -107,7 +107,7 @@ class FluentWindow:
         if not is_windows():
             return
 
-        from .window import WinEventFilter, WinEventManager
+        from ._window import WinEventFilter, WinEventManager
 
         self.win_event_filter = WinEventFilter(self.windows)
         self.win_event_manager = WinEventManager()

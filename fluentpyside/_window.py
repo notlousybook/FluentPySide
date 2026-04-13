@@ -21,7 +21,7 @@ from win32con import (
 )
 from win32gui import FindWindow, GetWindowPlacement, ReleaseCapture, ShowWindow
 
-from .config import is_windows
+from ._config import is_windows
 
 # 定义 Windows 类型
 ULONG_PTR = (

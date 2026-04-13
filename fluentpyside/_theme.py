@@ -7,7 +7,7 @@ import time
 import darkdetect
 from PySide6.QtCore import QObject, QThread, Signal, Slot
 
-from .config import (
+from ._config import (
     FluentConfig,
     DEFAULT_CONFIG,
     BackdropEffect,
