@@ -10,7 +10,8 @@ from ._installer import install_assets, find_installed_style, default_style_path
 from ._loader import set_style
 from ._launcher import FluentWindow
 from ._theme import ThemeManager
-from ._config import Theme, BackdropEffect, FluentConfig
+from ._config import Theme, BackdropEffect, FluentConfig, ConfigManager
+from ._translator import FluentTranslator
 
 
 def apply() -> str:
@@ -46,4 +47,6 @@ __all__ = [
     "Theme",
     "BackdropEffect",
     "FluentConfig",
+    "ConfigManager",
+    "FluentTranslator",
 ]
