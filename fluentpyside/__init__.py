@@ -1,19 +1,22 @@
 """fluentpyside public API
 
-One-liner to enable the FluentWinUI3 theme in PySide6 apps.
+Fluent Design UI for PySide6, featuring a complete component library
+ported and adapted from Rin-UI (https://github.com/RinLit-233-shiroko/Rin-UI).
 """
 
 from __future__ import annotations
 
 from ._installer import install_assets, find_installed_style, default_style_path
 from ._loader import set_style
+from ._launcher import FluentWindow
+from ._theme import ThemeManager
+from ._config import Theme, BackdropEffect, FluentConfig
 
 
 def apply() -> str:
     """Convenience one-liner to enable the FluentWinUI3 theme.
 
-    - Finds the FluentWinUI3 QML import tree (prefers package-local copy,
-      falls back to an installed PySide6 location)
+    - Finds the FluentWinUI3 QML import tree
     - Adds the QML import path and attempts to set QQuickStyle to "FluentWinUI3"
 
     Returns the path used for the FluentWinUI3 style (string).
@@ -38,4 +41,9 @@ __all__ = [
     "set_style",
     "default_style_path",
     "apply",
+    "FluentWindow",
+    "ThemeManager",
+    "Theme",
+    "BackdropEffect",
+    "FluentConfig",
 ]
