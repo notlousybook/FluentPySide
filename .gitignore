@@ -22,3 +22,9 @@ venv/
 # OS
 .DS_Store
 Thumbs.db
+
+# Local tooling/runtime clutter
+.qodo/
+.kilo/
+*.log
+tmp_*.log

@@ -96,13 +96,13 @@ Item {
                              : toggleMA.pressed ? root.pressedBackgroundColor
                              : "transparent"
 
-                        Text {
-                            anchors.centerIn: parent
-                            text: "\uE700"
-                            font.family: "Segoe MDL2 Assets"
-                            font.pixelSize: 14
-                            color: root.textColor
-                        }
+                            Text {
+                                anchors.centerIn: parent
+                                text: "\uE700"
+                                font.family: root.iconFont
+                                font.pixelSize: 14
+                                color: root.textColor
+                            }
 
                         MouseArea {
                             id: toggleMA
@@ -173,14 +173,14 @@ Item {
 
                                 property bool isSelected: root.currentIndex === index
 
-                                Text {
-                                    anchors.centerIn: parent
-                                    text: typeof modelData === "object" ? modelData.title : modelData
-                                    font.family: "Segoe UI Variable, Segoe UI, sans-serif"
-                                    font.pixelSize: 13
-                                    font.weight: navItem.isSelected ? Font.Medium : Font.Normal
-                                    color: navItem.isSelected ? root.accentColor : root.textColor
-                                }
+                                    Text {
+                                        anchors.centerIn: parent
+                                        text: typeof modelData === "object" ? modelData.title : modelData
+                                        font.family: "Segoe UI Variable, Segoe UI, sans-serif"
+                                        font.pixelSize: 13
+                                        font.weight: navItem.isSelected ? Font.Medium : Font.Normal
+                                        color: navItem.isSelected ? root.accentColor : root.textColor
+                                    }
 
                                 MouseArea {
                                     anchors.fill: parent
@@ -223,13 +223,13 @@ Item {
                              : settingsMA.pressed ? root.pressedBackgroundColor
                              : "transparent"
 
-                        Text {
-                            anchors.centerIn: parent
-                            text: "\uE713"
-                            font.family: "Segoe MDL2 Assets"
-                            font.pixelSize: 14
-                            color: root.textColor
-                        }
+                            Text {
+                                anchors.centerIn: parent
+                                text: "\uE713"
+                                font.family: root.iconFont
+                                font.pixelSize: 14
+                                color: root.textColor
+                            }
 
                         MouseArea {
                             id: settingsMA

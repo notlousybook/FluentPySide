@@ -155,11 +155,10 @@ Item {
 
                         Behavior on color { ColorAnimation { duration: 100 } }
 
-                        Text {
+                        Icon {
                             anchors.centerIn: parent
-                            text: root.compact ? "\uE700" : "\uE70E"
-                            font.family: "Segoe MDL2 Assets"
-                            font.pixelSize: 16
+                            icon: "ic_fluent_navigation_20_regular"
+                            size: 16
                             color: root.textColor
                         }
 
@@ -290,14 +289,13 @@ Item {
                                     }
 
                                     // --- Icon ---
-                                    Text {
+                                    Icon {
                                         id: navIcon
                                         anchors.left: parent.left
                                         anchors.leftMargin: root.compact ? ((root.compactWidth - root.iconSize) / 2) - 4 : 16 - 6
                                         anchors.verticalCenter: parent.verticalCenter
-                                        text: navItemDelegate.iconText
-                                        font.family: root.iconFont
-                                        font.pixelSize: root.iconSize
+                                        icon: navItemDelegate.iconText
+                                        size: root.iconSize
                                         color: navItemDelegate.isSelected ? root.accentColor : root.textColor
                                         opacity: navItemDelegate.isSelected ? 1.0 : (navMA.containsMouse ? 1.0 : 0.85)
 
@@ -327,14 +325,13 @@ Item {
                                     }
 
                                     // --- SubItems expand chevron ---
-                                    Text {
+                                    Icon {
                                         id: expandBtn
                                         anchors.right: parent.right
                                         anchors.rightMargin: 16
                                         anchors.verticalCenter: parent.verticalCenter
-                                        text: "\uE70D" // Chevron Down
-                                        font.family: "Segoe MDL2 Assets"
-                                        font.pixelSize: 12
+                                        icon: "ic_fluent_chevron_down_20_regular"
+                                        size: 12
                                         color: root.textColor
                                         opacity: 0.7
                                         visible: hasSubItems && !root.compact
@@ -364,6 +361,8 @@ Item {
                                                 root.pageChanged();
                                                 if (_overlayOpen) _overlayOpen = false;
                                             }
+                                            // Return focus to root after mouse click so focus-frame doesn't persist
+                                            Qt.callLater(function() { root.forceActiveFocus(); })
                                         }
                                     }
 
@@ -477,14 +476,13 @@ Item {
 
                         Behavior on color { ColorAnimation { duration: 100 } }
 
-                        Text {
+                        Icon {
                             id: settingsIconText
                             anchors.left: parent.left
                             anchors.leftMargin: root.compact ? ((root.compactWidth - root.iconSize) / 2) : 16
                             anchors.verticalCenter: parent.verticalCenter
-                            text: "\uE713"
-                            font.family: "Segoe MDL2 Assets"
-                            font.pixelSize: root.iconSize
+                            icon: "ic_fluent_settings_20_regular"
+                            size: root.iconSize
                             color: root.textColor
 
                             Behavior on color { ColorAnimation { duration: 150 } }

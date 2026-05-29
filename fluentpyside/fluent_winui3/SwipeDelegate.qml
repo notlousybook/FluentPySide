@@ -49,7 +49,6 @@ T.SwipeDelegate {
 
         icon: control.icon
         text: control.text
-        font: control.font
         color: control.icon.color
     }
 

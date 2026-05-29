@@ -1,0 +1,53 @@
+module FluentControls
+singleton Fluent 1.0 Fluent.qml
+singleton Position 1.0 Position.qml
+singleton Severity 1.0 Severity.qml
+FluentWindowBase 1.0 FluentWindowBase.qml
+FluentWindow 1.0 FluentWindow.qml
+FluentPage 1.0 FluentPage.qml
+TitleBar 1.0 TitleBar.qml
+CtrlBtn 1.0 CtrlBtn.qml
+NavigationView 1.0 NavigationView.qml
+NavigationBar 1.0 NavigationBar.qml
+NavigationItem 1.0 NavigationItem.qml
+NavigationSubItem 1.0 NavigationSubItem.qml
+ErrorPage 1.0 ErrorPage.qml
+Base 1.0 Base.qml
+Icon 1.0 Icon.qml
+FloatLayer 1.0 FloatLayer.qml
+Indicator 1.0 Indicator.qml
+FocusIndicator 1.0 FocusIndicator.qml
+Segmented 1.0 Segmented.qml
+SegmentedItem 1.0 SegmentedItem.qml
+SelectorBar 1.0 SelectorBar.qml
+SelectorBarItem 1.0 SelectorBarItem.qml
+InfoBar 1.0 InfoBar.qml
+InfoBadge 1.0 InfoBadge.qml
+ProgressRing 1.0 ProgressRing.qml
+Expander 1.0 Expander.qml
+SettingExpander 1.0 SettingExpander.qml
+SettingItem 1.0 SettingItem.qml
+TeachingTip 1.0 TeachingTip.qml
+Flyout 1.0 Flyout.qml
+PillButton 1.0 PillButton.qml
+DropDownButton 1.0 DropDownButton.qml
+ToggleButton 1.0 ToggleButton.qml
+ColorPicker 1.0 ColorPicker.qml
+Hyperlink 1.0 Hyperlink.qml
+AutoSuggestBox 1.0 AutoSuggestBox.qml
+Avatar 1.0 Avatar.qml
+CalendarView 1.0 CalendarView.qml
+DatePicker 1.0 DatePicker.qml
+TimePicker 1.0 TimePicker.qml
+ContextMenu 1.0 ContextMenu.qml
+ScrollBar 1.0 ScrollBar.qml
+FluentScrollBar 1.0 ScrollBar.qml
+ScrollView 1.0 ScrollView.qml
+BusyIndicator 1.0 BusyIndicator.qml
+Toast 1.0 Toast.qml
+FluentTextArea 1.0 FluentTextArea.qml
+FluentFrame 1.0 FluentFrame.qml
+FluentDialog 1.0 FluentDialog.qml
+depends QtQuick
+depends QtQuick.Controls
+depends QtQuick.Templates

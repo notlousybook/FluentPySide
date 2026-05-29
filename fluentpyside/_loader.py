@@ -70,13 +70,21 @@ def set_style(
             os.pathsep + current if current else ""
         )
 
+    # Add FluentControls module path
+    controls_path = str(Path(__file__).parent / "FluentControls")
+    current = os.environ.get("QML2_IMPORT_PATH", "")
+    parent_path = str(Path(controls_path).parent)
+    if parent_path not in current.split(os.pathsep):
+        os.environ["QML2_IMPORT_PATH"] = parent_path + (
+            os.pathsep + current if current else ""
+        )
+
     # Add to engine if provided
     if engine is not None:
         try:
-            # add the QtQuick parent import path to the engine
             engine.addImportPath(add_path)
+            engine.addImportPath(parent_path)
         except Exception:
-            # ignore engine failures
             pass
 
     # Try to set QQuickStyle by name — plugin must be available

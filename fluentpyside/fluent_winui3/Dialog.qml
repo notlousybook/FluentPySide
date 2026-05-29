@@ -41,9 +41,9 @@ T.Dialog {
     }
 
     background: Rectangle {
-        color: control.__isHighContrast ? control.palette.window : "transparent"
-        border.color: control.__isHighContrast ? control.palette.text : "transparent"
-        border.width: 2
+        color: control.__isHighContrast ? control.palette.window : control.palette.window
+        border.color: control.__isHighContrast ? control.palette.text : "#33000000"
+        border.width: 1
         radius: 8
         MultiEffect {
             visible: !control.__isHighContrast

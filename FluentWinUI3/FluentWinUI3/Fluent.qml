@@ -105,4 +105,16 @@ QtObject {
     readonly property real radiusLarge: 12
     readonly property real radiusXLarge: 16
     readonly property real radiusCircle: 9999
+
+    // ===== SCROLLBAR / THUMB =====
+    // Color used for the scrollbar thumb in idle state (semi-transparent)
+    readonly property color thumbColor: isDark ? "#ffffff8a" : "#00000072"
+    // Minimum (collapsed) and expanded sizes for scrollbars (in dp)
+    // Match RinUI defaults (collapsed thin, expand on hover/active)
+    readonly property real scrollBarMinWidth: 2
+    readonly property real scrollBarWidth: 6
+    // Padding between content and the scroll thumb when expanded
+    readonly property real scrollBarPadding: 3
+    // Track (background) color for scrollbars
+    readonly property color scrollBarTrackColor: isDark ? "#2c2c2c" : "#f9f9f9"
 }

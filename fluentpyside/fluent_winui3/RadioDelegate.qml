@@ -69,7 +69,6 @@ T.RadioDelegate {
         alignment: control.display === IconLabel.IconOnly || control.display === IconLabel.TextUnderIcon ? Qt.AlignCenter : Qt.AlignLeft
         icon: control.icon
         text: control.text
-        font: control.font
         color: control.icon.color
     }
 

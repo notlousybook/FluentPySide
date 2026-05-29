@@ -75,7 +75,6 @@ T.Button {
         alignment: control.__config.label.textVAlignment | control.__config.label.textHAlignment
         icon: control.icon
         text: control.text
-        font: control.font
         color: control.icon.color
     }
 

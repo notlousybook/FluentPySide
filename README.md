@@ -7,27 +7,25 @@ FluentPySide
 
 [![PyPI Version](https://img.shields.io/pypi/v/fluentpyside.svg)](https://pypi.org/project/fluentpyside/)
 
-fluentpyside packages the FluentWinUI3 Qt Quick Controls style so any Qt / PySide6 application can add the FluentWinUI3 theme easily.
+fluentpyside packages the FluentWinUI3 Qt Quick Controls style **plus** a `FluentControls` QML module with custom Fluent Design components, so any Qt / PySide6 application can add the full Fluent experience easily.
 The goal is to make it simple to enable the Fluent theme without bundling the full PySide6 runtime into your application. For minimal, bloat-free builds prefer installing PySide6-Essentials on the target system rather than packaging compiled plugin binaries inside this package.
 
-> **⚠️ IMPORTANT — Read this before using**
+> **What's included**
 >
-> This library is a **QML visual theme only**. It styles Qt Quick Controls 2 components (Button, TextField, CheckBox, etc.) to look like Windows 11's Fluent Design. It does **NOT** provide:
+> 1. **FluentWinUI3 Style Plugin** — Styles all standard Qt Quick Controls 2 components (Button, TextField, CheckBox, etc.) to look like Windows 11's Fluent Design
+> 2. **FluentControls Module** — Custom Fluent Design components: `FluentWindow`, `NavigationView`, `TitleBar`, `InfoBar`, `ProgressRing`, `Expander`, `SettingExpander`, and 30+ more
+> 3. **Fluent Singleton** — 80+ design tokens (colors, typography, animation, spacing, radius) that auto-switch between light/dark mode
+> 4. **Mica/Acrylic backdrop** — Python API for Windows 11 material effects
+> 5. **Real-time theme detection** — Automatic light/dark mode switching via Qt's built-in `colorScheme` signal (no polling threads)
 >
-> - A Python widget library (it does NOT touch `QtWidgets` — no `QPushButton`, `QLabel`, etc.)
-> - Custom QML components — you use the **standard** Qt Quick Controls 2 API, this library just changes how they look
->
-> For colors and design tokens, use the `Fluent` singleton (available after calling `fluentpyside.apply()`):
 > ```qml
-> Rectangle {
->     color: Fluent.cardBackground
->     radius: Fluent.radiusMedium
->     Label {
->         text: "Hello"
->         color: Fluent.textPrimary
->         font.pixelSize: Fluent.fontBodySize
->         font.family: Fluent.fontFamily
->     }
+> import FluentControls
+>
+> FluentWindow {
+>     title: "My App"
+>     navigationItems: [
+>         { title: "Home", page: "pages/Home.qml", icon: "ic_fluent_home_20_regular", position: Position.Top }
+>     ]
 > }
 > ```
 
@@ -44,7 +42,7 @@ import fluentpyside
 fluentpyside.apply()
 ```
 
-That's it. `apply()` registers the FluentWinUI3 QML import path and sets the QtQuickControls2 style to `FluentWinUI3`. After that, any standard Qt Quick Controls 2 component in your QML will be rendered with the Fluent theme automatically.
+That's it. `apply()` registers the FluentWinUI3 QML import path, sets the QtQuickControls2 style to `FluentWinUI3`, and initializes the `ThemeManager` and `WindowManager`. After that, any standard Qt Quick Controls 2 component in your QML will be rendered with the Fluent theme automatically, and you can use `import FluentControls` for custom components.
 
 ### How it works
 
@@ -457,8 +455,9 @@ Acknowledgements
 ---------------
 
 - **Upstream QML assets**: Most styled components are sourced from the locally installed PySide6 / PySide6-Essentials FluentWinUI3 style plugin. Follow Qt/PySide licensing when redistributing.
-- **[Rin-UI](https://github.com/RinLit-233-shiroko/Rin-UI)**: The custom `NavigationView` sidebar and several design patterns were inspired by Rin-UI's excellent Fluent Design implementation for QML. Licensed under MIT.
+- **[Rin-UI](https://github.com/RinLit-233-shiroko/Rin-UI)**: The `FluentControls` module — including `FluentWindow`, `NavigationView`, `NavigationBar`, `NavigationItem`, `TitleBar`, `CtrlBtn`, `FluentPage`, `FloatLayer`, `InfoBar`, `Expander`, `SettingExpander`, `Indicator`, `FocusIndicator`, `Icon`, and the gallery structure — was adapted from Rin-UI's excellent Fluent Design implementation for QML. The navigation system, window frame, page routing, and many design patterns are directly derived from Rin-UI's architecture, simplified and optimized for FluentPySide's lightweight approach (single `Fluent` singleton instead of 8+, ternary color switching instead of `Qt.createQmlObject`, single Flickable navigation bar, `clip` instead of `OpacityMask`). Rin-UI is licensed under the MIT License. See `THIRD_PARTY_LICENSES.md` for details.
 - **[WinUI 3 Gallery](https://github.com/microsoft/WinUI-Gallery)**: Referenced for accurate WinUI 3 design tokens, color values, and control behavior.
+- **[Fluent System Icons](https://github.com/microsoft/fluentui-system-icons)**: Font icon assets by Microsoft, used under the MIT License.
 
 License
 -------

@@ -166,7 +166,7 @@ Item {
                         Text {
                             anchors.centerIn: parent
                             text: root.compact ? "\uE700" : "\uE70E"
-                            font.family: "Segoe MDL2 Assets"
+                            font.family: root.iconFont
                             font.pixelSize: 16
                             color: root.textColor
                         }
@@ -366,7 +366,7 @@ Item {
                                             anchors.rightMargin: 16
                                             anchors.verticalCenter: parent.verticalCenter
                                             text: "\uE70D" // Chevron Down
-                                            font.family: "Segoe MDL2 Assets"
+                                            font.family: root.iconFont
                                             font.pixelSize: 12
                                             color: root.textColor
                                             opacity: 0.7
@@ -517,7 +517,7 @@ Item {
                             anchors.leftMargin: root.compact ? ((root.compactWidth - root.iconSize) / 2) : 16
                             anchors.verticalCenter: parent.verticalCenter
                             text: "\uE713"
-                            font.family: "Segoe MDL2 Assets"
+                            font.family: root.iconFont
                             font.pixelSize: root.iconSize
                             color: root.textColor
 

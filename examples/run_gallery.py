@@ -1,33 +1,41 @@
 #!/usr/bin/env python3
-"""FluentWinUI3 Gallery Launcher - showcases every single control."""
+"""FluentPySide Gallery Launcher - showcases every control and FluentControls component."""
 
 import sys
 import os
+from typing import Optional
 
-# Add parent directory so fluentpyside package is importable
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from PySide6.QtCore import QTimer, Qt
 from PySide6.QtGui import QGuiApplication, QFontDatabase
 from PySide6.QtQml import QQmlApplicationEngine
 from PySide6.QtQuickControls2 import QQuickStyle
 import fluentpyside
-from fluentpyside._mica import (
-    apply_mica,
-    change_header_color,
-    change_title_color,
-    get_accent_color,
-)
+from fluentpyside._mica import apply_mica, remove_backdrop
 
-# Apply the Fluent WinUI 3 theme
 fluentpyside.apply()
 
 app = QGuiApplication(sys.argv)
-app.setApplicationName("FluentWinUI3 Gallery")
+app.setApplicationName("FluentPySide Gallery")
 
-# Load Fluent System Icons font (official Fluent 2 icons from Microsoft)
+
+def resolve_accent() -> Optional[str]:
+    try:
+        from fluentpyside._mica import get_accent_color
+
+        return get_accent_color()
+    except Exception:
+        return None
+
+
 fonts_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fonts")
 if os.path.isdir(fonts_dir):
-    for font_file in ["FluentSystemIcons-Regular.ttf", "FluentSystemIcons-Filled.ttf"]:
+    for font_file in [
+        "FluentSystemIcons-Resizable.ttf",
+        "FluentSystemIcons-Regular.ttf",
+        "FluentSystemIcons-Filled.ttf",
+    ]:
         font_path = os.path.join(fonts_dir, font_file)
         if os.path.exists(font_path):
             font_id = QFontDatabase.addApplicationFont(font_path)
@@ -37,14 +45,15 @@ if os.path.isdir(fonts_dir):
             else:
                 print(f"Warning: Failed to load {font_file}")
 
-# Use the Fluent style
 QQuickStyle.setStyle("FluentWinUI3")
 
 engine = QQmlApplicationEngine()
 
-# Add examples dir to import path so co-located modules resolve
 examples_dir = os.path.dirname(os.path.abspath(__file__))
 engine.addImportPath(examples_dir)
+engine.addImportPath(os.path.dirname(fluentpyside.__file__))
+
+fluentpyside.register_context(engine)
 
 qml_path = os.path.join(examples_dir, "gallery.qml")
 engine.load(qml_path)
@@ -53,31 +62,41 @@ if not engine.rootObjects():
     print(f"Error: Failed to load {qml_path}", file=sys.stderr)
     sys.exit(1)
 
-# Apply Mica backdrop effect to the main window
+fluentpyside.setup_windows(engine)
+
 root = engine.rootObjects()[0]
-if root:
-    # Try to get the window from QML
+
+attempts = {"count": 0}
+
+
+def apply_backdrop() -> None:
+    attempts["count"] += 1
     try:
-        from PySide6.QtWidgets import QApplication
-        from PySide6.QtCore import QWindow
-
-        # Find the QWindow from QML
         window = root
-        if hasattr(root, "window"):
-            window = root.window()
-        elif hasattr(root, "winId"):
-            from PySide6.QtWidgets import QWidget
-
-            window = QWidget.find(int(root.winId()))
+        if hasattr(root, "window") and callable(root.window):
+            qml_window = root.window()
+            if qml_window:
+                window = qml_window
 
         if window:
-            is_dark = hasattr(root, "isDark") and root.isDark
-            apply_mica(window, dark=is_dark)
-            # Optionally set header color to match accent
-            accent = get_accent_color()
-            if accent:
-                change_header_color(window, accent)
+            from fluentpyside._theme import ThemeManager
+
+            tm = fluentpyside.theme_manager()
+            is_dark = False
+            if tm:
+                is_dark = tm._resolve_dark()
+            else:
+                is_dark = (
+                    QGuiApplication.styleHints().colorScheme() == Qt.ColorScheme.Dark
+                )
+
+            mica_ok = apply_mica(window, dark=is_dark)
+            if not mica_ok and attempts["count"] < 5:
+                QTimer.singleShot(200, apply_backdrop)
     except Exception as e:
-        print(f"Note: Could not apply Mica (Windows 11 required): {e}", file=sys.stderr)
+        print(f"Note: Could not apply Mica: {e}", file=sys.stderr)
+
+
+QTimer.singleShot(0, apply_backdrop)
 
 sys.exit(app.exec())

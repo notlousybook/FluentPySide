@@ -25,6 +25,7 @@ Item {
 
     // --- Public API ---
     property alias model: repeater.model
+    property string iconFont: "Segoe MDL2 Assets"
     property int currentIndex: 0
     property bool compact: false
 
@@ -163,7 +164,7 @@ Item {
                         Text {
                             anchors.centerIn: parent
                             text: root.compact ? "\uE700" : "\uE70E"
-                            font.family: "Segoe MDL2 Assets"
+                            font.family: root.iconFont
                             font.pixelSize: 16
                             color: root.textColor
                         }
@@ -287,7 +288,7 @@ Item {
                                     anchors.leftMargin: root.compact ? ((root.compactWidth - root.iconSize) / 2) : 16
                                     anchors.verticalCenter: parent.verticalCenter
                                     text: navItemDelegate.icon
-                                    font.family: "Segoe MDL2 Assets"
+                                    font.family: root.iconFont
                                     font.pixelSize: root.iconSize
                                     color: navItemDelegate.isSelected ? root.accentColor : root.textColor
                                     opacity: navItemDelegate.isSelected ? 1.0 : (navMA.containsMouse ? 1.0 : 0.85)
@@ -382,7 +383,7 @@ Item {
                             anchors.leftMargin: root.compact ? ((root.compactWidth - root.iconSize) / 2) : 16
                             anchors.verticalCenter: parent.verticalCenter
                             text: "\uE713"
-                            font.family: "Segoe MDL2 Assets"
+                            font.family: root.iconFont
                             font.pixelSize: root.iconSize
                             color: root.textColor
 

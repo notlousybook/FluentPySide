@@ -54,7 +54,6 @@ T.TabButton {
         display: control.display
         alignment: control.__config.label.textVAlignment | control.__config.label.textHAlignment
         text: control.text
-        font: control.font
         icon: control.icon
         color: control.icon.color
     }
